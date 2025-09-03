@@ -1,0 +1,87 @@
+<!--
+  Authors : initappz (Rahul Jograna)
+  Website : https://initappz.com/
+  App Name : Grocery Delivery App  This App Template Source code is licensed as per the
+  terms found in the Website https://initappz.com/license
+  Copyright and Good Faith Purchasers © 2021-present initappz.
+ -->
+<div mdbModal #redeemModal="mdbModal" class="modal fade right modal-scrolling" id="frameModalTop" tabindex="-1"
+    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    [config]="{backdrop: false, ignoreBackdropClick: true}">
+
+    <div class="modal-dialog modal-side modal-bottom-right modal-notify modal-danger" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading">{{util.translate('Congratulations')}} </p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="redeemModal.hide()">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-3">
+                        <p></p>
+                        <p class="text-center">
+                            <i class="fas fa-gift fa-4x"></i>
+                        </p>
+                    </div>
+
+                    <div class="col-9">
+                        <p>
+                            {{util.translate('Your Order Created Sucessfully')}}
+                        </p>
+                        <p>
+                            {{util.translate('You can view the order tracking info in the')}} <span>'
+                                {{util.translate('Profile')}} '</span> {{util.translate('section')}} .
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer flex-center">
+
+                <a type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect data-dismiss="modal"
+                    (click)="redeemModal.hide()">{{util.translate('Ok, thanks')}} </a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+
+</div>
+<div class="container">
+    <div class="center_item" *ngIf="payClick === true">
+        <p *ngIf="confirmed === false">{{util.translate('Waiting for payment confirmations')}}</p>
+        <p *ngIf="confirmed === true">{{util.translate('Payment Confirmed')}}</p>
+        <!-- <ion-progress-bar *ngIf="confirmed === false" type="indeterminate"></ion-progress-bar> -->
+        <div *ngIf="confirmed === false"
+            style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+            <div class="spinner-border text-success" role="status">
+                <span class="sr-only">{{util.translate('Loading...')}}</span>
+            </div>
+        </div>
+        <div class="success-animation" *ngIf="confirmed === true">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+            </svg>
+        </div>
+    </div>
+    <div class="center_item" *ngIf="payClick === false">
+        <button type="button" mdbBtn color="success" mdbWavesEffect (click)="openBrowser()">
+            {{util.translate('Pay Now')}}
+        </button>
+
+        <!-- <ion-button (click)="openBrowser()" expand="block" shape="round">
+            
+        </ion-button> -->
+    </div>
+</div>

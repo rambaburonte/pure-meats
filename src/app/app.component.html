@@ -1,0 +1,646 @@
+<!--
+  Authors : initappz (Rahul Jograna)
+  Website : https://initappz.com/
+  App Name : Grocery Delivery App  This App Template Source code is licensed as per the
+  terms found in the Website https://initappz.com/license
+  Copyright and Good Faith Purchasers © 2021-present initappz.
+ -->
+<div #topScrollAnchor></div>
+<div id="sign-in-button"></div>
+<toaster-container [toasterconfig]="config"></toaster-container>
+<ngx-ui-loader fgsType="ball-scale-multiple" fgsColor="#f3f3f3"></ngx-ui-loader>
+<div mdbModal #redeemModal="mdbModal" class="modal fade right modal-scrolling" id="frameModalTop" tabindex="-1"
+    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    [config]="{backdrop: false, ignoreBackdropClick: true}">
+
+    <div class="modal-dialog modal-side modal-bottom-right modal-notify modal-danger" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading">{{util.translate('Congratulations')}} </p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="redeemModal.hide()">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-3">
+                        <p></p>
+                        <p class="text-center">
+                            <i class="fas fa-gift fa-4x"></i>
+                        </p>
+                    </div>
+
+                    <div class="col-9">
+                        <p>
+                            {{redeeemText}}
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer flex-center">
+
+                <a type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect data-dismiss="modal"
+                    (click)="redeemModal.hide()">{{util.translate('Ok, thanks')}} </a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+
+</div>
+
+
+<div mdbModal #loginModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog" role="document">
+        <!-- Login with email and password -->
+        <form #loginForm="ngForm" novalidate *ngIf="util.user_login =='0'">
+
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Login')}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="loginModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body location_body">
+                    <div class="form_div">
+                        <input type="email" [placeholder]="util.translate('Email')" [(ngModel)]="login.email"
+                            [ngModelOptions]="{standalone: true}" class="form-control frm" name="email" #email="ngModel"
+                            spellcheck="false" autocapitalize="off" required>
+                        <p [hidden]="email.valid || submitted == false" class="redAlert">
+                            {{util.translate('Email is required')}}
+                        </p>
+                        <input type="password" [(ngModel)]="login.password" [ngModelOptions]="{standalone: true}"
+                            name="password" [placeholder]="util.translate('Password')" type="password"
+                            #password="ngModel" required class="form-control frm">
+                        <p [hidden]="password.valid || submitted == false" class="redAlert">
+                            {{util.translate('Password is required')}}
+                        </p>
+                    </div>
+                    <p class="frg" (click)="loginModal.hide();forgotPwd.show();">{{util.translate('Forgot Password ?')}}
+                    </p>
+                    <p class="creatAc" (click)="loginModal.hide();registerModal.show();">{{util.translate('or')}}
+                        <span class="colored">{{util.translate('create an account')}}</span>
+                    </p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button mdbBtn color="default" class="waves-light" [disabled]="isLogin"
+                        (click)="loginWithEmailPassword(loginForm,loginModal)" mdbWavesEffect>
+                        <span *ngIf="!isLogin"> {{util.translate('Log In')}}</span>
+                        <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- end of Login with email and password -->
+
+        <!-- Login with mobile and password -->
+        <form #loginForm="ngForm" novalidate *ngIf="util.user_login =='1'">
+
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Login')}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="loginModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body location_body">
+                    <div class="form_div">
+                        <div class="row">
+                            <div class="col-3" style="display: flex; flex-direction: row;  align-items: center;">
+                                <select [(ngModel)]="mobile.country_code" type="text" name="ccode" #ccode="ngModel"
+                                    spellcheck="false" autocapitalize="off" required *ngIf="util.countrys?.length"
+                                    style="border: 1px solid lightgray;width: 100%; padding: 7px; border-radius: 5px;">
+                                    <option *ngFor="let item of util.countrys" [value]="item.dialling_code">
+                                        {{item.country_name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="!util.countrys?.length">
+                                    <input [(ngModel)]="mobile.country_code" type="text" [disabled]="true"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [placeholder]="util.translate('Country Code')" class="form-control frm">
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <input [(ngModel)]="mobile.mobile" type="number"
+                                    [placeholder]="util.translate('Mobile Number')" name="mobile" #phone="ngModel"
+                                    spellcheck="false" autocapitalize="off" required class="form-control frm">
+                                <p [hidden]="phone.valid || submitted == false" class="redAlert">
+                                    {{util.translate('Phone number is required')}}
+                                </p>
+                            </div>
+                        </div>
+                        <input name="password" [placeholder]="util.translate('Password')" type="password"
+                            #password="ngModel" required [(ngModel)]="mobile.password" class="form-control frm"
+                            [ngModelOptions]="{standalone: true}">
+                        <p [hidden]="password.valid || submitted == false" class="redAlert">
+                            {{util.translate('Password is required')}}
+                        </p>
+                    </div>
+                    <p class="frg" (click)="loginModal.hide();forgotPwd.show();">{{util.translate('Forgot Password ?')}}
+                    </p>
+                    <p class="creatAc" (click)="loginModal.hide();registerModal.show();">{{util.translate('or')}}
+                        <span class="colored">{{util.translate('create an account')}}</span>
+                    </p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button mdbBtn color="default" class="waves-light" [disabled]="isLogin"
+                        (click)="loginWithMobileAndPassword(loginForm,loginModal)" mdbWavesEffect>
+                        <span *ngIf="!isLogin"> {{util.translate('Log In')}}</span>
+                        <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!--End Of Login with mobile and password -->
+        <form #loginForm="ngForm" novalidate *ngIf="util.user_login =='2'">
+
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Login')}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="loginModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body location_body">
+                    <div class="form_div">
+                        <div class="row">
+                            <div class="col-3" style="display: flex; flex-direction: row;  align-items: center;">
+                                <select [(ngModel)]="mobileLogin.country_code" type="text" name="ccode" #ccode="ngModel"
+                                    spellcheck="false" autocapitalize="off" required *ngIf="util.countrys?.length"
+                                    style="border: 1px solid lightgray;width: 100%;padding: 7px; border-radius: 5px;">
+                                    <option *ngFor="let item of util.countrys" [value]="item.dialling_code">
+                                        {{item.country_name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="!util.countrys?.length">
+                                    <input [(ngModel)]="mobileLogin.country_code" type="text" [disabled]="true"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [placeholder]="util.translate('Country Code')" class="form-control frm">
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <input [(ngModel)]="mobileLogin.mobile" type="number"
+                                    [placeholder]="util.translate('Mobile Number')" name="mobile" #phone="ngModel"
+                                    spellcheck="false" autocapitalize="off" required class="form-control frm">
+                                <p [hidden]="phone.valid || submitted == false" class="redAlert">
+                                    {{util.translate('Phone number is required')}}
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <p class="frg" (click)="loginModal.hide();forgotPwd.show();">{{util.translate('Forgot Password ?')}}
+                    </p>
+                    <p class="creatAc" (click)="loginModal.hide();registerModal.show();">{{util.translate('or')}}
+                        <span class="colored">{{util.translate('create an account')}}</span>
+                    </p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button mdbBtn color="default" class="waves-light" [disabled]="isLogin"
+                        (click)="loginWithMobileAndOTP(loginForm,loginModal)" mdbWavesEffect>
+                        <span *ngIf="!isLogin">{{util.translate('Log In')}} </span>
+                        <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div mdbModal #registerModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog" role="document">
+        <form #loginForm="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Signup')}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="registerModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body location_body">
+                    <div>
+                        <div class="form_div">
+                            <input type="email" [placeholder]="util.translate('Email')" name="email" #email="ngModel"
+                                spellcheck="false" autocapitalize="off" required [(ngModel)]="registerForm.email"
+                                class="form-control frm" [ngModelOptions]="{standalone: true}">
+                            <p [hidden]="email.valid || submitted == false" class="redAlert">
+                                {{util.translate('Email is required')}}
+                            </p>
+                            <input name="password" [placeholder]="util.translate('Password')" type="password"
+                                #password="ngModel" required [(ngModel)]="registerForm.password"
+                                class="form-control frm" [ngModelOptions]="{standalone: true}">
+                            <p [hidden]="password.valid || submitted == false" class="redAlert">
+                                {{util.translate('Password is required')}}
+                            </p>
+                            <input [(ngModel)]="registerForm.first_name" type="text"
+                                [placeholder]="util.translate('First Name')" name="full_name" #full_name="ngModel"
+                                spellcheck="false" autocapitalize="off" required [ngModelOptions]="{standalone: true}"
+                                class="form-control frm">
+                            <p [hidden]="full_name.valid || submitted == false" class="redAlert">
+                                {{util.translate('First Name is required')}}
+                            </p>
+                            <input type="text" [placeholder]="util.translate('Last Name')"
+                                [(ngModel)]="registerForm.last_name" name="lname" #lname="ngModel" spellcheck="false"
+                                autocapitalize="off" required [ngModelOptions]="{standalone: true}"
+                                class="form-control frm">
+                            <p [hidden]="lname.valid || submitted == false" class="redAlert">
+                                {{util.translate('Last Name is required')}}
+                            </p>
+                            <div class="row">
+                                <div class="col-3" style="display: flex; flex-direction: row;  align-items: center;">
+                                    <select [(ngModel)]="registerForm.country_code" type="text" name="ccode"
+                                        #ccode="ngModel" spellcheck="false" autocapitalize="off" required
+                                        *ngIf="util.countrys?.length"
+                                        style="border: 1px solid lightgray;width: 100%;padding: 7px; border-radius: 5px;">
+                                        <option *ngFor="let item of util.countrys" [value]="item.dialling_code">
+                                            {{item.country_name}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="!util.countrys?.length">
+                                        <input [(ngModel)]="registerForm.country_code" type="text" [disabled]="true"
+                                            [ngModelOptions]="{standalone: true}"
+                                            [placeholder]="util.translate('Country Code')" class="form-control frm">
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <input [(ngModel)]="registerForm.mobile" type="number"
+                                        [placeholder]="util.translate('Mobile Number')" name="mobile" #phone="ngModel"
+                                        spellcheck="false" autocapitalize="off" required class="form-control frm">
+                                    <p [hidden]="phone.valid || submitted == false" class="redAlert">
+                                        {{util.translate('Phone number is required')}}
+                                    </p>
+                                </div>
+                            </div>
+                            <input type="text" [placeholder]="util.translate('Referral Code (Optional)')"
+                                [(ngModel)]="registerForm.referral_code" name="refrl" #refrl="ngModel"
+                                spellcheck="false" autocapitalize="off" [ngModelOptions]="{standalone: true}"
+                                class="form-control frm">
+                            <div style="margin: 0px 20px; font-size: 10px;">
+
+                                <mdb-checkbox [checked]="registerForm.check" [(ngModel)]="registerForm.check"
+                                    name="checkls" #checkls="ngModel" color="light">
+                                    <p style="margin: 0px !important;margin-top: 10px !important; "><span
+                                            class="span_term">
+                                            {{util.translate(getContent())}}
+                                        </span>
+                                        <u> <a style="color:blue" (click)="openLink('eula')">
+                                                {{util.translate('EULA certificate')}}
+                                            </a> </u>
+                                        {{util.translate('and')}}
+                                        <u> <a style="color: blue" (click)="openLink('privacy')">
+                                                {{util.translate('Privacy Policy')}}
+                                            </a> </u>
+                                        {{util.translate('of this app')}}.
+                                    </p>
+                                </mdb-checkbox>
+                            </div>
+                        </div>
+                        <p class="creatAc" (click)="registerModal.hide();loginModal.show();">{{util.translate('or')}}
+                            <span class="colored">
+                                {{util.translate('login to your account')}}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button mdbBtn color="default" class="waves-light" [disabled]="isLogin"
+                        (click)="onRegister(loginForm,registerModal,verifyModal)" mdbWavesEffect>
+                        <span *ngIf="!isLogin"> {{util.translate('Signup')}}</span>
+                        <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div mdbModal #forgotPwd="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Reset Password')}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="forgotPwd.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body location_body">
+                <div *ngIf="util.reset_pwd == 0 ">
+                    <div class="form_div" *ngIf="div_type == 1">
+                        <input type="email" [(ngModel)]="reset_email" [placeholder]="util.translate('Email')"
+                            class="form-control frm">
+                    </div>
+
+                    <div class="form_div" *ngIf="div_type == 2" style="text-align: center;">
+                        
+                        <ng-otp-input (onInputChange)="onOtpChangeReset1($event)"
+                            [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
+                        </ng-otp-input>
+                    </div>
+                    <div class="form_div" *ngIf="div_type == 3">
+                        <input type="password" [(ngModel)]="reset_password"
+                            [placeholder]="util.translate('New Password')" class="form-control frm">
+                        <input type="password" [(ngModel)]="reset_repass"
+                            [placeholder]="util.translate('Confirm Password')" class="form-control frm">
+                    </div>
+                    <p class="creatAc" (click)="forgotPwd.hide();loginModal.show();">{{util.translate('or')}} <span class="colored">
+                            {{util.translate('login to your account')}}</span>
+                    </p>
+                </div>
+
+                <div *ngIf="util.reset_pwd == 1 ">
+                    <div class="form_div" *ngIf="div_type == 1">
+                        
+                        <div class="row">
+                            <div class="col-3" style="display: flex; flex-direction: row; align-items: center;">
+                                <select [(ngModel)]="reset_cc" type="text" *ngIf="util.countrys?.length"
+                                    style="border: 1px solid lightgray;width: 100%;padding: 7px; border-radius: 5px;">
+                                    <option *ngFor="let item of util.countrys" [value]="item.dialling_code">
+                                        {{item.country_name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="!util.countrys?.length">
+                                    <input [(ngModel)]="reset_cc" type="text" [disabled]="true"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [placeholder]="util.translate('Country Code')" class="form-control frm">
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <input [(ngModel)]="reset_phone" type="number"
+                                    [placeholder]="util.translate('Mobile Number')" class="form-control frm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form_div" *ngIf="div_type == 2">
+                        <!-- <input type="email" [(ngModel)]="reset_otp" placeholder="OTP" class="form-control frm"> -->
+                        <ng-otp-input (onInputChange)="onOtpChangeReset1($event)"
+                            [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
+                        </ng-otp-input>
+                    </div>
+                    <div class="form_div" *ngIf="div_type == 3">
+                        <input type="password" [(ngModel)]="reset_password"
+                            [placeholder]="util.translate('New Password')" class="form-control frm">
+                        <input type="password" [(ngModel)]="reset_repass"
+                            [placeholder]="util.translate('Confirm Password')" class="form-control frm">
+                    </div>
+                    <p class="creatAc" (click)="forgotPwd.hide();loginModal.show();">{{util.translate('or')}} <span
+                            class="colored">
+                            {{util.translate('login to your account')}}</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-center" *ngIf="util.reset_pwd ==0">
+                <button mdbBtn color="default" class="waves-light" (click)="sendResetLink()" mdbWavesEffect
+                    [disabled]="isLogin" *ngIf="div_type == 1">
+                    <span *ngIf="!isLogin"> {{util.translate('Send OTP')}} </span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+
+                <button mdbBtn color="default" class="waves-light" (click)="verifyOTPOfReset()" mdbWavesEffect
+                    [disabled]="isLogin" *ngIf="div_type == 2">
+                    <span *ngIf="!isLogin"> {{util.translate('Verify OTP')}} </span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+
+                <button mdbBtn color="default" class="waves-light" (click)="sendEmailResetPasswordMail()" mdbWavesEffect
+                    [disabled]="isLogin" *ngIf="div_type == 3">
+                    <span *ngIf="!isLogin"> {{util.translate('Reset Password')}}</span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+
+            </div>
+
+            <div class="modal-footer d-flex justify-content-center" *ngIf="util.reset_pwd == 1">
+                <button mdbBtn color="default" class="waves-light" (click)="sendOTPOnMobile()" mdbWavesEffect
+                    [disabled]="isLogin" *ngIf="div_type == 1">
+                    <span *ngIf="!isLogin"> {{util.translate('Send OTP')}} </span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+
+                <button mdbBtn color="default" class="waves-light" (click)="verifyResetCode()" mdbWavesEffect
+                    [disabled]="isLogin" *ngIf="div_type == 2">
+                    <span *ngIf="!isLogin"> {{util.translate('Verify OTP')}} </span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+
+                <button mdbBtn color="default" class="waves-light" (click)="resetPasswordWithPhone()" mdbWavesEffect
+                    [disabled]="isLogin" *ngIf="div_type == 3">
+                    <span *ngIf="!isLogin"> {{util.translate('Reset Password')}}</span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div mdbModal #otpModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Verify Mobile')}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="otpModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body location_body">
+                <div>
+                    <p class="subTitleText">{{util.translate('We texted you a code to verify')}}
+                        <br> {{util.translate('your phone')}} {{contactNumber}}
+                    </p>
+                    <div class="otpInput">
+                        <ng-otp-input (onInputChange)="onOtpChange($event)"
+                            [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
+                        </ng-otp-input>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
+                    (click)="otpLogin()">
+                    <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div mdbModal #otpModalRegsiter="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Verify Mobile')}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="otpModalRegsiter.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body location_body">
+                <div>
+                    <p class="subTitleText">{{util.translate('We texted you a code to verify')}}
+                        <br> {{util.translate('your phone')}} {{contactNumber}}
+                    </p>
+                    <div class="otpInput">
+                        <ng-otp-input (onInputChange)="onOtpChange($event)"
+                            [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
+                        </ng-otp-input>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
+                    (click)="onRegisterVerify()">
+                    <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div mdbModal #otpModalRegisterEmail="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Verify Email')}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="verifyModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body location_body">
+                <div>
+                    <p class="subTitleText">{{util.translate('We texted you a code to verify')}}
+                        <br> {{util.translate('your email')}} {{registerForm.email}}
+                    </p>
+                    <div class="otpInput">
+                        <ng-otp-input (onInputChange)="onOtpChange($event)"
+                            [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
+                        </ng-otp-input>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
+                    (click)="onRegisterEmailVerify()">
+                    <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div mdbModal #firebaseOTP="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Verify Mobile')}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="firebaseOTP.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body location_body">
+                <div>
+                    <p class="subTitleText">{{util.translate('We texted you a code to verify')}}
+                        <br> {{util.translate('your phone')}} +{{this.mobileLogin.country_code}}
+                        {{this.mobileLogin.mobile}}
+                    </p>
+                    <div class="otpInput">
+                        <ng-otp-input (onInputChange)="onOtpChangeFirebase($event)"
+                            [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
+                        </ng-otp-input>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
+                    (click)="onVerifyOTPFirebase()">
+                    <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div mdbModal #firebaseOTPRegistrations="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Verify Mobile')}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="firebaseOTPRegistrations.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body location_body">
+                <div>
+                    <p class="subTitleText">{{util.translate('We texted you a code to verify')}}
+                        <br> {{util.translate('your phone')}} +{{this.registerForm.country_code}}
+                        {{this.registerForm.mobile}}
+                    </p>
+                    <div class="otpInput">
+                        <ng-otp-input (onInputChange)="onOtpChangeFirebase($event)"
+                            [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
+                        </ng-otp-input>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
+                    (click)="onVerifyOTPFirebaseRegister()">
+                    <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
+                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-headers></app-headers>
+
+<div (window:resize)="onResize($event)" [ngClass]="util.deviceType=='desktop'?'web_spacer':'mobile_spacer'">
+    <router-outlet (activate)="onNavigate($event)"></router-outlet>
+    <div class="container">
+        <a mdbBtn *ngIf="isShow" class="topNavBtn" (click)="gotoTop()" size="lg" color="success" mdbWavesEffect>
+            <mdb-icon fas icon="angle-up" style="color: white;"></mdb-icon>
+        </a>
+    </div>
+</div>
+
+<app-footers></app-footers>
