@@ -90,6 +90,25 @@ export class HeadersComponent implements OnInit {
           localStorage.setItem('location', 'true');
           localStorage.setItem('address', results[0].formatted_address);
           this.util.deliveredAddress = results[0].formatted_address;
+          // Try to extract a city/locality name from Google Geocoder result
+          try {
+            let cityName = '';
+            if (results[0].address_components && results[0].address_components.length) {
+              const comps = results[0].address_components;
+              const cityComp = comps.find((c: any) => c.types.indexOf('locality') !== -1 || c.types.indexOf('postal_town') !== -1 || c.types.indexOf('administrative_area_level_2') !== -1 || c.types.indexOf('administrative_area_level_1') !== -1 || c.types.indexOf('sublocality') !== -1 || c.types.indexOf('sublocality_level_1') !== -1);
+              if (cityComp && cityComp.long_name) {
+                cityName = cityComp.long_name;
+              }
+            }
+            if (!cityName && results[0].formatted_address) {
+              cityName = results[0].formatted_address.split(',')[0];
+            }
+            if (cityName) {
+              this.util.selectedCityName = cityName;
+            }
+          } catch (e) {
+            console.log('city parse error', e);
+          }
           this.util.publishCity(results[0]);
         } else {
           this.util.errorMessage('Something went wrong please try again later');
@@ -115,7 +134,9 @@ export class HeadersComponent implements OnInit {
     this.zipCodePickerBottom.hide();
     this.util.deliveryZipCode = this.zipCode;
     localStorage.setItem('zipcodes', this.util.deliveryZipCode);
-    this.util.publishCity(this.util.deliveryZipCode);
+  // set the selected city name to the zipcode for display (fallback)
+  this.util.selectedCityName = this.util.deliveryZipCode;
+  this.util.publishCity(this.util.deliveryZipCode);
     this.zipCode = '';
   }
 
