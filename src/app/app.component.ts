@@ -150,6 +150,8 @@ export class AppComponent {
   contactNumber: any = '';
   redeeemText: any = '';
   tempToken: any = '';
+  passwordStrength: number = 0;
+  passwordStrengthClass: string = 'bg-danger';
   // Find 0 = city 1 = location based 2 = zipcode
   constructor(
     private router: Router,
@@ -1725,6 +1727,37 @@ export class AppComponent {
     }
 
   }
+
+  togglePasswordVisibility(fieldId: string) {
+    const input = document.getElementById(fieldId) as HTMLInputElement;
+    const icon = document.getElementById(fieldId + 'Icon') as HTMLElement;
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'fas fa-eye-slash';
+    } else {
+      input.type = 'password';
+      icon.className = 'fas fa-eye';
+    }
+  }
+
+  checkPasswordStrength(event: any) {
+    const password = event.target.value;
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    this.passwordStrength = (strength / 5) * 100;
+    if (strength < 2) {
+      this.passwordStrengthClass = 'bg-danger';
+    } else if (strength < 4) {
+      this.passwordStrengthClass = 'bg-warning';
+    } else {
+      this.passwordStrengthClass = 'bg-success';
+    }
+  }
+
   // reset password
   // login system
   getContent() {

@@ -1,7 +1,16 @@
 <!--
   Authors : initappz (Rahul Jograna)
-  Website : https://initappz.com/
-  App Name : Grocery Delivery App  This App Template Source code is licensed as per the
+  Website : https://initappz.com/                        <div class="form-group mb-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input type="email" [placeholder]="util.translate('Email')" [(ngModel)]="login.email"
+                                    [ngModelOptions]="{standalone: true}" class="form-control advanced-input" name="email" #email="ngModel"
+                                    spellcheck="false" autocapitalize="off" required aria-label="Email" style="border-radius: 10px; border: 2px solid #fff; background: rgba(255,255,255,0.1); color: #fff;">
+                            </div>
+                            <small class="text-warning" *ngIf="!email.valid && submitted">{{util.translate('Email is required')}}</small>
+                        </div>ame : Grocery Delivery App  This App Template Source code is licensed as per the
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
  -->
@@ -50,8 +59,7 @@
             <!--Footer-->
             <div class="modal-footer flex-center">
 
-                <a type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect data-dismiss="modal"
-                    (click)="redeemModal.hide()">{{util.translate('Ok, thanks')}} </a>
+                <a type="button" class="btn btn-danger waves-effect" data-dismiss="modal" (click)="redeemModal.hide()">{{util.translate('Ok, thanks')}} </a>
             </div>
         </div>
         <!--/.Content-->
@@ -60,274 +68,155 @@
 </div>
 
 
-<div mdbModal #loginModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
-    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
-    <div class="modal-dialog" role="document">
-        <!-- Login with email and password -->
-        <form #loginForm="ngForm" novalidate *ngIf="util.user_login =='0'">
-
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Login')}}</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        (click)="loginModal.hide()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body location_body">
-                    <div class="form_div">
-                        <input type="email" [placeholder]="util.translate('Email')" [(ngModel)]="login.email"
-                            [ngModelOptions]="{standalone: true}" class="form-control frm" name="email" #email="ngModel"
-                            spellcheck="false" autocapitalize="off" required>
-                        <p [hidden]="email.valid || submitted == false" class="redAlert">
-                            {{util.translate('Email is required')}}
-                        </p>
-                        <input type="password" [(ngModel)]="login.password" [ngModelOptions]="{standalone: true}"
-                            name="password" [placeholder]="util.translate('Password')" type="password"
-                            #password="ngModel" required class="form-control frm">
-                        <p [hidden]="password.valid || submitted == false" class="redAlert">
-                            {{util.translate('Password is required')}}
-                        </p>
+<div mdbModal #loginModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 bg-transparent">
+            <!-- Card-like centered login UI -->
+            <div class="card rounded-lg shadow-lg mx-auto" style="max-width:420px; overflow:hidden;">
+                <div class="card-body p-4" style="background: linear-gradient(180deg,#f1eeee 0%, #7a0f0f 100%); color: #fff;">
+                    <div class="text-center mb-3">
+                        <div class="avatar rounded-circle bg-light d-inline-flex align-items-center justify-content-center" style="width:64px;height:64px;box-shadow:0 6px 18px rgba(0,0,0,0.08);">
+                            <i class="fas fa-sign-in-alt fa-2x text-primary"></i>
+                        </div>
                     </div>
-                    <p class="frg" (click)="loginModal.hide();forgotPwd.show();">{{util.translate('Forgot Password ?')}}
-                    </p>
-                    <p class="creatAc" (click)="loginModal.hide();registerModal.show();">{{util.translate('or')}}
-                        <span class="colored">{{util.translate('create an account')}}</span>
-                    </p>
-                </div> 
-                <div class="modal-footer d-flex justify-content-center">
-                    <button mdbBtn color="default" class="waves-light" [disabled]="isLogin"
-                        (click)="loginWithEmailPassword(loginForm,loginModal)" mdbWavesEffect>
-                        <span *ngIf="!isLogin"> {{util.translate('Log In')}}</span>
-                        <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                    </button>
-                </div>
-            </div>
-        </form>
-        <!-- end of Login with email and password -->
+                    <h5 class="card-title text-center mb-1">{{util.translate('Sign in with email')}}</h5>
+                    <p class="text-center text-muted small mb-3">{{util.translate('Make a new doc to bring your words, data, and teams together. For free')}}</p>
 
-        <!-- Login with mobile and password -->
-        <form #loginForm="ngForm" novalidate *ngIf="util.user_login =='1'">
+                    <form #loginForm="ngForm" novalidate>
 
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Login')}}</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        (click)="loginModal.hide()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body location_body">
-                    <div class="form_div">
-                        <div class="row">
-                            <div class="col-3" style="display: flex; flex-direction: row;  align-items: center;">
-                                <select [(ngModel)]="mobile.country_code" type="text" name="ccode" #ccode="ngModel"
-                                    spellcheck="false" autocapitalize="off" required *ngIf="util.countrys?.length"
-                                    style="border: 1px solid lightgray;width: 100%; padding: 7px; border-radius: 5px;">
-                                    <option *ngFor="let item of util.countrys" [value]="item.dialling_code">
-                                        {{item.country_name}}
-                                    </option>
-                                </select>
-                                <div *ngIf="!util.countrys?.length">
-                                    <input [(ngModel)]="mobile.country_code" type="text" [disabled]="true"
-                                        [ngModelOptions]="{standalone: true}"
-                                        [placeholder]="util.translate('Country Code')" class="form-control frm">
-                                </div>
+                    <!-- Email -->
+                    <div class="form-group mb-3">
+                        <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white border-0"><i class="fas fa-envelope text-muted"></i></span>
                             </div>
-                            <div class="col-9">
-                                <input [(ngModel)]="mobile.mobile" type="number"
-                                    [placeholder]="util.translate('Mobile Number')" name="mobile" #phone="ngModel"
-                                    spellcheck="false" autocapitalize="off" required class="form-control frm">
-                                <p [hidden]="phone.valid || submitted == false" class="redAlert">
-                                    {{util.translate('Phone number is required')}}
-                                </p>
+                            <input type="email" class="form-control border-0" [placeholder]="util.translate('Email')" [(ngModel)]="login.email" [ngModelOptions]="{standalone: true}" name="email" #email="ngModel" spellcheck="false" autocapitalize="off" required>
+                        </div>
+                        <small class="text-danger" *ngIf="!email.valid && submitted">{{util.translate('Email is required')}}</small>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group mb-2">
+                        <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white border-0"><i class="fas fa-lock text-muted"></i></span>
+                            </div>
+                            <input id="loginPassword" type="password" class="form-control border-0" [placeholder]="util.translate('Password')" [(ngModel)]="login.password" [ngModelOptions]="{standalone: true}" name="password" #password="ngModel" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-link text-muted" type="button" (click)="togglePasswordVisibility('loginPassword')"><i class="fas fa-eye" id="loginPasswordIcon"></i></button>
                             </div>
                         </div>
-                        <input name="password" [placeholder]="util.translate('Password')" type="password"
-                            #password="ngModel" required [(ngModel)]="mobile.password" class="form-control frm"
-                            [ngModelOptions]="{standalone: true}">
-                        <p [hidden]="password.valid || submitted == false" class="redAlert">
-                            {{util.translate('Password is required')}}
-                        </p>
+                        <div class="d-flex justify-content-end mt-1"><a class="small text-muted" (click)="loginModal.hide();forgotPwd.show();">{{util.translate('Forgot password?')}}</a></div>
+                        <small class="text-danger" *ngIf="!password.valid && submitted">{{util.translate('Password is required')}}</small>
                     </div>
-                    <p class="frg" (click)="loginModal.hide();forgotPwd.show();">{{util.translate('Forgot Password ?')}}
-                    </p>
-                    <p class="creatAc" (click)="loginModal.hide();registerModal.show();">{{util.translate('or')}}
-                        <span class="colored">{{util.translate('create an account')}}</span>
-                    </p>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button mdbBtn color="default" class="waves-light" [disabled]="isLogin"
-                        (click)="loginWithMobileAndPassword(loginForm,loginModal)" mdbWavesEffect>
-                        <span *ngIf="!isLogin"> {{util.translate('Log In')}}</span>
-                        <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                    </button>
+
+                    <!-- CTA -->
+                    <div class="text-center mt-3">
+                        <button class="btn btn-block btn-lg rounded-pill" [disabled]="isLogin" (click)="loginWithEmailPassword(loginForm,loginModal)" style="background: linear-gradient(180deg,#eeeaea 0%, #7a0f0f 100%); border: none; color: #fff;">
+                            <span *ngIf="!isLogin">{{util.translate('Get Started')}}</span>
+                            <div class="spinner-border spinner-border-sm text-light" *ngIf="isLogin" role="status"></div>
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <p class="mb-0 small text-muted">{{util.translate('Don\'t have an account?')}} <a (click)="loginModal.hide();registerModal.show()">{{util.translate('Create account')}}</a></p>
+                    </div>
+
+                    </form>
                 </div>
             </div>
-        </form>
-        <!--End Of Login with mobile and password -->
-        <form #loginForm="ngForm" novalidate *ngIf="util.user_login =='2'">
-
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Login')}}</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        (click)="loginModal.hide()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body location_body">
-                    <div class="form_div">
-                        <div class="row">
-                            <div class="col-3" style="display: flex; flex-direction: row;  align-items: center;">
-                                <select [(ngModel)]="mobileLogin.country_code" type="text" name="ccode" #ccode="ngModel"
-                                    spellcheck="false" autocapitalize="off" required *ngIf="util.countrys?.length"
-                                    style="border: 1px solid lightgray;width: 100%;padding: 7px; border-radius: 5px;">
-                                    <option *ngFor="let item of util.countrys" [value]="item.dialling_code">
-                                        {{item.country_name}}
-                                    </option>
-                                </select>
-                                <div *ngIf="!util.countrys?.length">
-                                    <input [(ngModel)]="mobileLogin.country_code" type="text" [disabled]="true"
-                                        [ngModelOptions]="{standalone: true}"
-                                        [placeholder]="util.translate('Country Code')" class="form-control frm">
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <input [(ngModel)]="mobileLogin.mobile" type="number"
-                                    [placeholder]="util.translate('Mobile Number')" name="mobile" #phone="ngModel"
-                                    spellcheck="false" autocapitalize="off" required class="form-control frm">
-                                <p [hidden]="phone.valid || submitted == false" class="redAlert">
-                                    {{util.translate('Phone number is required')}}
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <p class="frg" (click)="loginModal.hide();forgotPwd.show();">{{util.translate('Forgot Password ?')}}
-                    </p>
-                    <p class="creatAc" (click)="loginModal.hide();registerModal.show();">{{util.translate('or')}}
-                        <span class="colored">{{util.translate('create an account')}}</span>
-                    </p>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button mdbBtn color="default" class="waves-light" [disabled]="isLogin"
-                        (click)="loginWithMobileAndOTP(loginForm,loginModal)" mdbWavesEffect>
-                        <span *ngIf="!isLogin">{{util.translate('Log In')}} </span>
-                        <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                    </button>
-                </div>
-            </div>
-        </form>
-
+        </div>
     </div>
 </div>
 
-<div mdbModal #registerModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
-    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
-    <div class="modal-dialog" role="document">
-        <form #loginForm="ngForm" novalidate>
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Signup')}}</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        (click)="registerModal.hide()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body location_body">
-                    <div>
-                        <div class="form_div">
-                            <input type="email" [placeholder]="util.translate('Email')" name="email" #email="ngModel"
-                                spellcheck="false" autocapitalize="off" required [(ngModel)]="registerForm.email"
-                                class="form-control frm" [ngModelOptions]="{standalone: true}">
-                            <p [hidden]="email.valid || submitted == false" class="redAlert">
-                                {{util.translate('Email is required')}}
-                            </p>
-                            <input name="password" [placeholder]="util.translate('Password')" type="password"
-                                #password="ngModel" required [(ngModel)]="registerForm.password"
-                                class="form-control frm" [ngModelOptions]="{standalone: true}">
-                            <p [hidden]="password.valid || submitted == false" class="redAlert">
-                                {{util.translate('Password is required')}}
-                            </p>
-                            <input [(ngModel)]="registerForm.first_name" type="text"
-                                [placeholder]="util.translate('First Name')" name="full_name" #full_name="ngModel"
-                                spellcheck="false" autocapitalize="off" required [ngModelOptions]="{standalone: true}"
-                                class="form-control frm">
-                            <p [hidden]="full_name.valid || submitted == false" class="redAlert">
-                                {{util.translate('First Name is required')}}
-                            </p>
-                            <input type="text" [placeholder]="util.translate('Last Name')"
-                                [(ngModel)]="registerForm.last_name" name="lname" #lname="ngModel" spellcheck="false"
-                                autocapitalize="off" required [ngModelOptions]="{standalone: true}"
-                                class="form-control frm">
-                            <p [hidden]="lname.valid || submitted == false" class="redAlert">
-                                {{util.translate('Last Name is required')}}
-                            </p>
-                            <div class="row">
-                                <div class="col-3" style="display: flex; flex-direction: row;  align-items: center;">
-                                    <select [(ngModel)]="registerForm.country_code" type="text" name="ccode"
-                                        #ccode="ngModel" spellcheck="false" autocapitalize="off" required
-                                        *ngIf="util.countrys?.length"
-                                        style="border: 1px solid lightgray;width: 100%;padding: 7px; border-radius: 5px;">
-                                        <option *ngFor="let item of util.countrys" [value]="item.dialling_code">
-                                            {{item.country_name}}
-                                        </option>
-                                    </select>
-                                    <div *ngIf="!util.countrys?.length">
-                                        <input [(ngModel)]="registerForm.country_code" type="text" [disabled]="true"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [placeholder]="util.translate('Country Code')" class="form-control frm">
-                                    </div>
-                                </div>
-                                <div class="col-9">
-                                    <input [(ngModel)]="registerForm.mobile" type="number"
-                                        [placeholder]="util.translate('Mobile Number')" name="mobile" #phone="ngModel"
-                                        spellcheck="false" autocapitalize="off" required class="form-control frm">
-                                    <p [hidden]="phone.valid || submitted == false" class="redAlert">
-                                        {{util.translate('Phone number is required')}}
-                                    </p>
-                                </div>
-                            </div>
-                            <input type="text" [placeholder]="util.translate('Referral Code (Optional)')"
-                                [(ngModel)]="registerForm.referral_code" name="refrl" #refrl="ngModel"
-                                spellcheck="false" autocapitalize="off" [ngModelOptions]="{standalone: true}"
-                                class="form-control frm">
-                            <div style="margin: 0px 20px; font-size: 10px;">
+<div mdbModal #registerModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 bg-transparent">
+            <div class="card rounded-lg shadow-lg mx-auto" style="max-width:480px;">
+                <div class="card-body p-4" style="background: linear-gradient(180deg,#f1efef 0%, #7a0f0f 100%); color: #fff;">
+                    <div class="text-center mb-3">
+                        <div class="avatar rounded-circle bg-light d-inline-flex align-items-center justify-content-center" style="width:64px;height:64px;box-shadow:0 6px 18px rgba(0,0,0,0.06);">
+                            <i class="fas fa-user-plus fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title text-center mb-1">{{util.translate('Create your account')}}</h5>
+                    <p class="text-center text-muted small mb-3">{{util.translate('Sign up to get the best experience')}}</p>
 
-                                <mdb-checkbox [checked]="registerForm.check" [(ngModel)]="registerForm.check"
-                                    name="checkls" #checkls="ngModel" color="light">
-                                    <p style="margin: 0px !important;margin-top: 10px !important; "><span
-                                            class="span_term">
-                                            {{util.translate(getContent())}}
-                                        </span>
-                                        <u> <a style="color:blue" (click)="openLink('eula')">
-                                                {{util.translate('EULA certificate')}}
-                                            </a> </u>
-                                        {{util.translate('and')}}
-                                        <u> <a style="color: blue" (click)="openLink('privacy')">
-                                                {{util.translate('Privacy Policy')}}
-                                            </a> </u>
-                                        {{util.translate('of this app')}}.
-                                    </p>
-                                </mdb-checkbox>
+                    <form #loginForm="ngForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group col-12 mb-2">
+                            <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
+                                <div class="input-group-prepend"><span class="input-group-text bg-white border-0"><i class="fas fa-envelope text-muted"></i></span></div>
+                                <input type="email" class="form-control border-0" [placeholder]="util.translate('Email')" name="email" #email="ngModel" spellcheck="false" autocapitalize="off" required [(ngModel)]="registerForm.email" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <small class="text-danger" *ngIf="!email.valid && submitted">{{util.translate('Email is required')}}</small>
+                        </div>
+
+                        <div class="form-group col-12 mb-2">
+                            <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
+                                <div class="input-group-prepend"><span class="input-group-text bg-white border-0"><i class="fas fa-lock text-muted"></i></span></div>
+                                <input id="signupPassword" type="password" class="form-control border-0" [placeholder]="util.translate('Password')" name="password" #password="ngModel" required [(ngModel)]="registerForm.password" [ngModelOptions]="{standalone: true}" (input)="checkPasswordStrength($event)">
+                                <div class="input-group-append"><button class="btn btn-link text-muted" type="button" (click)="togglePasswordVisibility('signupPassword')"><i class="fas fa-eye" id="signupPasswordIcon"></i></button></div>
+                            </div>
+                            <div class="progress mt-2" style="height:6px;border-radius:6px;overflow:hidden;"><div class="progress-bar" [ngClass]="passwordStrengthClass" [style.width.%]="passwordStrength"></div></div>
+                            <small class="text-muted">{{util.translate('Use at least 8 characters.')}}</small>
+                        </div>
+
+                        <div class="form-group col-6 mb-2">
+                            <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
+                                <div class="input-group-prepend"><span class="input-group-text bg-white border-0"><i class="fas fa-user text-muted"></i></span></div>
+                                <input type="text" class="form-control border-0" [placeholder]="util.translate('First Name')" name="full_name" #full_name="ngModel" spellcheck="false" autocapitalize="off" required [(ngModel)]="registerForm.first_name" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <small class="text-danger" *ngIf="!full_name.valid && submitted">{{util.translate('First Name is required')}}</small>
+                        </div>
+
+                        <div class="form-group col-6 mb-2">
+                            <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
+                                <div class="input-group-prepend"><span class="input-group-text bg-white border-0"><i class="fas fa-user text-muted"></i></span></div>
+                                <input type="text" class="form-control border-0" [placeholder]="util.translate('Last Name')" name="lname" #lname="ngModel" spellcheck="false" autocapitalize="off" required [(ngModel)]="registerForm.last_name" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <small class="text-danger" *ngIf="!lname.valid && submitted">{{util.translate('Last Name is required')}}</small>
+                        </div>
+
+                        <div class="form-group col-4 mb-2">
+                            <select [(ngModel)]="registerForm.country_code" class="form-control form-control-lg rounded-pill" *ngIf="util.countrys?.length">
+                                <option *ngFor="let item of util.countrys" [value]="item.dialling_code">+{{item.dialling_code}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-8 mb-2">
+                            <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
+                                <div class="input-group-prepend"><span class="input-group-text bg-white border-0"><i class="fas fa-phone text-muted"></i></span></div>
+                                <input type="tel" class="form-control border-0" [placeholder]="util.translate('Mobile Number')" name="mobile" #phone="ngModel" [(ngModel)]="registerForm.mobile" [ngModelOptions]="{standalone: true}">
                             </div>
                         </div>
-                        <p class="creatAc" (click)="registerModal.hide();loginModal.show();">{{util.translate('or')}}
-                            <span class="colored">
-                                {{util.translate('login to your account')}}</span>
-                        </p>
+
+                        <div class="form-group col-12 mb-2">
+                            <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
+                                <div class="input-group-prepend"><span class="input-group-text bg-white border-0"><i class="fas fa-gift text-muted"></i></span></div>
+                                <input type="text" class="form-control border-0" [placeholder]="util.translate('Referral Code (Optional)')" name="refrl" #refrl="ngModel" [(ngModel)]="registerForm.referral_code" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-12 mb-2 d-flex align-items-start">
+                            <input type="checkbox" id="agree" [(ngModel)]="registerForm.check" name="checkls" #checkls="ngModel" class="mr-2 mt-1">
+                            <label for="agree" class="small mb-0">{{util.translate(getContent())}} <a (click)="openLink('eula')">{{util.translate('EULA certificate')}}</a> {{util.translate('and')}} <a (click)="openLink('privacy')">{{util.translate('Privacy Policy')}}</a>.</label>
+                        </div>
+
+                        <div class="form-group col-12 text-center mt-3">
+                            <button class="btn btn-block btn-lg rounded-pill" [disabled]="isLogin" (click)="onRegister(loginForm,registerModal,verifyModal)" style="background: linear-gradient(180deg,#ece9e9 0%, #7a0f0f 100%); border: none; color: #fff;">
+                                <span *ngIf="!isLogin">{{util.translate('Create account')}}</span>
+                                <div class="spinner-border spinner-border-sm text-light" *ngIf="isLogin" role="status"></div>
+                            </button>
+                        </div>
+
+                        <div class="form-group col-12 text-center mt-2">
+                            <p class="small mb-0 text-muted">{{util.translate('Already have an account?')}} <a (click)="registerModal.hide();loginModal.show()">{{util.translate('Sign in')}}</a></p>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button mdbBtn color="default" class="waves-light" [disabled]="isLogin"
-                        (click)="onRegister(loginForm,registerModal,verifyModal)" mdbWavesEffect>
-                        <span *ngIf="!isLogin"> {{util.translate('Signup')}}</span>
-                        <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                    </button>
+                    </form>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -409,20 +298,17 @@
             </div>
 
             <div class="modal-footer d-flex justify-content-center" *ngIf="util.reset_pwd ==0">
-                <button mdbBtn color="default" class="waves-light" (click)="sendResetLink()" mdbWavesEffect
-                    [disabled]="isLogin" *ngIf="div_type == 1">
+                <button class="btn btn-secondary waves-light" (click)="sendResetLink()" [disabled]="isLogin" *ngIf="div_type == 1">
                     <span *ngIf="!isLogin"> {{util.translate('Send OTP')}} </span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
 
-                <button mdbBtn color="default" class="waves-light" (click)="verifyOTPOfReset()" mdbWavesEffect
-                    [disabled]="isLogin" *ngIf="div_type == 2">
+                <button class="btn btn-secondary waves-light" (click)="verifyOTPOfReset()" [disabled]="isLogin" *ngIf="div_type == 2">
                     <span *ngIf="!isLogin"> {{util.translate('Verify OTP')}} </span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
 
-                <button mdbBtn color="default" class="waves-light" (click)="sendEmailResetPasswordMail()" mdbWavesEffect
-                    [disabled]="isLogin" *ngIf="div_type == 3">
+                <button class="btn btn-secondary waves-light" (click)="sendEmailResetPasswordMail()" [disabled]="isLogin" *ngIf="div_type == 3">
                     <span *ngIf="!isLogin"> {{util.translate('Reset Password')}}</span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
@@ -430,20 +316,17 @@
             </div>
 
             <div class="modal-footer d-flex justify-content-center" *ngIf="util.reset_pwd == 1">
-                <button mdbBtn color="default" class="waves-light" (click)="sendOTPOnMobile()" mdbWavesEffect
-                    [disabled]="isLogin" *ngIf="div_type == 1">
+                <button class="btn btn-secondary waves-light" (click)="sendOTPOnMobile()" [disabled]="isLogin" *ngIf="div_type == 1">
                     <span *ngIf="!isLogin"> {{util.translate('Send OTP')}} </span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
 
-                <button mdbBtn color="default" class="waves-light" (click)="verifyResetCode()" mdbWavesEffect
-                    [disabled]="isLogin" *ngIf="div_type == 2">
+                <button class="btn btn-secondary waves-light" (click)="verifyResetCode()" [disabled]="isLogin" *ngIf="div_type == 2">
                     <span *ngIf="!isLogin"> {{util.translate('Verify OTP')}} </span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
 
-                <button mdbBtn color="default" class="waves-light" (click)="resetPasswordWithPhone()" mdbWavesEffect
-                    [disabled]="isLogin" *ngIf="div_type == 3">
+                <button class="btn btn-secondary waves-light" (click)="resetPasswordWithPhone()" [disabled]="isLogin" *ngIf="div_type == 3">
                     <span *ngIf="!isLogin"> {{util.translate('Reset Password')}}</span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
@@ -480,8 +363,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
-                    (click)="otpLogin()">
+                <button class="btn btn-secondary waves-light" [disabled]="isLogin" (click)="otpLogin()">
                     <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
@@ -515,8 +397,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
-                    (click)="onRegisterVerify()">
+                <button class="btn btn-secondary waves-light" [disabled]="isLogin" (click)="onRegisterVerify()">
                     <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
@@ -550,8 +431,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
-                    (click)="onRegisterEmailVerify()">
+                <button class="btn btn-secondary waves-light" [disabled]="isLogin" (click)="onRegisterEmailVerify()">
                     <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
@@ -586,8 +466,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
-                    (click)="onVerifyOTPFirebase()">
+                <button class="btn btn-secondary waves-light" [disabled]="isLogin" (click)="onVerifyOTPFirebase()">
                     <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
@@ -622,8 +501,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button mdbBtn color="default" class="waves-light" [disabled]="isLogin" mdbWavesEffect
-                    (click)="onVerifyOTPFirebaseRegister()">
+                <button class="btn btn-secondary waves-light" [disabled]="isLogin" (click)="onVerifyOTPFirebaseRegister()">
                     <span *ngIf="!isLogin"> {{util.translate('Continue')}}</span>
                     <div class="spinner-border" *ngIf="isLogin" role="status"></div>
                 </button>
@@ -637,8 +515,8 @@
 <div (window:resize)="onResize($event)" [ngClass]="util.deviceType=='desktop'?'web_spacer':'mobile_spacer'">
     <router-outlet (activate)="onNavigate($event)"></router-outlet>
     <div class="container">
-        <a mdbBtn *ngIf="isShow" class="topNavBtn" (click)="gotoTop()" size="lg" color="success" mdbWavesEffect>
-            <mdb-icon fas icon="angle-up" style="color: white;"></mdb-icon>
+        <a *ngIf="isShow" class="topNavBtn btn btn-success btn-lg" (click)="gotoTop()">
+            <i class="fas fa-angle-up" style="color: white;"></i>
         </a>
     </div>
 </div>
