@@ -6,7 +6,7 @@
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { ApiService } from 'src/app/services/api.service';
@@ -30,6 +30,17 @@ export class HeadersComponent implements OnInit {
   terms: any = '';
   products: any[] = [];
 
+  // header dropdown data
+  headerStores: any[] = [];
+  headerCategories: any[] = [];
+  headerLoading: boolean = false;
+  showHeaderDropdown: boolean = false;
+  showStoresDropdown: boolean = false;
+
+  // selected category for the two-column dropdown
+  selectedHeaderCategoryIndex: number = 0;
+  selectedHeaderCategory: any = null;
+
   cityId: any;
   languageClicked: boolean = false;
   zipCode: any = '';
@@ -37,7 +48,8 @@ export class HeadersComponent implements OnInit {
     private router: Router,
     public api: ApiService,
     public util: UtilService,
-    public cart: CartService) {
+    public cart: CartService,
+    private elRef: ElementRef) {
     this.router.events.subscribe(() => {
       this.products = [];
       this.terms = '';
@@ -68,6 +80,20 @@ export class HeadersComponent implements OnInit {
     });
   }
 
+  // close dropdowns when user clicks outside this component
+  @HostListener('document:click', ['$event'])
+  handleOutsideClick(event: Event) {
+    try {
+      const target = event.target as HTMLElement;
+      if (!this.elRef.nativeElement.contains(target)) {
+        this.showHeaderDropdown = false;
+        this.showStoresDropdown = false;
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   ngOnInit(): void {
     // on init, try to set selectedCityName from stored address if available
     try {
@@ -89,6 +115,94 @@ export class HeadersComponent implements OnInit {
     } catch (e) {
       console.log('init city load error', e);
     }
+  }
+
+  toggleHeaderDropdown() {
+    this.showHeaderDropdown = !this.showHeaderDropdown;
+    // if opening header dropdown, ensure stores dropdown is closed
+    if (this.showHeaderDropdown) {
+      this.showStoresDropdown = false;
+    }
+    if (this.showHeaderDropdown && (!this.headerCategories.length && !this.headerStores.length)) {
+      this.loadHeaderData();
+    }
+  }
+
+  toggleStoresDropdown() {
+    this.showStoresDropdown = !this.showStoresDropdown;
+    // if opening stores dropdown, ensure header categories dropdown is closed
+    if (this.showStoresDropdown) {
+      this.showHeaderDropdown = false;
+    }
+    if (this.showStoresDropdown && (!this.headerStores.length && !this.headerCategories.length)) {
+      this.loadHeaderData();
+    }
+  }
+
+  loadHeaderData() {
+    this.headerLoading = true;
+    let promise: Promise<any>;
+    try {
+      if (this.util.findType == 0) {
+        const cityId = localStorage.getItem('city') || this.util.default_city_id;
+        promise = this.api.post_public('v1/home/searchWithCity', { id: cityId });
+      } else if (this.util.findType == 1) {
+        const lat = localStorage.getItem('userLat');
+        const lng = localStorage.getItem('userLng');
+        if (!lat || !lng) {
+          const cityId = localStorage.getItem('city') || this.util.default_city_id;
+          promise = this.api.post_public('v1/home/searchWithCity', { id: cityId });
+        } else {
+          promise = this.api.post_public('v1/home/searchWithGeoLocation', { lat: lat, lng: lng });
+        }
+      } else {
+        promise = this.api.post_public('v1/home/searchWithZipCode', { zipcode: localStorage.getItem('zipcodes') });
+      }
+    } catch (e) {
+      console.log('loadHeaderData error', e);
+      this.headerLoading = false;
+      return;
+    }
+
+    promise.then((data: any) => {
+      if (data && data.status && data.status == 200 && data.data) {
+        this.headerStores = data.data.stores || [];
+        this.headerCategories = data.data.category || [];
+        this.util.headerCategories = this.headerCategories;
+        // default select first category
+        if (this.headerCategories && this.headerCategories.length) {
+          this.selectedHeaderCategoryIndex = 0;
+          this.selectedHeaderCategory = this.headerCategories[0];
+        } else {
+          this.selectedHeaderCategoryIndex = -1;
+          this.selectedHeaderCategory = null;
+        }
+      }
+    }, error => {
+      console.log('header load error', error);
+      this.util.apiErrorHandler(error);
+    }).catch(error => {
+      console.log('header load catch', error);
+      this.util.apiErrorHandler(error);
+    }).finally(() => {
+      this.headerLoading = false;
+    });
+  }
+
+  goToCategory(cat: any) {
+    try {
+      const routeName = cat.name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+      this.showHeaderDropdown = false;
+      this.router.navigate(['categories', cat.id, routeName]);
+    } catch (e) { console.log(e); }
+  }
+
+  openStoreFromHeader(item: any) {
+    try {
+      const name = item.name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+      this.showHeaderDropdown = false;
+      this.router.navigate(['shop', item.uid, name]);
+    } catch (e) { console.log(e); }
   }
 
   // helper: extract city from geocoder result object

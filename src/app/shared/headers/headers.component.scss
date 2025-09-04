@@ -13,16 +13,17 @@
     height: 120px;
     display: flex;
     align-items: center;
+  position: relative; // ensure absolute children are anchored and don't push layout
 
   li {
     cursor: pointer;
-    color: white;
+  color: #000;
     padding-right: 15px;
     padding-left: 15px;
     font-size: 14px;
 
     a {
-      color: white !important;
+  color: #000 !important;
     }
 
     button {
@@ -292,6 +293,10 @@
   padding: 0px !important;
 }
 
+.city-line { color: #000 !important; }
+.addr-line { color: #000 !important; }
+.header-dropdown h5 { color: #000 !important; }
+
 .dropdown {
   padding: 0;
 }
@@ -306,6 +311,40 @@
     padding-top: 10px !important;
     padding-bottom: 10px !important;
   }
+}
+
+/* ensure custom header dropdowns don't cause layout reflow when toggled */
+.header-dropdown {
+  transform-origin: top right;
+  will-change: opacity, transform;
+}
+
+/* Specific dropdown placement to avoid shifting layout */
+.categories-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 9999;
+  width: 520px;
+  max-height: 420px;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+}
+
+.stores-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 9999;
+  width: 320px;
+  max-height: 420px;
+  overflow: auto;
+  padding: 12px;
 }
 
 .share_flex {

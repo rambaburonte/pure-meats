@@ -342,23 +342,55 @@
           </li>
            
           <li>
-            <button  type="button" mdbWavesEffect
+            <button type="button" mdbWavesEffect (click)="$event.stopPropagation(); toggleHeaderDropdown()"
               style="padding: 0px;margin: 0px;color:#0d0d0e;position: relative;overflow: visible;">
-              <mdb-icon fas icon="th-large"></mdb-icon> &nbsp;{{util.translate('Categories')}} <span
-                *ngIf="cart.cart?.length"
-                style="position: absolute;color:#fff; line-height: 10px; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
-                {{cart.cart.length}} </span>
+              <mdb-icon fas icon="th-large"></mdb-icon> &nbsp;{{util.translate('Categories')}}
             </button>
+            <div class="header-dropdown categories-dropdown" *ngIf="showHeaderDropdown">
+              <div *ngIf="headerLoading" style="padding:12px;">Loading...</div>
+              <div *ngIf="!headerLoading" style="display:flex; width:100%;">
+                <!-- left: category list -->
+                <div style="width:45%; border-right:1px solid #f0f0f0; max-height:420px; overflow:auto;">
+                  <div *ngFor="let cat of headerCategories; let i = index" (mouseenter)="selectedHeaderCategoryIndex = i; selectedHeaderCategory = cat"
+                    [ngClass]="{'active-cat': selectedHeaderCategoryIndex === i}"
+                    style="display:flex;align-items:center;padding:10px;cursor:pointer;border-bottom:1px solid #f8f8f8;">
+                    <div style="width:36px;height:36px;background-size:cover;background-position:center;border-radius:50%;margin-right:10px;" [ngStyle]="{'background-image':'url('+api.mediaURL+cat.cover+')'}"></div>
+                    <div style="font-weight:600;">{{cat.name}}</div>
+                  </div>
+                </div>
+                <!-- right: subcategories -->
+                <div style="width:55%; max-height:420px; overflow:auto; padding:12px;">
+                  <div *ngIf="selectedHeaderCategory && selectedHeaderCategory.subCates && selectedHeaderCategory.subCates.length">
+                    <div *ngFor="let sub of selectedHeaderCategory.subCates" style="padding:8px 6px;border-bottom:1px solid #f0f0f0;cursor:pointer;" (click)="subItems(selectedHeaderCategory, sub); showHeaderDropdown = false;">
+                      {{sub.name}}
+                    </div>
+                  </div>
+                  <div *ngIf="!selectedHeaderCategory || !selectedHeaderCategory.subCates?.length" style="color:#666;">No subcategories</div>
+                </div>
+              </div>
+            </div>
           </li>
 
           <li>
-            <button type="button" mdbWavesEffect
+            <button type="button" mdbWavesEffect (click)="$event.stopPropagation(); toggleStoresDropdown()"
               style="padding: 0px;margin: 0px;color:#0d0d0e;position: relative;overflow: visible;">
-              <mdb-icon fas icon="store"></mdb-icon> &nbsp;{{util.translate('Stores')}} <span
-                *ngIf="cart.cart?.length"
-                style="position: absolute;color:#fff; line-height: 10px; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
-                {{cart.cart.length}} </span>
+              <mdb-icon fas icon="store"></mdb-icon> &nbsp;{{util.translate('Stores')}}
             </button>
+            <div class="header-dropdown stores-dropdown" *ngIf="showStoresDropdown">
+              <div *ngIf="headerLoading">Loading...</div>
+              <div *ngIf="!headerLoading">
+                <h5 style="margin-top:0;">{{util.translate('Stores')}}</h5>
+                <div *ngFor="let s of headerStores" style="padding:6px 0;border-bottom:1px solid #f0f0f0;cursor:pointer;" (click)="openStoreFromHeader(s)">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="width:36px;height:36px;background-size:cover;background-position:center;border-radius:4px;" [ngStyle]="{'background-image':'url('+api.mediaURL+s.cover+')'}"></div>
+                    <div>
+                      <div style="font-weight:600;">{{s.name}}</div>
+                      <div style="font-size:12px;color:#666;">{{(s.address && s.address.length>40)? (s.address | slice:0:40)+'..': s.address}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </li>
 
           <li>
