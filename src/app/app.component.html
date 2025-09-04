@@ -68,21 +68,22 @@
 </div>
 
 
-<div mdbModal #loginModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+<div mdbModal #loginModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;" [config]="{backdrop: false, ignoreBackdropClick: true}">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content border-0 bg-transparent">
             <!-- Card-like centered login UI -->
-            <div class="card rounded-lg shadow-lg mx-auto" style="max-width:420px; overflow:hidden;">
-                <div class="card-body p-4" style="background: linear-gradient(180deg,#f1eeee 0%, #7a0f0f 100%); color: #fff;">
+            <div class="card auth-card mx-auto" style="max-width:420px;">
+                <button type="button" class="close-auth" aria-label="Close" (click)="loginModal.hide()">&times;</button>
+                <div class="card-body p-4 auth-body">
                     <div class="login-header text-center mb-3">
                         <div class="login-avatar">
-                            <i class="fas fa-sign-in-alt"></i>
+                            <div class="avatar-outer"><div class="avatar-dot"></div></div>
                         </div>
                     </div>
                     <h5 class="card-title text-center mb-1">{{util.translate('Welcome back')}}</h5>
                     <p class="text-center text-muted small mb-3">{{util.translate('Enter your credentials to login to your account.')}}</p>
 
-                    <form #loginForm="ngForm" novalidate>
+                    <form #loginForm="ngForm" novalidate style="padding: 15px;">
 
                     <!-- Email -->
                     <div class="form-group mb-3">
@@ -124,29 +125,22 @@
 
                     </form>
 
-                    <div class="divider d-flex align-items-center my-3">
-                        <span class="flex-grow-1" style="height:1px;background:#e5e7eb;"></span>
-                        <small class="mx-2 text-muted">Or</small>
-                        <span class="flex-grow-1" style="height:1px;background:#e5e7eb;"></span>
-                    </div>
-
-                    <div class="text-center">
-                        <button class="btn btn-outline btn-lg btn-block rounded-pill" (click)="loginWithGoogle()">Login with Google</button>
-                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div mdbModal #registerModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
+<div mdbModal #registerModal="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;" [config]="{backdrop: false, ignoreBackdropClick: true}">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content border-0 bg-transparent">
-            <div class="card rounded-lg shadow-lg mx-auto" style="max-width:480px;">
-                <div class="card-body p-4" style="background: linear-gradient(180deg,#f1efef 0%, #7a0f0f 100%); color: #fff;">
+            <div class="card auth-card mx-auto register-compact" style="max-width:420px;">
+                <button type="button" class="close-auth" aria-label="Close" (click)="registerModal.hide()">&times;</button>
+                <div class="card-body p-4 auth-body">
                     <div class="login-header text-center mb-3">
                         <div class="login-avatar">
-                            <i class="fas fa-user-plus"></i>
+                            <div class="avatar-outer"><div class="avatar-dot"></div></div>
                         </div>
                     </div>
                     <h5 class="card-title text-center mb-1">{{util.translate('Create your account')}}</h5>
@@ -172,7 +166,7 @@
                             <small class="text-muted">{{util.translate('Use at least 8 characters.')}}</small>
                         </div>
 
-                        <div class="form-group col-6 mb-2">
+                        <div class="form-group col-12 mb-2">
                             <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
                                 <div class="input-group-prepend"><span class="input-group-text bg-white border-0"><i class="fas fa-user text-muted"></i></span></div>
                                 <input type="text" class="form-control border-0" [placeholder]="util.translate('First Name')" name="full_name" #full_name="ngModel" spellcheck="false" autocapitalize="off" required [(ngModel)]="registerForm.first_name" [ngModelOptions]="{standalone: true}">
@@ -180,7 +174,7 @@
                             <small class="text-danger" *ngIf="!full_name.valid && submitted">{{util.translate('First Name is required')}}</small>
                         </div>
 
-                        <div class="form-group col-6 mb-2">
+                        <div class="form-group col-12 mb-2">
                             <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
                                 <div class="input-group-prepend"><span class="input-group-text bg-white border-0"><i class="fas fa-user text-muted"></i></span></div>
                                 <input type="text" class="form-control border-0" [placeholder]="util.translate('Last Name')" name="lname" #lname="ngModel" spellcheck="false" autocapitalize="off" required [(ngModel)]="registerForm.last_name" [ngModelOptions]="{standalone: true}">
@@ -188,14 +182,14 @@
                             <small class="text-danger" *ngIf="!lname.valid && submitted">{{util.translate('Last Name is required')}}</small>
                         </div>
 
-                        <div class="form-group col-4 mb-2">
-                            <select [(ngModel)]="registerForm.country_code" class="form-control form-control-lg rounded-pill" *ngIf="util.countrys?.length">
-                                <option *ngFor="let item of util.countrys" [value]="item.dialling_code">+{{item.dialling_code}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-8 mb-2">
+                        <div class="form-group col-12 mb-2">
                             <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
-                                <div class="input-group-prepend"><span class="input-group-text bg-white border-0"><i class="fas fa-phone text-muted"></i></span></div>
+                                <div class="input-group-prepend">
+                                    <!-- Country code select placed inside the phone input group -->
+                                    <select [(ngModel)]="registerForm.country_code" class="form-control bg-white border-0 country-select" *ngIf="util.countrys?.length">
+                                        <option *ngFor="let item of util.countrys" [value]="item.dialling_code" [selected]="item.dialling_code == 91">+{{item.dialling_code}}</option>
+                                    </select>
+                                </div>
                                 <input type="tel" class="form-control border-0" [placeholder]="util.translate('Mobile Number')" name="mobile" #phone="ngModel" [(ngModel)]="registerForm.mobile" [ngModelOptions]="{standalone: true}">
                             </div>
                         </div>
@@ -231,118 +225,123 @@
 </div>
 
 <div mdbModal #forgotPwd="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
-    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold">{{util.translate('Reset Password')}}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="forgotPwd.hide()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body location_body">
-                <div *ngIf="util.reset_pwd == 0 ">
-                    <div class="form_div" *ngIf="div_type == 1">
-                        <input type="email" [(ngModel)]="reset_email" [placeholder]="util.translate('Email')"
-                            class="form-control frm">
-                    </div>
+    aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 999999;" [config]="{backdrop: false, ignoreBackdropClick: true}">
 
-                    <div class="form_div" *ngIf="div_type == 2" style="text-align: center;">
-                        
-                        <ng-otp-input (onInputChange)="onOtpChangeReset1($event)"
-                            [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
-                        </ng-otp-input>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 bg-transparent">
+            <div class="card auth-card mx-auto" style="max-width:520px;">
+                <button type="button" class="close-auth" aria-label="Close" (click)="forgotPwd.hide()">&times;</button>
+                <div class="card-body p-4 auth-body">
+                    <div class="login-header text-center mb-3">
+                        <div class="login-avatar">
+                            <div class="avatar-outer"><div class="avatar-dot"></div></div>
+                        </div>
                     </div>
-                    <div class="form_div" *ngIf="div_type == 3">
-                        <input type="password" [(ngModel)]="reset_password"
-                            [placeholder]="util.translate('New Password')" class="form-control frm">
-                        <input type="password" [(ngModel)]="reset_repass"
-                            [placeholder]="util.translate('Confirm Password')" class="form-control frm">
-                    </div>
-                    <p class="creatAc" (click)="forgotPwd.hide();loginModal.show();">{{util.translate('or')}} <span class="colored">
-                            {{util.translate('login to your account')}}</span>
-                    </p>
-                </div>
+                    <h5 class="card-title text-center mb-1">{{util.translate('Reset Password')}}</h5>
+                    <p class="text-center text-muted small mb-3">{{util.translate('Use your email or mobile to reset your password.')}}</p>
 
-                <div *ngIf="util.reset_pwd == 1 ">
-                    <div class="form_div" *ngIf="div_type == 1">
-                        
-                        <div class="row">
-                            <div class="col-3" style="display: flex; flex-direction: row; align-items: center;">
-                                <select [(ngModel)]="reset_cc" type="text" *ngIf="util.countrys?.length"
-                                    style="border: 1px solid lightgray;width: 100%;padding: 7px; border-radius: 5px;">
-                                    <option *ngFor="let item of util.countrys" [value]="item.dialling_code">
-                                        {{item.country_name}}
-                                    </option>
-                                </select>
-                                <div *ngIf="!util.countrys?.length">
-                                    <input [(ngModel)]="reset_cc" type="text" [disabled]="true"
-                                        [ngModelOptions]="{standalone: true}"
-                                        [placeholder]="util.translate('Country Code')" class="form-control frm">
+                    <div class="modal-body location_body p-0">
+                        <div *ngIf="util.reset_pwd == 0 ">
+                            <div class="form_div" *ngIf="div_type == 1">
+                                <input type="email" [(ngModel)]="reset_email" [placeholder]="util.translate('Email')"
+                                    class="form-control frm">
+                            </div>
+
+                            <div class="form_div" *ngIf="div_type == 2" style="text-align: center;">
+                                <ng-otp-input (onInputChange)="onOtpChangeReset1($event)"
+                                    [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
+                                </ng-otp-input>
+                            </div>
+                            <div class="form_div" *ngIf="div_type == 3">
+                                <input type="password" [(ngModel)]="reset_password"
+                                    [placeholder]="util.translate('New Password')" class="form-control frm">
+                                <input type="password" [(ngModel)]="reset_repass"
+                                    [placeholder]="util.translate('Confirm Password')" class="form-control frm">
+                            </div>
+                            <p class="creatAc" (click)="forgotPwd.hide();loginModal.show();">{{util.translate('or')}} <span class="colored">
+                                    {{util.translate('login to your account')}}</span>
+                            </p>
+                        </div>
+
+                        <div *ngIf="util.reset_pwd == 1 ">
+                            <div class="form_div" *ngIf="div_type == 1">
+                                <div class="row">
+                                    <div class="col-3" style="display: flex; flex-direction: row; align-items: center;">
+                                        <select [(ngModel)]="reset_cc" type="text" *ngIf="util.countrys?.length"
+                                            style="border: 1px solid lightgray;width: 100%;padding: 7px; border-radius: 5px;">
+                                            <option *ngFor="let item of util.countrys" [value]="item.dialling_code" [selected]="item.dialling_code == 91">
+                                                    {{item.country_name}}
+                                                </option>
+                                        </select>
+                                        <div *ngIf="!util.countrys?.length">
+                                            <input [(ngModel)]="reset_cc" type="text" [disabled]="true"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [placeholder]="util.translate('Country Code')" class="form-control frm">
+                                        </div>
+                                    </div>
+                                    <div class="col-9">
+                                        <input [(ngModel)]="reset_phone" type="number"
+                                            [placeholder]="util.translate('Mobile Number')" class="form-control frm">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-9">
-                                <input [(ngModel)]="reset_phone" type="number"
-                                    [placeholder]="util.translate('Mobile Number')" class="form-control frm">
+
+                            <div class="form_div" *ngIf="div_type == 2">
+                                <ng-otp-input (onInputChange)="onOtpChangeReset1($event)"
+                                    [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
+                                </ng-otp-input>
                             </div>
+                            <div class="form_div" *ngIf="div_type == 3">
+                                <input type="password" [(ngModel)]="reset_password"
+                                    [placeholder]="util.translate('New Password')" class="form-control frm">
+                                <input type="password" [(ngModel)]="reset_repass"
+                                    [placeholder]="util.translate('Confirm Password')" class="form-control frm">
+                            </div>
+                            <p class="creatAc" (click)="forgotPwd.hide();loginModal.show();">{{util.translate('or')}} <span
+                                    class="colored">
+                                    {{util.translate('login to your account')}}</span>
+                            </p>
                         </div>
                     </div>
 
-                    <div class="form_div" *ngIf="div_type == 2">
-                        <!-- <input type="email" [(ngModel)]="reset_otp" placeholder="OTP" class="form-control frm"> -->
-                        <ng-otp-input (onInputChange)="onOtpChangeReset1($event)"
-                            [config]="{length:6,inputStyles:{'width': '30px !important','height': '30px !important'}}">
-                        </ng-otp-input>
+                    <div class="modal-footer d-flex justify-content-center mt-3" *ngIf="util.reset_pwd ==0">
+                        <button class="btn btn-secondary waves-light" (click)="sendResetLink()" [disabled]="isLogin" *ngIf="div_type == 1">
+                            <span *ngIf="!isLogin"> {{util.translate('Send OTP')}} </span>
+                            <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                        </button>
+
+                        <button class="btn btn-secondary waves-light" (click)="verifyOTPOfReset()" [disabled]="isLogin" *ngIf="div_type == 2">
+                            <span *ngIf="!isLogin"> {{util.translate('Verify OTP')}} </span>
+                            <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                        </button>
+
+                        <button class="btn btn-secondary waves-light" (click)="sendEmailResetPasswordMail()" [disabled]="isLogin" *ngIf="div_type == 3">
+                            <span *ngIf="!isLogin"> {{util.translate('Reset Password')}}</span>
+                            <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                        </button>
+
                     </div>
-                    <div class="form_div" *ngIf="div_type == 3">
-                        <input type="password" [(ngModel)]="reset_password"
-                            [placeholder]="util.translate('New Password')" class="form-control frm">
-                        <input type="password" [(ngModel)]="reset_repass"
-                            [placeholder]="util.translate('Confirm Password')" class="form-control frm">
+
+                    <div class="modal-footer d-flex justify-content-center mt-3" *ngIf="util.reset_pwd == 1">
+                        <button class="btn btn-secondary waves-light" (click)="sendOTPOnMobile()" [disabled]="isLogin" *ngIf="div_type == 1">
+                            <span *ngIf="!isLogin"> {{util.translate('Send OTP')}} </span>
+                            <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                        </button>
+
+                        <button class="btn btn-secondary waves-light" (click)="verifyResetCode()" [disabled]="isLogin" *ngIf="div_type == 2">
+                            <span *ngIf="!isLogin"> {{util.translate('Verify OTP')}} </span>
+                            <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                        </button>
+
+                        <button class="btn btn-secondary waves-light" (click)="resetPasswordWithPhone()" [disabled]="isLogin" *ngIf="div_type == 3">
+                            <span *ngIf="!isLogin"> {{util.translate('Reset Password')}}</span>
+                            <div class="spinner-border" *ngIf="isLogin" role="status"></div>
+                        </button>
+
                     </div>
-                    <p class="creatAc" (click)="forgotPwd.hide();loginModal.show();">{{util.translate('or')}} <span
-                            class="colored">
-                            {{util.translate('login to your account')}}</span>
-                    </p>
+
                 </div>
             </div>
-
-            <div class="modal-footer d-flex justify-content-center" *ngIf="util.reset_pwd ==0">
-                <button class="btn btn-secondary waves-light" (click)="sendResetLink()" [disabled]="isLogin" *ngIf="div_type == 1">
-                    <span *ngIf="!isLogin"> {{util.translate('Send OTP')}} </span>
-                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                </button>
-
-                <button class="btn btn-secondary waves-light" (click)="verifyOTPOfReset()" [disabled]="isLogin" *ngIf="div_type == 2">
-                    <span *ngIf="!isLogin"> {{util.translate('Verify OTP')}} </span>
-                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                </button>
-
-                <button class="btn btn-secondary waves-light" (click)="sendEmailResetPasswordMail()" [disabled]="isLogin" *ngIf="div_type == 3">
-                    <span *ngIf="!isLogin"> {{util.translate('Reset Password')}}</span>
-                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                </button>
-
-            </div>
-
-            <div class="modal-footer d-flex justify-content-center" *ngIf="util.reset_pwd == 1">
-                <button class="btn btn-secondary waves-light" (click)="sendOTPOnMobile()" [disabled]="isLogin" *ngIf="div_type == 1">
-                    <span *ngIf="!isLogin"> {{util.translate('Send OTP')}} </span>
-                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                </button>
-
-                <button class="btn btn-secondary waves-light" (click)="verifyResetCode()" [disabled]="isLogin" *ngIf="div_type == 2">
-                    <span *ngIf="!isLogin"> {{util.translate('Verify OTP')}} </span>
-                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                </button>
-
-                <button class="btn btn-secondary waves-light" (click)="resetPasswordWithPhone()" [disabled]="isLogin" *ngIf="div_type == 3">
-                    <span *ngIf="!isLogin"> {{util.translate('Reset Password')}}</span>
-                    <div class="spinner-border" *ngIf="isLogin" role="status"></div>
-                </button>
-
-            </div>
-
         </div>
     </div>
 </div>
