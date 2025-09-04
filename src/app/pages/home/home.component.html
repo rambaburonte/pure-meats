@@ -24,7 +24,8 @@
 </div>
 
 <div class="container-fluid" style="padding: 0px !important;">
-    <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 100px;">
+    <!-- show banner only when we've completed the fetch and there are explicitly no stores -->
+    <div *ngIf="haveData === false" style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 100px;">
         <img src="assets/imgs/3298067.jpg" alt="" srcset="" style="width: 100px;height: 100px;">
         <p>{{util.translate('No Stores Found Near You!')}}</p>
     </div>

@@ -22,7 +22,8 @@ import { UtilService } from 'src/app/services/util.service';
 export class HomeComponent implements OnInit {
   @ViewChild('basicModal') public basicModal: ModalDirective;
 
-  haveData: boolean;
+  // undefined = loading/not fetched yet, true = stores found, false = no stores
+  haveData: boolean = undefined;
   dummyCates = Array(30);
   categories: any[] = [];
 
@@ -144,13 +145,40 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // attempt to load data on component init
+    try {
+      // if no city stored but default exists, set it so city-based API returns data
+      const storedCity = localStorage.getItem('city');
+      if ((!storedCity || storedCity === 'null') && this.util.default_city_id) {
+        localStorage.setItem('city', this.util.default_city_id);
+      }
+    } catch (e) {
+      console.log('init city fallback error', e);
+    }
+    // fetch initial data
+    this.getData();
   }
 
   getData() {
     if (this.util.findType == 0) {
+      // ensure a city id exists
+      const cityId = localStorage.getItem('city');
+      if (!cityId || cityId === 'null') {
+        if (this.util.default_city_id) {
+          localStorage.setItem('city', this.util.default_city_id);
+        }
+      }
       this.getHomeDataWithCity();
     } else if (this.util.findType == 1) {
-      this.getHomeDataWithGeoLocation();
+      // if geo coords missing, fallback to city
+      const lat = localStorage.getItem('userLat');
+      const lng = localStorage.getItem('userLng');
+      if (!lat || !lng) {
+        // try city fallback
+        this.getHomeDataWithCity();
+      } else {
+        this.getHomeDataWithGeoLocation();
+      }
     } else if (this.util.findType == 2) {
       this.getHomeDataWithZipCode();
     }
@@ -186,6 +214,8 @@ export class HomeComponent implements OnInit {
   }
   getHomeDataWithCity() {
     this.resetData();
+    // mark as loading
+    this.haveData = undefined;
     this.api.post_public('v1/home/searchWithCity', { id: localStorage.getItem('city') }).then((data: any) => {
       console.log(data);
       if (data && data.status && data.status == 200 && data.data && data.data.stores && data.data.stores.length) {
@@ -208,6 +238,7 @@ export class HomeComponent implements OnInit {
 
   getHomeDataWithGeoLocation() {
     this.resetData();
+    this.haveData = undefined;
     const param = {
       lat: localStorage.getItem('userLat'),
       lng: localStorage.getItem('userLng')
@@ -234,6 +265,7 @@ export class HomeComponent implements OnInit {
 
   getHomeDataWithZipCode() {
     this.resetData();
+    this.haveData = undefined;
     this.api.post_public('v1/home/searchWithZipCode', { zipcode: localStorage.getItem('zipcodes') }).then((data: any) => {
       console.log(data);
       if (data && data.status && data.status == 200 && data.data && data.data.stores && data.data.stores.length) {
@@ -255,7 +287,7 @@ export class HomeComponent implements OnInit {
   }
 
   parseResponse(data) {
-    console.log(data);
+  console.log('parseResponse data:', data);
     this.clearDummy();
     this.allcates = data.category;
     this.categories = data.category;
@@ -319,7 +351,7 @@ export class HomeComponent implements OnInit {
       }
     });
     this.chMod.detectChanges();
-    console.log(this.topProducts);
+  console.log('stores loaded:', this.stores ? this.stores.length : 0, 'topProducts:', this.topProducts ? this.topProducts.length : 0);
   }
 
   isOpen(start, end) {
