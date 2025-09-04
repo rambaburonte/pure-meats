@@ -60,7 +60,6 @@
               <mdb-icon fas icon="sign-out-alt"></mdb-icon>
               <label>{{util.translate('Logout')}} </label>
             </div>
-
           </div>
         </div>
       </div>
@@ -105,15 +104,14 @@
         <p class="modal-title w-100" id="myModalLabel">{{util.translate('Choose Location')}}</p>
       </div>
       <div class="modal-body">
-        <div class="locationFinderBtn" (click)="onLocaionPermission()" mdbBtn mdbWavesEffect>
-          <div>
-            <i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i>
-          </div>
-          <div class="content">
-            <p class="head">{{util.translate('Get current location')}} </p>
-            <p class="tag">{{util.translate('Using GPS')}} </p>
-          </div>
-        </div>
+            <div class="locationFinderBtn" (click)="onLocaionPermission()" mdbBtn mdbWavesEffect>
+              <div>
+                <button type="button" class="header-action-btn" mdbWavesEffect (click)="$event.stopPropagation(); toggleStoresDropdown()">
+                  <mdb-icon fas icon="store"></mdb-icon> &nbsp;{{util.translate('Stores')}}
+                </button>
+                <p class="tag">{{util.translate('Using GPS')}} </p>
+              </div>
+            </div>
       </div>
       <div class="modal-footer justify-content-center">
         <p style="font-size: 14px; text-align: center;">{{util.translate('We required your location in order fetch stores near you!')}} </p>
@@ -223,7 +221,7 @@
                     <strong class="city-line" style="font-size:13px;font-weight:700;color:#000; cursor:pointer;">
                       {{ util.selectedCityName ? util.selectedCityName : (util.city ? util.city : (util.deliveredAddress ? (util.deliveredAddress.split(',')[0]) : '')) }}
                     </strong>
-                    <span class="caret" style="font-size:11px;color:#000;">▾</span>
+                    
                   </div>
                   <span class="addr-line" style="font-size:12px; color:#6b6b6b; max-width:260px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                     {{ util.deliveredAddress ? ((util.deliveredAddress.length>60)? (util.deliveredAddress | slice:0:60)+'..': util.deliveredAddress) : '' }}
@@ -249,7 +247,7 @@
                     <strong class="city-line" style="font-size:13px;font-weight:700;color:#000; cursor:pointer;">
                       {{ util.selectedCityName ? util.selectedCityName : (util.deliveredAddress ? (util.deliveredAddress.split(',')[0]) : '') }}
                     </strong>
-                    <span class="caret" style="font-size:11px;color:#000;">▾</span>
+                    
                   </div>
                   <span class="addr-line" style="font-size:12px; color:#6b6b6b; max-width:260px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                     {{ util.deliveredAddress ? ((util.deliveredAddress.length>60)? (util.deliveredAddress | slice:0:60)+'..': util.deliveredAddress) : '' }}
@@ -266,7 +264,7 @@
                   style="margin-left: 10px;margin-bottom: 0px;font-size: 13px;white-space: nowrap;color:#000 !important;">
                   {{util.translate('Deliver to')}}
                   {{util.deliveryZipCode}}</span>
-                  <span class="caret"></span>  
+                  
               </a>
               <!-- ZipCode -->
             </li>
@@ -394,11 +392,10 @@
           </li>
 
           <li>
-            <button type="button" mdbWavesEffect
-              style="padding: 0px;margin: 0px;color:#0d0d0e;position: relative;overflow: visible;">
+            <button type="button" class="header-action-btn" mdbWavesEffect (click)="goToCart()">
               <mdb-icon fas icon="shopping-cart"></mdb-icon> &nbsp;{{util.translate('Cart')}} <span
                 *ngIf="cart.cart?.length"
-                style="position: absolute;color:#fff; line-height: 10px; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
+                class="cart-badge">
                 {{cart.cart.length}} </span>
             </button>
           </li>

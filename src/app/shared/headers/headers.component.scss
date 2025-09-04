@@ -321,9 +321,10 @@
 
 /* Specific dropdown placement to avoid shifting layout */
 .categories-dropdown {
-  position: absolute;
-  top: 55px;
-  right: 0;
+  /* pin to viewport below the fixed navbar to avoid any layout reflow */
+  position: fixed;
+  top: 120px; /* header height */
+  right: 20px;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   z-index: 9999;
@@ -335,9 +336,10 @@
 }
 
 .stores-dropdown {
-  position: absolute;
-  top: 55px;
-  right: 0;
+  /* pin to viewport below the fixed navbar to avoid any layout reflow */
+  position: fixed;
+  top: 120px; /* header height */
+  right: 20px;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   z-index: 9999;
@@ -345,6 +347,17 @@
   max-height: 420px;
   overflow: auto;
   padding: 12px;
+}
+
+/* remove focus outlines / extra focus styles that can change header layout */
+.upper_div li button:focus, .upper_div li a:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* disable tap highlight which can cause small shifts on some browsers */
+.upper_div li button, .upper_div li a {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .share_flex {
@@ -367,6 +380,31 @@ button {
   border:none;
   background: none;
   
+}
+
+.header-action-btn {
+  padding: 0px;
+  margin: 0px;
+  color: #0d0d0e;
+  position: relative;
+  overflow: visible;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.cart-badge {
+  position: absolute;
+  color:#fff; 
+  line-height: 10px; 
+  background: red; 
+  border-radius: 50%; 
+  padding: 5px; 
+  top: -5px; 
+  left: 5px; 
+  font-size: 10px; 
+  height: 20px;  
+  text-align: center;
 }
 
 .icons-cat{
