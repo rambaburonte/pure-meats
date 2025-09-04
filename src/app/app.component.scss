@@ -1,4 +1,35 @@
-/*
+.login-header .login-avatar{
+  width:64px;
+  height:64px;
+  margin:0 auto;
+  border-radius:50%;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+.login-header .login-avatar i{
+  color:#111827; /* dark icon */
+  font-size:22px;
+}
+.custom-input{
+  border-radius:8px !important;
+  padding:12px 14px !important;
+}
+.btn-primary{
+  background:#111827;
+  border:none;
+  color:#fff;
+  box-shadow:none;
+  height:44px;
+}
+.btn-primary:hover{background:#0b0f14}
+.btn-outline{
+  background:transparent;
+  border:1px solid #e5e7eb;
+  color:#111827;
+}/*
   Authors : initappz (Rahul Jograna)
   Website : https://initappz.com/
   App Name : Grocery Delivery App
@@ -291,3 +322,5 @@ label {
         }
     }
 }
+
+.divider small{color:#9ca3af}

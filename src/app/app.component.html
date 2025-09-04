@@ -74,13 +74,13 @@
             <!-- Card-like centered login UI -->
             <div class="card rounded-lg shadow-lg mx-auto" style="max-width:420px; overflow:hidden;">
                 <div class="card-body p-4" style="background: linear-gradient(180deg,#f1eeee 0%, #7a0f0f 100%); color: #fff;">
-                    <div class="text-center mb-3">
-                        <div class="avatar rounded-circle bg-light d-inline-flex align-items-center justify-content-center" style="width:64px;height:64px;box-shadow:0 6px 18px rgba(0,0,0,0.08);">
-                            <i class="fas fa-sign-in-alt fa-2x text-primary"></i>
+                    <div class="login-header text-center mb-3">
+                        <div class="login-avatar">
+                            <i class="fas fa-sign-in-alt"></i>
                         </div>
                     </div>
-                    <h5 class="card-title text-center mb-1">{{util.translate('Sign in with email')}}</h5>
-                    <p class="text-center text-muted small mb-3">{{util.translate('Make a new doc to bring your words, data, and teams together. For free')}}</p>
+                    <h5 class="card-title text-center mb-1">{{util.translate('Welcome back')}}</h5>
+                    <p class="text-center text-muted small mb-3">{{util.translate('Enter your credentials to login to your account.')}}</p>
 
                     <form #loginForm="ngForm" novalidate>
 
@@ -90,7 +90,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text bg-white border-0"><i class="fas fa-envelope text-muted"></i></span>
                             </div>
-                            <input type="email" class="form-control border-0" [placeholder]="util.translate('Email')" [(ngModel)]="login.email" [ngModelOptions]="{standalone: true}" name="email" #email="ngModel" spellcheck="false" autocapitalize="off" required>
+                            <input type="email" class="form-control border-0 custom-input" [placeholder]="util.translate('hi@yourcompany.com')" [(ngModel)]="login.email" [ngModelOptions]="{standalone: true}" name="email" #email="ngModel" spellcheck="false" autocapitalize="off" required>
                         </div>
                         <small class="text-danger" *ngIf="!email.valid && submitted">{{util.translate('Email is required')}}</small>
                     </div>
@@ -101,7 +101,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text bg-white border-0"><i class="fas fa-lock text-muted"></i></span>
                             </div>
-                            <input id="loginPassword" type="password" class="form-control border-0" [placeholder]="util.translate('Password')" [(ngModel)]="login.password" [ngModelOptions]="{standalone: true}" name="password" #password="ngModel" required>
+                            <input id="loginPassword" type="password" class="form-control border-0 custom-input" [placeholder]="util.translate('Enter your password')" [(ngModel)]="login.password" [ngModelOptions]="{standalone: true}" name="password" #password="ngModel" required>
                             <div class="input-group-append">
                                 <button class="btn btn-link text-muted" type="button" (click)="togglePasswordVisibility('loginPassword')"><i class="fas fa-eye" id="loginPasswordIcon"></i></button>
                             </div>
@@ -112,8 +112,8 @@
 
                     <!-- CTA -->
                     <div class="text-center mt-3">
-                        <button class="btn btn-block btn-lg rounded-pill" [disabled]="isLogin" (click)="loginWithEmailPassword(loginForm,loginModal)" style="background: linear-gradient(180deg,#eeeaea 0%, #7a0f0f 100%); border: none; color: #fff;">
-                            <span *ngIf="!isLogin">{{util.translate('Get Started')}}</span>
+                        <button class="btn btn-primary btn-lg btn-block rounded-pill" [disabled]="isLogin" (click)="loginWithEmailPassword(loginForm,loginModal)">
+                            <span *ngIf="!isLogin">{{util.translate('Sign in')}}</span>
                             <div class="spinner-border spinner-border-sm text-light" *ngIf="isLogin" role="status"></div>
                         </button>
                     </div>
@@ -123,6 +123,16 @@
                     </div>
 
                     </form>
+
+                    <div class="divider d-flex align-items-center my-3">
+                        <span class="flex-grow-1" style="height:1px;background:#e5e7eb;"></span>
+                        <small class="mx-2 text-muted">Or</small>
+                        <span class="flex-grow-1" style="height:1px;background:#e5e7eb;"></span>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="btn btn-outline btn-lg btn-block rounded-pill" (click)="loginWithGoogle()">Login with Google</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -134,9 +144,9 @@
         <div class="modal-content border-0 bg-transparent">
             <div class="card rounded-lg shadow-lg mx-auto" style="max-width:480px;">
                 <div class="card-body p-4" style="background: linear-gradient(180deg,#f1efef 0%, #7a0f0f 100%); color: #fff;">
-                    <div class="text-center mb-3">
-                        <div class="avatar rounded-circle bg-light d-inline-flex align-items-center justify-content-center" style="width:64px;height:64px;box-shadow:0 6px 18px rgba(0,0,0,0.06);">
-                            <i class="fas fa-user-plus fa-2x text-primary"></i>
+                    <div class="login-header text-center mb-3">
+                        <div class="login-avatar">
+                            <i class="fas fa-user-plus"></i>
                         </div>
                     </div>
                     <h5 class="card-title text-center mb-1">{{util.translate('Create your account')}}</h5>
@@ -203,7 +213,7 @@
                         </div>
 
                         <div class="form-group col-12 text-center mt-3">
-                            <button class="btn btn-block btn-lg rounded-pill" [disabled]="isLogin" (click)="onRegister(loginForm,registerModal,verifyModal)" style="background: linear-gradient(180deg,#ece9e9 0%, #7a0f0f 100%); border: none; color: #fff;">
+                            <button class="btn btn-primary btn-lg btn-block rounded-pill" [disabled]="isLogin" (click)="onRegister(loginForm,registerModal,verifyModal)">
                                 <span *ngIf="!isLogin">{{util.translate('Create account')}}</span>
                                 <div class="spinner-border spinner-border-sm text-light" *ngIf="isLogin" role="status"></div>
                             </button>

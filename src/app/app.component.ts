@@ -197,6 +197,12 @@ export class AppComponent {
     });
   }
 
+  // stub: social login placeholder
+  loginWithGoogle() {
+  // implement Google OAuth / Firebase sign-in if required
+  console.log(this.util.translate('Login with Google clicked'));
+  }
+
   getUserByID() {
     const body = {
       id: localStorage.getItem('uid')
