@@ -49,9 +49,72 @@ export class HeadersComponent implements OnInit {
         this.locationPickerBottom.show();
       }
     })
+    // subscribe to city changes so header updates automatically
+    this.util.subscribeCity().subscribe((data: any) => {
+      try {
+        if (!data) { return; }
+        // data can be: geocoder result object, city array, or a string (zipcode/name)
+        if (Array.isArray(data) && data.length && data[0].name) {
+          this.util.selectedCityName = data[0].name;
+        } else if (typeof data === 'object' && data.address_components) {
+          const city = this.extractCityFromGeocoder(data);
+          if (city) { this.util.selectedCityName = city; }
+        } else if (typeof data === 'string') {
+          this.util.selectedCityName = data;
+        }
+      } catch (e) {
+        console.log('subscribeCity error', e);
+      }
+    });
   }
 
   ngOnInit(): void {
+    // on init, try to set selectedCityName from stored address if available
+    try {
+      const stored = localStorage.getItem('address');
+      if (stored && stored !== 'null') {
+        this.util.deliveredAddress = stored;
+        const city = this.extractCityFromString(stored);
+        if (city) { this.util.selectedCityName = city; }
+      }
+      // if deliveredAddress already present in util (runtime), use it
+      if (!this.util.selectedCityName && this.util.deliveredAddress) {
+        const city2 = this.extractCityFromString(this.util.deliveredAddress);
+        if (city2) { this.util.selectedCityName = city2; }
+      }
+      // fallback to deliveryZipCode if nothing else
+      if (!this.util.selectedCityName && this.util.deliveryZipCode) {
+        this.util.selectedCityName = this.util.deliveryZipCode;
+      }
+    } catch (e) {
+      console.log('init city load error', e);
+    }
+  }
+
+  // helper: extract city from geocoder result object
+  extractCityFromGeocoder(result: any): string {
+    try {
+      const comps = result.address_components || [];
+      const priority = ['locality', 'postal_town', 'administrative_area_level_2', 'administrative_area_level_1', 'sublocality_level_1', 'sublocality', 'neighborhood', 'route'];
+      for (const type of priority) {
+        const comp = comps.find((c: any) => c.types && c.types.indexOf(type) !== -1);
+        if (comp && comp.long_name) { return comp.long_name; }
+      }
+      if (result.formatted_address) { return result.formatted_address.split(',')[0]; }
+    } catch (e) { console.log('extractCityFromGeocoder error', e); }
+    return '';
+  }
+
+  // helper: extract city from a free-form address string
+  extractCityFromString(address: string): string {
+    try {
+      if (!address) { return ''; }
+      // address like: 'Hyderabad, Telangana, India' -> take first part
+      return address.split(',')[0].trim();
+    } catch (e) {
+      console.log('extractCityFromString error', e);
+      return '';
+    }
   }
 
   onLocaionPermission() {
@@ -84,8 +147,9 @@ export class HeadersComponent implements OnInit {
       const location = new google.maps.LatLng(lat, lng);
 
       geocoder.geocode({ 'location': location }, (results, status) => {
-        console.log(results);
-        console.log('status', status);
+  console.log('geocode results:', results);
+  console.log('geocode status:', status);
+  console.log('input lat,lng:', lat, lng);
         if (results && results.length) {
           localStorage.setItem('location', 'true');
           localStorage.setItem('address', results[0].formatted_address);
@@ -93,16 +157,23 @@ export class HeadersComponent implements OnInit {
           // Try to extract a city/locality name from Google Geocoder result
           try {
             let cityName = '';
-            if (results[0].address_components && results[0].address_components.length) {
-              const comps = results[0].address_components;
-              const cityComp = comps.find((c: any) => c.types.indexOf('locality') !== -1 || c.types.indexOf('postal_town') !== -1 || c.types.indexOf('administrative_area_level_2') !== -1 || c.types.indexOf('administrative_area_level_1') !== -1 || c.types.indexOf('sublocality') !== -1 || c.types.indexOf('sublocality_level_1') !== -1);
-              if (cityComp && cityComp.long_name) {
-                cityName = cityComp.long_name;
+            const comps = results[0].address_components || [];
+            console.log('address_components:', comps);
+            // Priority list for city-like components
+            const priority = ['locality', 'postal_town', 'administrative_area_level_2', 'administrative_area_level_1', 'sublocality_level_1', 'sublocality', 'neighborhood', 'route'];
+            for (const type of priority) {
+              const comp = comps.find((c: any) => c.types && c.types.indexOf(type) !== -1);
+              if (comp && comp.long_name) {
+                cityName = comp.long_name;
+                console.log('found city candidate by type', type, cityName);
+                break;
               }
             }
             if (!cityName && results[0].formatted_address) {
               cityName = results[0].formatted_address.split(',')[0];
+              console.log('fallback city from formatted_address', cityName);
             }
+            console.log('final cityName candidate:', cityName);
             if (cityName) {
               this.util.selectedCityName = cityName;
             }
