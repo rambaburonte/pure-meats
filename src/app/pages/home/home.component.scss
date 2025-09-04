@@ -122,11 +122,13 @@ label {
         align-items: center;
         justify-content: center;
         .back_img {
-            height: 60px;
-            width: 60px;
+            height: 200px;
+            width: 190px;
+            
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
+
         }
         .cate_name {
             font-size: 15px;
@@ -158,14 +160,14 @@ label {
 
     .btm_category {
         .cate_title {
-            font-family: 'semi-bold';
-            text-align: center;
-            margin: 10px 0px;
-            background: #f3f3f3;
-            padding: 10px;
-            font-family: "bold" !important;
-            text-transform: uppercase;
-            font-size: 1.5rem;
+                 text-align: left;
+                margin: 10px 0px;
+                background: #f3f3f3;
+                padding: 10px;
+                text-transform: capitalize;
+                letter-spacing: -1px;
+                font-size: 20px;
+                color: #b11813;
         }
         .subName {
             display: flex;
