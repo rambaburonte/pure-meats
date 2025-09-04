@@ -193,14 +193,10 @@ export class HomeComponent implements OnInit {
     this.dummyOffers = Array(30);
     this.offers = [];
     this.categories = [];
-    this.banners = [];
-    this.bottomBanners = [];
-    this.betweenBanners = [];
-    this.topProducts = [];
-    this.products = [];
-    this.bottomcategory = [];
-    this.dummyBottomCates = Array(2);
-    this.stores = [];
+  // preserve existing banners/stores/topProducts during fetch so admin-uploaded content doesn't disappear
+  // only reset placeholders and non-visible lists; actual displayed arrays (banners, bottomBanners,
+  // betweenBanners, topProducts, stores) are left intact and will be replaced atomically in parseResponse().
+  this.dummyBottomCates = Array(2);
   }
 
   clearDummy() {
@@ -291,23 +287,34 @@ export class HomeComponent implements OnInit {
     this.clearDummy();
     this.allcates = data.category;
     this.categories = data.category;
-    this.stores = data.stores;
-    this.stores.forEach(async (element) => {
-      element['isOpen'] = await this.isOpen(element.open_time, element.close_time);
+
+    // build new stores array first, set isOpen synchronously then assign atomically
+    const newStores = (data.stores || []).map(element => {
+      try {
+        element['isOpen'] = this.isOpen(element.open_time, element.close_time);
+      } catch (e) {
+        element['isOpen'] = false;
+      }
+      return element;
     });
-    data.banners.forEach(element => {
+
+    // build new banner arrays then assign in one shot to avoid intermediate empty states
+    const newBanners = [];
+    const newBottom = [];
+    const newBetween = [];
+    (data.banners || []).forEach(element => {
       if (element.position == 0) {
-        this.banners.push(element);
+        newBanners.push(element);
       } else if (element.position == 1) {
-        this.bottomBanners.push(element);
+        newBottom.push(element);
       } else {
-        this.betweenBanners.push(element);
+        newBetween.push(element);
       }
     });
-    this.util.active_store = [...new Set(this.stores.map(item => item.uid))];
-    const finalProducts = [...data.homeProducts, ...data.topProducts];
-    this.topProducts = finalProducts;
-    this.topProducts.forEach(element => {
+
+    // build products
+    const finalProducts = [...(data.homeProducts || []), ...(data.topProducts || [])];
+    finalProducts.forEach(element => {
       if (element.variations && element.size == 1 && element.variations != '') {
         if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.variations)) {
           element.variations = JSON.parse(element.variations);
@@ -328,9 +335,8 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    this.offers = [];
-    this.offers = data.inOffers;
-    this.offers.forEach(element => {
+    // build offers
+    const newOffers = (data.inOffers || []).map(element => {
       if (element.variations && element.size == 1 && element.variations != '') {
         if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.variations)) {
           element.variations = JSON.parse(element.variations);
@@ -349,7 +355,18 @@ export class HomeComponent implements OnInit {
       } else {
         element['quantiy'] = 0;
       }
+      return element;
     });
+
+    // assign atomically
+    this.stores = newStores;
+    this.banners = newBanners;
+    this.bottomBanners = newBottom;
+    this.betweenBanners = newBetween;
+    this.util.active_store = [...new Set(this.stores.map(item => item.uid))];
+    this.topProducts = finalProducts;
+    this.offers = newOffers;
+
     this.chMod.detectChanges();
   console.log('stores loaded:', this.stores ? this.stores.length : 0, 'topProducts:', this.topProducts ? this.topProducts.length : 0);
   }
