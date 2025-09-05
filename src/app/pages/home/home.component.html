@@ -512,12 +512,20 @@
     <div class="btm_category" *ngFor="let item of categories">
         <h3 class="cate_title" *ngIf="item.subCates.length">{{item.name}} </h3>
         <div class="row" *ngIf="item.subCates.length">
-            <div class="col-6 col-md-2" *ngFor="let sub of item.subCates" (click)="subItems(item,sub)">
-                <div class="subName">
-                    <div class="back_img" mdbWavesEffect
-                        [ngStyle]="{'background-image':'url('+api.mediaURL+sub.cover+')'}"></div>
+            <!-- Render sub-categories using product-style cards (same visual style as Best Offers) -->
+            <div class="col-6 col-md-2" *ngFor="let sub of item.subCates">
+                <div id="product" class="card border-0 text-center sub-card">
+                    <div class="product-top" (click)="subItems(item,sub)">
+                        <a>
+                            <div class="back_img" mdbWavesEffect
+                                [ngStyle]="{'background-image':'url('+api.mediaURL+sub.cover+')'}">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-muted">{{sub.name}}</p>
+                    </div>
                 </div>
-                <p class="cate_name">{{ sub.name }}</p>
             </div>
         </div>
     </div>
