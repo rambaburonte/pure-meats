@@ -740,4 +740,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     const sub_name = sub.name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
     this.router.navigate(['sub', item.id, name, sub.id, sub_name]);
   }
+
+  getUniqueSubCates(subCates: any[]): any[] {
+    if (!subCates || subCates.length === 0) {
+      return [];
+    }
+    
+    const uniqueItems = subCates.filter((item, index, self) => 
+      index === self.findIndex(t => t.id === item.id)
+    );
+    
+    return uniqueItems;
+  }
 }

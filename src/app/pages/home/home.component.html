@@ -511,13 +511,13 @@
 
     <div class="btm_category" *ngFor="let item of categories">
         <h3 class="cate_title" *ngIf="item.subCates.length">{{item.name}} </h3>
-        <owl-carousel [options]="myCarouselOptions" [items]="item.subCates" [carouselClasses]="['owl-theme','row','sliding']">
-            <ng-container *ngFor="let sub of item.subCates">
-                <div id="product" class="card border-0 text-center sub-card">
-                    <div class="product-top" (click)="subItems(item,sub)">
+        <owl-carousel [options]="myCarouselOptions" [items]="getUniqueSubCates(item.subCates)" [carouselClasses]="['owl-theme', 'row', 'sliding']" style="display: none;">
+            <ng-container *ngFor="let sub of getUniqueSubCates(item.subCates); index as i">
+                <div id='product' class="card border-0 text-center">
+                    <div class="product-top">
                         <a>
-                            <div class="back_img" mdbWavesEffect
-                                [ngStyle]="{'background-image':'url('+api.mediaURL+sub.cover+')'}">
+                            <div class="back_img" (click)="subItems(item,sub)"
+                                [ngStyle]="{'background-image':'url('+api.mediaURL+sub.cover+'),url(assets/placeholder.png)'}">
                             </div>
                         </a>
                     </div>
@@ -527,6 +527,24 @@
                 </div>
             </ng-container>
         </owl-carousel>
+        
+        <!-- Static grid layout matching Best Offers alignment from left -->
+        <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: flex-start; margin: 0; padding: 0;">
+            <div *ngFor="let sub of getUniqueSubCates(item.subCates)">
+                <div id='product' class="card border-0 text-center">
+                    <div class="product-top">
+                        <a>
+                            <div class="back_img" (click)="subItems(item,sub)"
+                                [ngStyle]="{'background-image':'url('+api.mediaURL+sub.cover+'),url(assets/placeholder.png)'}">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="">
+                        <p class="card-text">{{sub.name}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row offers_div">

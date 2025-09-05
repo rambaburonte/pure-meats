@@ -168,178 +168,202 @@ label {
     }
 
     .btm_category {
+        /* Ensure exact same alignment as Best Offers section */
+        margin-left: -21px !important;
+        padding-left: 0 !important;
+        
         .cate_title {
-                 text-align: left;
-                margin: 10px 0px;
-                background: #f3f3f3;
-                padding: 10px;
-                text-transform: capitalize;
-                letter-spacing: -1px;
-                font-size: 20px;
-                color: #b11813;
+            text-align: left;
+            margin: 20px 0px 15px 0px;
+            background: transparent;
+            padding: 0px;
+            text-transform: capitalize;
+            letter-spacing: -1px;
+            font-size: 20px;
+            color: #b11813;
+            font-weight: bold;
         }
-        .sub-card {
-            /* Make subcategory cards match Best Offers card width and center them */
-            /* Increased from 150px to better match Best Offers visual width */
+        
+        /* Make bottom category cards plain with no styling */
+        #product.card {
+            /* Plain card container */
             width: 220px !important;
             max-width: 220px !important;
-            margin: 0 auto;
+            margin: 0 !important;
+            padding: 0 !important;
             box-sizing: border-box !important;
-
+            border: none !important;
+            background: transparent !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+            overflow: hidden !important;
+            
+            /* Remove ALL hover effects completely */
+            transition: none !important;
+            transform: none !important;
+            
             .product-top {
+                padding: 0 !important;
+                margin: 0 !important;
+                position: relative !important;
+                width: 100% !important;
+                
                 .back_img {
-                    /* Match Best Offers product image sizing */
-                    height: 150px;
-                    width: 100%;
-                    background-position: center;
-                    background-size: cover;
-                    /* Best-offers uses large padding to horizontally center the focal area; match it */
-                    padding: 100px 20px 100px 100px;
-                    box-sizing: border-box !important;
-                    /* Disable image scaling/transform on hover */
+                    /* Plain image styling with border radius */
+                    height: 140px !important;
+                    width: 100% !important;
+                    background-position: center !important;
+                    background-size: cover !important;
+                    background-repeat: no-repeat !important;
+                    border-radius: 8px !important;
+                    border: none !important;
+                    
+                    /* Disable ALL hover effects */
+                    transition: none !important;
+                    transform: none !important;
+                    filter: none !important;
+                    opacity: 1 !important;
+                }
+            }
+            
+            .card-body {
+                /* Plain card body styling - prevent text movement */
+                padding: 10px 0 !important;
+                text-align: center !important;
+                background: transparent !important;
+                border-radius: 0 !important;
+                position: static !important;
+                
+                /* Disable hover effects completely */
+                transition: none !important;
+                transform: none !important;
+                
+                .card-text {
+                    font-size: 14px !important;
+                    font-weight: 500 !important;
+                    color: #000 !important;
+                    margin: 5px 0 !important;
+                    line-height: 1.2 !important;
+                    position: static !important;
                     transform: none !important;
                     transition: none !important;
                 }
+                
+                .card-text-price {
+                    font-size: 12px !important;
+                    color: #666 !important;
+                    margin: 5px 0 !important;
+                }
+                
+                .price_lbl {
+                    font-size: 14px !important;
+                    font-weight: bold !important;
+                    color: #b21817 !important;
+                    margin: 5px 0 !important;
+                }
+                
+                .btn.addcart {
+                    background: #b21817 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 4px !important;
+                    font-size: 12px !important;
+                    padding: 6px 12px !important;
+                    margin-top: 8px !important;
+                    transition: none !important;
+                    transform: none !important;
+                }
             }
-            .card-body {
-                padding: 8px 6px;
-                /* Prevent body from moving on hover */
-                transform: none !important;
+            
+            /* Force disable ALL hover states with maximum specificity */
+            &:hover, &:focus, &:active, &.hover,
+            &:hover *, &:focus *, &:active *, &.hover * {
                 transition: none !important;
-            }
-            .card-text {
-                font-weight: 600;
-                font-size: 13px;
-            }
-            .addcart {
-                margin-top: 6px;
-                font-size: 13px;
-                padding: 6px 8px;
-            }
-
-            /* Neutralize any hover effects coming from global/card selectors */
-            &:hover,
-            &:focus,
-            &.hover {
                 transform: none !important;
                 box-shadow: none !important;
+                border: none !important;
+                background-color: inherit !important;
+                opacity: 1 !important;
+                filter: none !important;
+                outline: none !important;
+                scale: 1 !important;
+                zoom: 1 !important;
             }
-
-            /* Ensure children don't animate or shift on hover */
-            &:hover .card-body,
-            &:focus .card-body {
-                transform: none !important;
-                margin-top: 0 !important;
-                top: auto !important;
-                transition: none !important;
-            }
-
+            
+            /* Nuclear-level hover disable for nested elements */
+            &:hover .product-top,
+            &:focus .product-top,
+            &:active .product-top,
             &:hover .back_img,
-            &:focus .back_img {
-                transform: none !important;
+            &:focus .back_img,
+            &:active .back_img,
+            &:hover .card-body,
+            &:focus .card-body,
+            &:active .card-body {
                 transition: none !important;
+                transform: none !important;
+                filter: none !important;
+                opacity: 1 !important;
+                scale: 1 !important;
+                zoom: 1 !important;
+                margin: 0 !important;
+                padding: inherit !important;
+                position: static !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                bottom: auto !important;
             }
-
-            /* Remove any pseudo-element overlays that appear on hover */
-            &::after, &::before {
+            
+            /* Remove any pseudo-elements that could cause visual changes */
+            &::before, &::after,
+            *::before, *::after {
                 display: none !important;
+                content: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+            }
+            
+            /* Disable link hover effects completely */
+            a, a:hover, a:focus, a:active, a:visited {
+                text-decoration: none !important;
+                color: inherit !important;
+                transition: none !important;
+                transform: none !important;
+                outline: none !important;
+                border: none !important;
+                box-shadow: none !important;
             }
         }
-
-        /* When using owl-carousel for sub-categories, ensure items are centered */
-        .owl-theme .owl-stage-outer {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-        .owl-theme .owl-item {
-            display: flex;
-            justify-content: center;
-        }
-
-        /* Make the owl stage horizontally scrollable with snap behavior as an additional side-scroll UX */
-        .owl-theme .owl-stage {
-            display: flex !important;
-            flex-wrap: nowrap !important;
-            overflow-x: auto !important;
-            -webkit-overflow-scrolling: touch !important; /* smooth inertial scrolling on iOS */
-            scroll-snap-type: x mandatory !important;
-        }
-        .owl-theme .owl-item {
-            scroll-snap-align: start !important;
-            flex: 0 0 auto !important; /* prevent items from shrinking */
-        }
-
-        /* Hide default scrollbar but allow scrolling (small unobtrusive indicator on desktop) */
-        .owl-theme .owl-stage::-webkit-scrollbar {
-            height: 8px;
-        }
-        .owl-theme .owl-stage::-webkit-scrollbar-thumb {
-            background: rgba(0,0,0,0.12);
-            border-radius: 4px;
-        }
-
-        /* Native fallback: if owl-carousel is not available render a horizontal row */
-        .btm_category .sub-row {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scroll-snap-type: x mandatory;
-            padding: 10px 6px;
-        }
-        .btm_category .sub-row .sub-card {
-            scroll-snap-align: start;
-            flex: 0 0 auto;
-        }
-
-        /* Slightly smaller cards on very small screens */
-        @media (max-width: 480px) {
-            .sub-card {
-                width: 160px !important;
-                max-width: 160px !important;
-            }
-            .sub-card .product-top .back_img {
-                height: 120px;
-                padding: 60px !important;
-            }
-        }
-
-        /* Extra global-strong overrides to neutralize hover effects coming from external libs */
-        .sub-card,
-        .sub-card * {
+        
+        /* Apply maximum override strength to prevent any external interference */
+        .card, .card *, 
+        .card:hover, .card:hover *, 
+        .card:focus, .card:focus *,
+        .card:active, .card:active *,
+        .card.hover, .card.hover *,
+        .card.focus, .card.focus *,
+        .card.active, .card.active * {
             -webkit-transition: none !important;
             -moz-transition: none !important;
             -o-transition: none !important;
+            -ms-transition: none !important;
             transition: none !important;
             -webkit-transform: none !important;
             -moz-transform: none !important;
             -o-transform: none !important;
+            -ms-transform: none !important;
             transform: none !important;
             box-shadow: none !important;
             outline: none !important;
             opacity: 1 !important;
+            filter: none !important;
+            scale: 1 !important;
+            zoom: 1 !important;
+            border: none !important;
+            border-radius: 0 !important;
         }
 
-        /* Specifically neutralize common hover selectors from UI libs */
-        .sub-card:hover,
-        .sub-card:focus,
-        .sub-card.hover,
-        .sub-card .product-top:hover,
-        .sub-card .back_img:hover,
-        .sub-card .card-body:hover {
-            transform: none !important;
-            -webkit-transform: none !important;
-            box-shadow: none !important;
-            opacity: 1 !important;
-        }
-
-        /* Make sure link/anchor inside doesn't shift on hover */
-        .sub-card a,
-        .sub-card a:hover,
-        .sub-card a:focus {
-            text-decoration: none !important;
-            color: inherit !important;
-        }
         .subName {
             display: flex;
             flex-direction: row;
