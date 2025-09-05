@@ -141,11 +141,11 @@ label {
         }
         .cate_name {
             font-size: 15px;
-            font-family: 'semi-bold';
-            margin: 1rem 0px;
+             margin: 1rem 0px;
             text-align: center;
             text-transform: uppercase;
             white-space: pre-wrap;
+            color:#000
         }
     }
 
@@ -180,8 +180,7 @@ label {
             text-transform: capitalize;
             letter-spacing: -1px;
             font-size: 20px;
-            color: #b11813;
-            font-weight: bold;
+            color: #b11813;  
         }
         
         /* Make bottom category cards plain with no styling */

@@ -86,7 +86,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <p class="card-text" style="font-weight:bold !important;">{{item.name}}</p>
+                    <p class="card-text">{{item.name}}</p>
                     <div *ngIf="item.size ==1" class="variant">
                         <div class="selecter" [ngbPopover]="popContent" placement="top" triggers="manual"
                             #p1="ngbPopover" (click)="p1.open()">
@@ -241,8 +241,8 @@
             <div class="categoryList" (click)="subCate(item)">
                 <div class="back_img" [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+')'}">
                 </div>
-                <p class="cate_name" *ngIf="util.deviceType =='desktop'">{{item.name}} </p>
-                <p class="cate_name" *ngIf="util.deviceType !='desktop'">
+                <p class="cate_name" *ngIf="util.deviceType =='desktop'" style="text-transform: capitalize; font-weight: normal !important;">{{item.name}} </p>
+                <p class="cate_name" *ngIf="util.deviceType !='desktop'" style="font-weight: normal !important;">
                     {{ (item.name.length>10)? (item.name | slice:0:10)+'..':(item.name) }}
                 </p>
             </div>
@@ -325,9 +325,9 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <p class="card-text text-muted">{{item.name}}</p>
+                    <p class="card-text" style="color:#000;">{{item.name}}</p>
 
-                    <p class="card-text-price text-muted">
+                    <p class="card-text-price" style="color:#000;">
                         {{ (item.address.length>30)? (item.address | slice:0:30)+'..':(item.address) }}
                     </p>
 
@@ -365,7 +365,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <p class="card-text text-muted">{{item.name}}</p>
+                    <p class="card-text" style="color:#000;">{{item.name}}</p>
                     <div *ngIf="item.size ==1" class="variant">
                         <div class="selecter" [ngbPopover]="popContent" placement="top" triggers="manual"
                             #p1="ngbPopover" (click)="p1.open()">
@@ -522,7 +522,7 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        <p class="card-text text-muted">{{sub.name}}</p>
+                        <p class="card-text" [ngStyle]="{'color':'#000','font-weight':'normal','font-family':'normal','text-transform':'capitalize'}">{{sub.name}}</p>
                     </div>
                 </div>
             </ng-container>
