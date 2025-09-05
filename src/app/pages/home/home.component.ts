@@ -6,7 +6,7 @@
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'angular-bootstrap-md';
 import * as moment from 'moment';
@@ -19,7 +19,7 @@ import { UtilService } from 'src/app/services/util.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('basicModal') public basicModal: ModalDirective;
 
   // undefined = loading/not fetched yet, true = stores found, false = no stores
@@ -55,11 +55,14 @@ export class HomeComponent implements OnInit {
   haveCity: boolean;
 
   myCarouselOptions = {
-    loop: false,
+  loop: true,
     margin: 20,
     nav: true,
     dots: false,
     autoplay: true,
+  autoplayTimeout: 3000,
+  autoplayHoverPause: true,
+  autoplaySpeed: 800,
     responsive: {
       0: {
         items: 2,
@@ -77,11 +80,11 @@ export class HomeComponent implements OnInit {
   }
 
   myCategoryOptions = {
-    loop: false,
+  loop: false,
     margin: 20,
     nav: true,
     dots: false,
-    autoplay: true,
+  autoplay: false,
     responsive: {
       0: {
         items: 3,
@@ -99,11 +102,11 @@ export class HomeComponent implements OnInit {
   };
 
   mystoreOptions = {
-    loop: false,
+  loop: false,
     margin: 20,
     nav: true,
     dots: false,
-    autoplay: true,
+  autoplay: false,
     responsive: {
       0: {
         items: 2,
@@ -121,6 +124,8 @@ export class HomeComponent implements OnInit {
   }
 
   allcates: any[] = [];
+  // auto-scroll handles for bottom category native stage scrolling
+  private bottomAutoData: Array<any> = [];
   constructor(
     public util: UtilService,
     public api: ApiService,
@@ -245,17 +250,18 @@ export class HomeComponent implements OnInit {
         this.haveData = true;
         this.parseResponse(data.data);
       } else {
+        // fallback to city-based search when geo lookup returns no stores
         this.clearDummy();
-        this.haveData = false;
+        this.getHomeDataWithCity();
       }
     }, error => {
+      console.log('geo lookup error, falling back to city', error);
       this.clearDummy();
-      console.log(error);
-      this.haveData = false;
+      this.getHomeDataWithCity();
     }).catch(error => {
+      console.log('geo lookup catch, falling back to city', error);
       this.clearDummy();
-      console.log(error);
-      this.haveData = false;
+      this.getHomeDataWithCity();
     });
   }
 
@@ -268,17 +274,18 @@ export class HomeComponent implements OnInit {
         this.haveData = true;
         this.parseResponse(data.data);
       } else {
+        // fallback to city search when zipcode doesn't return stores
         this.clearDummy();
-        this.haveData = false;
+        this.getHomeDataWithCity();
       }
     }, error => {
+      console.log('zipcode lookup error, falling back to city', error);
       this.clearDummy();
-      console.log(error);
-      this.haveData = false;
+      this.getHomeDataWithCity();
     }).catch(error => {
+      console.log('zipcode lookup catch, falling back to city', error);
       this.clearDummy();
-      console.log(error);
-      this.haveData = false;
+      this.getHomeDataWithCity();
     });
   }
 
@@ -288,15 +295,21 @@ export class HomeComponent implements OnInit {
     this.allcates = data.category;
     this.categories = data.category;
 
-    // build new stores array first, set isOpen synchronously then assign atomically
-    const newStores = (data.stores || []).map(element => {
-      try {
-        element['isOpen'] = this.isOpen(element.open_time, element.close_time);
-      } catch (e) {
-        element['isOpen'] = false;
-      }
-      return element;
-    });
+    // Use backend store list as-is so display order and duplicates are preserved.
+    // Then compute isOpen in-place to avoid modifying order or creating a new array.
+    this.stores = data.stores || [];
+    try {
+      this.stores.forEach(element => {
+        try {
+          element['isOpen'] = this.isOpen(element.open_time, element.close_time);
+        } catch (e) {
+          element['isOpen'] = false;
+        }
+      });
+    } catch (e) {
+      // fallback: ensure stores is at least set
+      this.stores = data.stores || [];
+    }
 
     // build new banner arrays then assign in one shot to avoid intermediate empty states
     const newBanners = [];
@@ -358,8 +371,7 @@ export class HomeComponent implements OnInit {
       return element;
     });
 
-    // assign atomically
-    this.stores = newStores;
+  // stores already assigned above
     this.banners = newBanners;
     this.bottomBanners = newBottom;
     this.betweenBanners = newBetween;
@@ -368,7 +380,178 @@ export class HomeComponent implements OnInit {
     this.offers = newOffers;
 
     this.chMod.detectChanges();
+    // initialize native auto-scroll for bottom category stages after view update
+    setTimeout(() => {
+      this.initBottomAutoScroll();
+    }, 250);
+
+    // If user location exists, ensure we don't show 'No Stores' when any store is within 5km.
+    setTimeout(() => {
+      this.filterStoresByProximityKm(5);
+    }, 300);
   console.log('stores loaded:', this.stores ? this.stores.length : 0, 'topProducts:', this.topProducts ? this.topProducts.length : 0);
+  }
+
+  private getStoreCoordinates(store: any): { lat: number, lng: number } | null {
+    if (!store || typeof store !== 'object') return null;
+    const candidates = [
+      ['lat','lng'], ['latitude','longitude'], ['store_lat','store_lng'], ['store_latitude','store_longitude'], ['latit','long'], ['lat','long']
+    ];
+    for (const [a,b] of candidates) {
+      if (store[a] !== undefined && store[b] !== undefined) {
+        const lat = parseFloat(store[a]);
+        const lng = parseFloat(store[b]);
+        if (!isNaN(lat) && !isNaN(lng)) return { lat, lng };
+      }
+    }
+    // also support nested location object
+    if (store.location && (store.location.lat || store.location.latitude) && (store.location.lng || store.location.longitude)) {
+      const lat = parseFloat(store.location.lat || store.location.latitude);
+      const lng = parseFloat(store.location.lng || store.location.longitude);
+      if (!isNaN(lat) && !isNaN(lng)) return { lat, lng };
+    }
+    return null;
+  }
+
+  private haversineKm(lat1: number, lon1: number, lat2: number, lon2: number) {
+    const toRad = (v: number) => v * Math.PI / 180;
+    const R = 6371; // km
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+
+  /**
+   * If user location exists and stores include coordinates, filter stores to those within radiusKm.
+   * If any store is found within the radius, ensure haveData=true and show those stores.
+   */
+  private filterStoresByProximityKm(radiusKm: number) {
+    try {
+      const latStr = localStorage.getItem('userLat');
+      const lngStr = localStorage.getItem('userLng');
+      if (!latStr || !lngStr) return; // no user location available
+      const userLat = parseFloat(latStr);
+      const userLng = parseFloat(lngStr);
+      if (isNaN(userLat) || isNaN(userLng)) return;
+
+      if (!this.stores || !this.stores.length) return;
+
+      const storesWithCoords: Array<{ store: any, lat: number, lng: number }> = [];
+      for (const s of this.stores) {
+        const coords = this.getStoreCoordinates(s);
+        if (coords) {
+          storesWithCoords.push({ store: s, lat: coords.lat, lng: coords.lng });
+        }
+      }
+      if (!storesWithCoords.length) return; // no coordinate data to act on
+
+      const within: any[] = [];
+      for (const s of storesWithCoords) {
+        const d = this.haversineKm(userLat, userLng, s.lat, s.lng);
+        if (d <= radiusKm) within.push(s.store);
+      }
+
+      if (within.length) {
+        // show only nearby stores to the user
+        this.stores = within;
+        this.haveData = true;
+        this.chMod.detectChanges();
+      }
+    } catch (e) {
+      console.log('filterStoresByProximityKm error', e);
+    }
+  }
+
+  /**
+   * Initialize auto-scroll for each bottom category owl stage (native overflow stage fallback).
+   * This performs a smooth pixel-by-pixel scroll and loops back to start when reaching the end.
+   * It also pauses on mouse/touch interaction.
+   */
+  initBottomAutoScroll() {
+    // clear any previously running timers/listeners
+    this.clearBottomAutoScroll();
+
+    try {
+      // only target the native fallback horizontal row (when owl-carousel isn't available)
+      const stages = Array.from(document.querySelectorAll('.btm_category .sub-row')) as HTMLElement[];
+      stages.forEach((el, idx) => {
+        if (!el) return;
+        // only enable if there is overflow (more content than container width)
+        if (el.scrollWidth <= el.clientWidth) return;
+
+        const config = {
+          speedPxPerTick: 1, // pixels to move per interval
+          tickMs: 16 // interval in ms (~60fps)
+        };
+
+        let timer: any = null;
+
+        const start = () => {
+          if (timer) return; // already running
+          timer = setInterval(() => {
+            if (!el) return;
+            // advance
+            el.scrollLeft = el.scrollLeft + config.speedPxPerTick;
+            // loop when reaching end
+            if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 1) {
+              // small smooth reset to start
+              el.scrollLeft = 0;
+            }
+          }, config.tickMs);
+        };
+
+        const stop = () => {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        };
+
+        // pause on pointer enter / touchstart
+        const onMouseEnter = () => stop();
+        const onMouseLeave = () => start();
+        const onTouchStart = () => stop();
+        const onTouchEnd = () => start();
+
+        el.addEventListener('mouseenter', onMouseEnter);
+        el.addEventListener('mouseleave', onMouseLeave);
+        el.addEventListener('touchstart', onTouchStart, { passive: true });
+        el.addEventListener('touchend', onTouchEnd, { passive: true });
+
+        // store references for cleanup
+        this.bottomAutoData.push({ el, start, stop, onMouseEnter, onMouseLeave, onTouchStart, onTouchEnd, timerRef: () => timer });
+
+        // start auto-scrolling
+        start();
+      });
+    } catch (e) {
+      console.error('initBottomAutoScroll error', e);
+    }
+  }
+
+  clearBottomAutoScroll() {
+    try {
+      this.bottomAutoData.forEach((d) => {
+        try {
+          // stop timer if running
+          d.stop && d.stop();
+        } catch (e) {}
+        try {
+          // remove listeners
+          d.el && d.el.removeEventListener('mouseenter', d.onMouseEnter);
+          d.el && d.el.removeEventListener('mouseleave', d.onMouseLeave);
+          d.el && d.el.removeEventListener('touchstart', d.onTouchStart);
+          d.el && d.el.removeEventListener('touchend', d.onTouchEnd);
+        } catch (e) {}
+      });
+    } catch (e) {}
+    this.bottomAutoData = [];
+  }
+
+  ngOnDestroy() {
+    this.clearBottomAutoScroll();
   }
 
   isOpen(start, end) {

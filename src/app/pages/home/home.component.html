@@ -25,7 +25,7 @@
 
 <div class="container-fluid" style="padding: 0px !important;">
     <!-- show banner only when we've completed the fetch and there are explicitly no stores -->
-    <div *ngIf="haveData === false" style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 100px;">
+    <div *ngIf="haveData === false && (!stores || stores.length === 0)" style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 100px;">
         <img src="assets/imgs/3298067.jpg" alt="" srcset="" style="width: 100px;height: 100px;">
         <p>{{util.translate('No Stores Found Near You!')}}</p>
     </div>
@@ -511,9 +511,8 @@
 
     <div class="btm_category" *ngFor="let item of categories">
         <h3 class="cate_title" *ngIf="item.subCates.length">{{item.name}} </h3>
-        <div class="row" *ngIf="item.subCates.length">
-            <!-- Render sub-categories using product-style cards (same visual style as Best Offers) -->
-            <div class="col-6 col-md-2" *ngFor="let sub of item.subCates">
+        <owl-carousel [options]="myCarouselOptions" [items]="item.subCates" [carouselClasses]="['owl-theme','row','sliding']">
+            <ng-container *ngFor="let sub of item.subCates">
                 <div id="product" class="card border-0 text-center sub-card">
                     <div class="product-top" (click)="subItems(item,sub)">
                         <a>
@@ -526,8 +525,8 @@
                         <p class="card-text text-muted">{{sub.name}}</p>
                     </div>
                 </div>
-            </div>
-        </div>
+            </ng-container>
+        </owl-carousel>
     </div>
 
     <div class="row offers_div">
