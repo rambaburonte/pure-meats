@@ -352,39 +352,216 @@ label {
 .auth-body{
     padding:30px 32px;
     color:#111827;
+    
+   
+    h5 {
+        font-size: 18px !important; /* Reduced from default */
+    }
+    
+    p {
+        font-size: 12px !important; /* Reduced from default */
+    }
+    
+    .form-control {
+        font-size: 12px !important; /* Reduced input text size */
+        padding: 8px 12px !important; /* Reduced padding */
+    }
+    
+    .input-group-text {
+        font-size: 12px !important; /* Reduced icon size */
+    }
+    
+    .btn {
+        font-size: 13px !important; /* Reduced button text size */
+        height: 42px !important; /* Reduced button height */
+    }
+    
+    label {
+        font-size: 11px !important; /* Reduced label size */
+    }
+    
+    small {
+        font-size: 10px !important; /* Reduced small text size */
+    }
+    
+    .card-title {
+        font-size: 18px !important; /* Reduced title size */
+    }
 }
 
 /* Compact variant for the register/signup modal - reduces vertical spacing only */
 .register-compact .auth-body{
-    padding:18px 20px !important;
+    padding:16px 20px !important; /* Slightly increased padding */
+    
+    /* Slightly larger font sizes for signup form */
+    h5 {
+        font-size: 16px !important; /* Increased from 14px */
+        margin-bottom: 6px !important;
+    }
+    
+    .form-control {
+        font-size: 12px !important; /* Increased from 10px */
+        padding: 6px 10px !important; /* Slightly more padding */
+        height: 34px !important; /* Increased height */
+    }
+    
+    .btn {
+        font-size: 13px !important; /* Increased from 11px */
+        height: 36px !important; /* Increased height */
+        padding: 6px 14px !important;
+    }
+    
+    p {
+        font-size: 11px !important; /* Increased from 10px */
+        margin-bottom: 10px !important;
+    }
+    
+    small {
+        font-size: 9px !important; /* Increased from 8px */
+        margin-bottom: 3px !important;
+    }
+    
+    .input-group {
+        margin-bottom: 8px !important; /* Slightly increased spacing */
+    }
+    
+    .input-group-text {
+        padding: 6px 10px !important; /* Increased padding */
+        font-size: 11px !important; /* Increased from 10px */
+    }
+    
+    .form-group {
+        margin-bottom: 8px !important; /* Increased spacing */
+    }
+    
+    .progress {
+        height: 5px !important; /* Slightly thicker progress bar */
+        margin-top: 3px !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .login-header {
+        margin-bottom: 8px !important;
+        
+        .login-avatar {
+            width: 48px !important; /* Increased avatar size */
+            height: 48px !important;
+            
+            .avatar-outer {
+                width: 48px !important;
+                height: 48px !important;
+                
+                .avatar-dot {
+                    width: 14px !important;
+                    height: 14px !important;
+                }
+            }
+        }
+    }
+    
+    .card-title {
+        font-size: 16px !important; /* Increased from 14px */
+        margin-bottom: 6px !important;
+    }
+    
+    /* Country select styling */
+    .country-select {
+        font-size: 10px !important; /* Increased from 9px */
+        padding: 6px 8px !important;
+        max-width: 90px !important; /* Slightly wider */
+    }
+    
+    /* Checkbox styling */
+    input[type="checkbox"] {
+        transform: scale(0.9) !important; /* Slightly larger */
+        margin-right: 8px !important;
+    }
+    
+    /* Label for checkbox */
+    label[for="agree"] {
+        font-size: 9px !important; /* Increased from 8px */
+        line-height: 1.3 !important;
+    }
 }
-.register-compact .form-group{margin-bottom:10px}
-.register-compact .card-title{margin-bottom:6px}
-.register-compact .login-header{margin-bottom:8px}
+.register-compact .form-group{margin-bottom:8px !important} /* Increased spacing */
+.register-compact .card-title{margin-bottom:6px !important}
+.register-compact .login-header{margin-bottom:8px !important}
 
-/* Enforce a narrower width for the signup modal only */
+/* Enforce a slightly wider width for the signup modal */
 .register-compact{
-    max-width: 420px !important;
+    max-width: 420px !important; /* Increased from 380px */
 }
 
-/* Ensure signup card never exceeds viewport height and allow inner scrolling */
+/* Remove scroll and fit everything in viewport with more space */
 .modal-dialog .modal-content .register-compact{
-        max-height: calc(100vh - 80px);
-        overflow: hidden;
+    max-height: calc(100vh - 30px) !important; /* Use more screen space */
+    overflow: hidden !important;
 }
 .modal-dialog .modal-content .register-compact .auth-body{
-        /* leave some space for header/footer inside modal */
-        max-height: calc(100vh - 180px);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+    /* Remove scrolling - fit everything */
+    max-height: none !important;
+    overflow: visible !important;
+    -webkit-overflow-scrolling: none !important;
 }
 
 @media (max-height: 700px) {
     .modal-dialog .modal-content .register-compact{
-        max-height: calc(100vh - 40px);
+        max-height: calc(100vh - 15px) !important; /* Use almost full height on small screens */
     }
     .modal-dialog .modal-content .register-compact .auth-body{
-        max-height: calc(100vh - 120px);
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 12px 16px !important; /* Still compact but more readable on small screens */
+    }
+    
+    /* Less aggressive compression for small screens */
+    .register-compact .auth-body {
+        h5 {
+            font-size: 14px !important; /* Still readable */
+        }
+        
+        .form-control {
+            height: 30px !important;
+            font-size: 11px !important; /* Still readable */
+            padding: 5px 8px !important;
+        }
+        
+        .btn {
+            height: 32px !important;
+            font-size: 12px !important;
+        }
+        
+        .input-group {
+            margin-bottom: 6px !important;
+        }
+        
+        .form-group {
+            margin-bottom: 6px !important;
+        }
+        
+        p {
+            font-size: 10px !important;
+            margin-bottom: 6px !important;
+        }
+        
+        small {
+            font-size: 8px !important;
+        }
+        
+        .login-header .login-avatar {
+            width: 40px !important;
+            height: 40px !important;
+            
+            .avatar-outer {
+                width: 40px !important;
+                height: 40px !important;
+                
+                .avatar-dot {
+                    width: 12px !important;
+                    height: 12px !important;
+                }
+            }
+        }
     }
 }
 .close-auth{
