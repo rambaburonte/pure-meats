@@ -1,3 +1,17 @@
+/* High-specificity rule for Angular view-encapsulated shop-by-categories back_img */
+.container[_ngcontent-iuk-c180] .btm_category[_ngcontent-iuk-c180] #product.card[_ngcontent-iuk-c180] .product-top[_ngcontent-iuk-c180] .back_img[_ngcontent-iuk-c180] {
+    height: 140px !important;
+    width: 100% !important;
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    border-radius: 8px !important;
+    border: none !important;
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
 /*
   Authors : initappz (Rahul Jograna)
   Website : https://initappz.com/
@@ -10,6 +24,20 @@
 label {
     display: block;
     margin: 0;
+}
+
+.container .btm_category #product.card .product-top .back_img {
+    height: 140px !important;
+    width: 100% !important;
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    border-radius: 8px !important;
+    border: none !important;
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
 }
 
 .row {
@@ -60,6 +88,17 @@ label {
         }
     }
     .category_div {
+        /* Match the bottom categories section's flex layout and left alignment */
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 15px !important;
+        justify-content: flex-start !important;
+        margin-left: -21px !important;
+        margin-right: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+
         .slider_back {
             height: 200px;
             width: 100%;
@@ -85,8 +124,6 @@ label {
             margin-bottom: 25px;
             display: flex;
             align-items: center;
-            // border-right: 1px solid lightgray;
-            // justify-content: center;
 
             .icn_div {
                 height: 55px;
@@ -123,29 +160,67 @@ label {
     }
 
     .categoryList {
-        margin-right: 10px;
-        padding: 10px;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        .back_img {
-            height: 200px;
-            width: 190px;
-            
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
+        /* Exactly match the bottom category cards and center content */
+        width: 220px !important;
+        max-width: 220px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        border: none !important;
+        background: transparent !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
 
+        .back_img {
+            height: 140px !important;
+            width: 100% !important;
+            background-position: center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+            border-radius: 8px !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            transition: none !important;
+            transform: none !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .cate_name {
-            font-size: 15px;
-             margin: 1rem 0px;
-            text-align: center;
-            text-transform: uppercase;
-            white-space: pre-wrap;
-            color:#000
+
+        .card-text, .cate_name {
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            color: #000 !important;
+            margin: 10px 0 5px 0 !important;
+            text-align: center !important;
+            text-transform: uppercase !important;
+            white-space: pre-wrap !important;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        /* Force disable ALL hover states with maximum specificity */
+        &:hover, &:focus, &:active, &.hover,
+        &:hover *, &:focus *, &:active *, &.hover * {
+            transition: none !important;
+            transform: none !important;
+            box-shadow: none !important;
+            border: none !important;
+            background-color: transparent !important;
+            opacity: 1 !important;
+            filter: none !important;
+            outline: none !important;
+            scale: 1 !important;
         }
     }
 

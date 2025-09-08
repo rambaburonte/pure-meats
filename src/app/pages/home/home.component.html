@@ -235,19 +235,21 @@
         </ngx-skeleton-loader>
     </div>
 
-    <owl-carousel [options]="myCategoryOptions" [items]="categories"
-        [carouselClasses]="['owl-theme', 'row', 'sliding']">
+    <!-- Replace owl-carousel with static flex layout to match bottom categories -->
+    <div class="category_div">
         <ng-container *ngFor="let item of categories; index as i">
             <div class="categoryList" (click)="subCate(item)">
                 <div class="back_img" [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+')'}">
                 </div>
-                <p class="cate_name" *ngIf="util.deviceType =='desktop'" style="text-transform: capitalize; font-weight: normal !important;">{{item.name}} </p>
-                <p class="cate_name" *ngIf="util.deviceType !='desktop'" style="font-weight: normal !important;">
-                    {{ (item.name.length>10)? (item.name | slice:0:10)+'..':(item.name) }}
-                </p>
+                <div class="" style="margin-top: 10px;">
+                    <p class="card-text" *ngIf="util.deviceType =='desktop'" style="text-transform: capitalize; font-weight: normal !important;">{{item.name}} </p>
+                    <p class="card-text" *ngIf="util.deviceType !='desktop'" style="font-weight: normal !important;">
+                        {{ (item.name.length>10)? (item.name | slice:0:10)+'..':(item.name) }}
+                    </p>
+                </div>
             </div>
         </ng-container>
-    </owl-carousel>
+    </div>
 
     <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="haveCity == true && (stores?.length || haveData === undefined) && categories.length">
 
