@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <div class="grey_image_box">
+                 <div class="grey_image_box" style="border-radius: 50px !important;">
                     <img [src]="api.mediaURL+coverImage" class="cover_img" onError="this.src='assets/placeholder.png'">
                     <img src="assets/imgs/veg.png" *ngIf="veg" class="typeImg">
                     <img src="assets/imgs/non.png" *ngIf="!veg" class="typeImg">
@@ -157,7 +157,12 @@
                 <label class="stock_lbl" *ngIf="in_stoke ==1">{{util.translate('In Stock')}}</label>
                 <label class="stock_lbl-red" *ngIf="in_stoke ==0">{{util.translate('Out Of Stock')}}</label>
                 <label class="sold_lbl">{{util.translate('Sold by')}} <span (click)="onStorePage()">{{storeName}} </span></label>
-
+                <div class="border_box" *ngIf="key_features && loaded ">
+                    <!-- <label class="bold_title">{{util.translate('Key features')}}</label> -->
+                    <div class="desc_title">
+                        <p>{{key_features}}</p>
+                    </div>
+                </div>    
                 <div class="cart_div"
                     *ngIf="!cart.itemId.includes(id)  && status == 1 && in_stoke == 1 && storeIsActive ==true"
                     (click)="addToCart()">
@@ -185,12 +190,7 @@
         </label>
     </div>
 
-    <div class="border_box" *ngIf="key_features && loaded ">
-        <label class="bold_title">{{util.translate('Key features')}}</label>
-        <ul class="desc_title" style="padding-left: 16px;">
-            <li>{{key_features}}</li>
-        </ul>
-    </div>
+    
 
     <div class="border_box" *ngIf="disclaimer && loaded">
         <label class="bold_title">{{util.translate('Disclaimer')}}</label>
@@ -221,7 +221,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <p class="card-text text-muted">{{item.name}}</p>
+                    <p class="card-text">{{item.name}}</p>
                 </div>
             </div>
         </ng-container>
