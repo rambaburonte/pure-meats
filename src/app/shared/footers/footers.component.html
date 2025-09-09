@@ -1,115 +1,111 @@
-<!--
-  Authors : initappz (Rahul Jograna)
-  Website : https://initappz.com/
-  App Name : Grocery Delivery App  This App Template Source code is licensed as per the
-  terms found in the Website https://initappz.com/license
-  Copyright and Good Faith Purchasers © 2021-present initappz.
- -->
 <!-- Footer -->
-<footer class="page-footer" style="padding-top: 1px !important;  font-family: Lato Regular;">
+<footer class="footer">
 
-  <div class="container text-center text-md-left mt-5">
-    <div class="row mt-3 dark-grey-text">
+  <!-- Newsletter Section -->
+  <div class="newsletter">
+    <h2>Subscribe to our newsletter</h2>
+    <p>to stay up to date on all the latest news and offers from us</p>
 
-      <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-        <h6 class="footer_lbl"> Locate Us </h6>
-        <!-- <img src="assets/imgs/your-logo.png" style="width: 220px;margin-bottom: 10px;"> -->
-        <label class="simple_lbl">{{util.translate('Address')}}: {{util.general && util.general.address ?
-          util.general.address:'' }}</label>
-        <label class="simple_lbl">{{util.translate('Phone')}}: +{{util.general && util.general.mobile ?
-          util.general.mobile:'' }}</label>
-        <label class="simple_lbl">{{util.translate('Email')}}: {{util.general && util.general.email ?
-          util.general.email:'' }}</label>
-      </div>
+    <div class="newsletter-form">
+      <input type="text" [(ngModel)]="email" placeholder="Enter your email address">
+      <button type="button" (click)="doSubscribe()">Subscribe</button>
+    </div>
+  </div>
 
-      <div class="col-md-6 col-lg-2 col-xl-2 mx-auto mb-4">
-        <h6 class="footer_lbl">{{util.translate('Useful Links')}}</h6>
-        <div class="link_lbl" (click)="goToAccount()">
-          <a class="dark-grey-text">{{util.translate('Your Account')}} </a>
-        </div>
-        <div class="link_lbl" (click)="goToPrivacy()">
-          <a class="dark-grey-text">{{util.translate('Privacy Policy')}}
-          </a>
-        </div>
-        <div class="link_lbl" (click)="goToRefund()">
-          <a class="dark-grey-text">{{util.translate('Refund Policy')}}
-          </a>
-        </div>
-        <div class="link_lbl" (click)="about()">
-          <a class="dark-grey-text">{{util.translate('About')}} </a>
-        </div>
-        <div class="link_lbl" (click)="goToFAQ()">
-          <a class="dark-grey-text">{{util.translate('FAQs')}} </a>
-        </div>
-        <div class="link_lbl" (click)="goToContact()">
-          <a class="dark-grey-text">{{util.translate('Contact')}} </a>
-        </div>
-      </div>
+  <!-- Footer Content 
+  <div class="footer-main">
+    
+    <div class="footer-box">
+      
+    </div>-->
 
-      <div class="col-md-6 col-lg-2 col-xl-2 mx-auto mb-4">
-        <h6 class="footer_lbl">{{util.translate('Useful Links')}}</h6>
-        <div class="link_lbl" (click)="goToHome()">
+    <!-- Address 
+    <div class="footer-box">
+      
+    </div>-->
+
+    <!-- Opening Times
+    
+  </div> -->
+
+  <!-- Bottom Links -->
+  <div class="footer-links">
+    <!-- Categories -->
+    <div class="footer-box">
+      <h6>Useful Links:</h6>
+      <p (click)="goToHome()">Home</p>
+        <p (click)="about()">About</p>
+      <p (click)="goToOrders()">Orders</p>
+       <p (click)="goToCart()">Cart</p>
+        <p (click)="goToFAQ()">FAQs</p>
+        <!-- <div class="link_lbl" (click)="goToHome()">
           <a class="dark-grey-text">{{util.translate('Home')}} </a>
-        </div>
-
-        <div class="link_lbl" (click)="goToOrders()">
+         <div class="link_lbl" (click)="goToOrders()">
           <a class="dark-grey-text">{{util.translate('Orders')}} </a>
         </div>
         <div class="link_lbl" (click)="goToCart()">
           <a class="dark-grey-text">{{util.translate('Cart')}} </a>
         </div>
+      </div>-->
+       
+    </div>
+
+    <!-- Resources -->
+    <div class="footer-box">
+      <h6>Resources:</h6>
+      <p (click)="goToPrivacy()">Privacy Policy</p>
+      <p (click)="goToRefund()">Refund Policy</p>
+      <p (click)="goToAccount()">Your Account</p>
+    
+      <p (click)="goToContact()">Contact</p>
+    </div>
+
+    <!-- Social -->
+    <div class="footer-box">
+      
+      <h6>Warehouse Opening Times:</h6>
+      <p>Monday - Sunday</p>
+      <p>10am - 10pm</p>
+     <br>
+      <h6>Follow us on</h6>
+      <div class="social-icons">
+        <a [href]="util.social.fb" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a [href]="util.social.insta" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a [href]="util.social.twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a [href]="util.social.linkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
       </div>
+    </div>
 
-      <div class="col-md-6 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-        <h6 class="footer_lbl">{{util.translate('Join Our Newsletter Now')}}</h6>
-        <label class="link_lbl">
-          {{util.translate('Get E-mail updates about our latest shop and special offers.')}}</label>
+    <!-- Payments -->
+    <div class="footer-box">
+      <h6>Contact us</h6>
+      <p>E: <a style="color:#fff;" href="mailto:{{util.general?.email}}">{{util.general?.email}}</a></p>
+      <p>P: +{{util.general?.mobile}}</p>
 
-        <div class="form_flex">
-          <input type="text" [(ngModel)]="email" class="form-control"
-            [placeholder]="util.translate('Enter your E-mail')">
-          <button type="button" (click)="doSubscribe()" class="btn">{{util.translate('SUBSCRIBE')}}</button>
-        </div>
+      
 
-        <div class="share_flex">
-          <a class="icn_box" [href]="util.social.fb" target="_blank">
-            <mdb-icon fab icon="facebook-f"></mdb-icon>
-          </a>
-          <a class="icn_box" [href]="util.social.insta" target="_blank">
-            <mdb-icon fab icon="instagram"></mdb-icon>
-          </a>
-          <a class="icn_box" [href]="util.social.twitter" target="_blank">
-            <mdb-icon fab icon="twitter"></mdb-icon>
-          </a>
-          <a class="icn_box" [href]="util.social.linkedIn" target="_blank">
-            <mdb-icon fab icon="linkedin"></mdb-icon>
-          </a>
-        </div>
+      <h6>Warehouse address:</h6>
+      <p>{{util.general?.address}}</p>
 
-      </div>
 
+      <h6>Accepted payments</h6>
+      <div class="payments">
+        <img src="assets/imgs/razorpay-logo.webp" style="height: 65px;">
+       </div> 
     </div>
   </div>
 
   <!-- Copyright -->
-  <div>
-    <div class="container copyright_div">
-      <div class="row">
-        <div class="col-lg-6" style="display: flex;align-items: center;">
-          <label style="color: #b01817;font-size: 12px;">
-            {{util.translate('Copyright')}} © {{year}} {{util.translate('All rights reserved by Pure Meats')}}
-            <!-- <i class="fa fa-heart" aria-hidden="true"></i>
-            {{util.translate('by')}} <a href="https://generallogic.org" style="color: blue;">General Logic</a> -->
-          </label>
-        </div>
-        <div class="col-lg-6 payment_div">
-          <img src="assets/imgs/american.png">
-          <img src="assets/imgs/mastercard.png">
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Copyright -->
-
+   <div class="row"> 
+  <div class="footer-bottom col-md-12">
+    © {{year}} All rights reserved by Pure  Meats
+   </div>
+   <!-- <div class="footer-bottom col-md-6"> 
+    <h6>Accepted payments</h6>
+      <div class="payments">
+        <img src="assets/imgs/razorpay-logo.webp" style="height: 45px;">
+       </div>  
+     
+  </div> -->
+</div>
 </footer>
-<!-- Footer -->

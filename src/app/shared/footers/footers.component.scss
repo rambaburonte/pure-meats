@@ -1,122 +1,159 @@
-/*
-  Authors : initappz (Rahul Jograna)
-  Website : https://initappz.com/
-  App Name : Grocery Delivery App
-  This App Template Source code is licensed as per the
-  terms found in the Website https://initappz.com/license
-  Copyright and Good Faith Purchasers © 2021-present initappz.
-*/
-@import "../../../variables.scss";
-label {
-  display: block;
-  margin: 0;
-}
+.footer {
+  position: relative;
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+  background-color: #b31917;
+  /* Background with overlay */
+ 
 
-.copyright_div {
-  border-top: 1px solid #ebebeb;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-footer {
-  background: #dee2e6;
-  padding-top: 50px;
-
-  h6 {
-    color: #1c1c1c;
-    margin-bottom: 10px;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /*background: rgb(0 0 0 / 62%);*/
+    
+    z-index: 0;
   }
 
-  .simple_lbl {
-    font-size: 14px;
-    color: #1c1c1c;
-    line-height: 36px;
+  > * {
+    position: relative;
+    z-index: 1;
   }
 
-  .link_lbl {
-    font-size: 16px;
-    color: #1c1c1c;
-    font-size: 14px;
-    line-height: 36px;
-  }
+  /* Newsletter Section */
+  .newsletter {
+    text-align: center;
+    padding: 60px 20px 130px;
+    clip-path: ellipse(100% 100% at 50% 0%);
+     background: 
+    linear-gradient(rgba(0, 0, 0, 0.356), rgba(0, 0, 0, 0.8)), 
+    url("/assets/imgs/footer-bg.webp") no-repeat center center;
+  background-size: cover;
 
-  .form_flex {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-
-    input {
-      height: 50px;
-      border: 0px;
-      border-radius: 0px;
-      width: 200px;
+    h2 {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
-    .btn {
-      background: #b01817;
-      font-size: 12px;
-      letter-spacing: 1px;
-      color: white;
-      margin: 0;
-      border-radius: 0px;
-      height: 50px;
-      padding-left: 20px;
-      padding-right: 20px;
+    p {
+      color: #bbb;
+      margin-bottom: 20px;
     }
-  }
 
-  .share_flex {
-    display: flex;
-    .icn_box {
-      background: white;
-      border-radius: 50%;
-      margin-right: 15px;
-      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
-      height: 40px;
-      width: 40px;
-      position: relative;
-      color: gray;
-      mdb-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    .newsletter-form {
+      display: flex;
+      justify-content: center;
+      max-width: 500px;
+      margin: 0 auto;
+
+      input {
+        flex: 1;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 30px 0 0 30px;
+        outline: none;
       }
-    }
 
-    .icn_box:hover {
-      background-color: $theme-color;
-      mdb-icon {
-        color: white;
+      button {
+        background: #e63946;
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 0 30px 30px 0;
+        cursor: pointer;
+        font-weight: 600;
+
+        &:hover {
+          background: #c72534;
+        }
       }
     }
   }
 
-  .payment_div {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  /* Middle Section */
+  .footer-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 
-    img {
-      width: 40px;
-      margin-left: 10px;
+    h6 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      margin: 5px 0;
     }
   }
-}
-@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
-  .center_lbl {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  .payment_div {
-    display: flex;
-    align-items: center !important;
-    justify-content: center !important;
 
-    img {
-      width: 40px;
-      margin-left: 10px;
+  /* Links Section */
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+    
+    h6 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      margin: 5px 0;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      font-size: 20px;
+
+      a {
+        color: #fff;
+        transition: color 0.3s;
+
+        &:hover {
+          color: #e63946;
+        }
+      }
+    }
+
+    .payments {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      img {
+        height: 28px;
+        background: #fff;
+        padding: 3px 6px;
+        border-radius: 5px;
+      }
+    }
+  }
+
+  /* Bottom */
+  .footer-bottom {
+    text-align: center;
+    padding: 15px;
+    font-size: 12px;
+    color: #fff;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    .credit {
+      display: block;
+      margin-top: 5px;
+      font-size: 11px;
+      color: #666;
     }
   }
 }

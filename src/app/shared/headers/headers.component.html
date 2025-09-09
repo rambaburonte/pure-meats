@@ -200,17 +200,17 @@
 <mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-light bg-white shadow-2" mdbStickyHeader
   *ngIf="util.deviceType ==='desktop'">
 
-  <div class="upper_div">
+  <div class="upper_div" style="padding-left: 0px;padding-right: 0px;font-size: 13px;">
     <div class="container">
       <links>
         <ul class="navbar-nav" (click)="onHome()">
           <li>
-            <img src="assets/imgs/your-logo.png" style="width: 185px;padding: 24px;margin-top:0px;object-fit: cover;">
+            <img src="assets/imgs/your-logo.png" style="width: 290px;padding: 42px;margin-top:42px;object-fit: cover;">
           </li>
         </ul>
  
           <ul class="navbar-nav">
-            <li class="nav-item" style="padding: 0; padding-left: 15px;padding-right: 15px;">
+            <li class="nav-item" style="padding: 0; padding-left: 0px;padding-right: 0px;">
               <!-- City (no dropdown) -->
               <a mdbWavesEffect type="button" *ngIf="util.findType == 0"
                 style="display:flex; align-items:flex-start; gap:8px; cursor: pointer;"
@@ -292,7 +292,7 @@
 
         <ul class="navbar-nav icons-cat">
 
-          <li class="nav-item dropdown" dropdown style="padding: 0; padding-left: 15px;padding-right: 15px;"
+          <li class="nav-item dropdown" dropdown style="padding: 0; padding-left: 0px;padding-right: 0px;"
             *ngIf="util && util.allLanguages && util.allLanguages?.length">
             <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle" mdbWavesEffect>
               {{util.savedLanguages}}
@@ -311,9 +311,9 @@
 
 
           <li *ngIf="haveSigned()===true" class="nav-item dropdown" dropdown
-            style="padding: 0; padding-left: 15px;padding-right: 15px;">
+            style="padding: 0; padding-left: 0px;padding-right: 0px;">
             <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle" mdbWavesEffect>
-              <mdb-icon fas icon="user-alt"></mdb-icon>&nbsp;{{util.translate('Account')}}
+              <mdb-icon fas icon="user-alt"></mdb-icon>&nbsp;<br>{{util.translate('Account')}}
             </a>
             <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
               <a class="dropdown-item waves-light" mdbWavesEffect style="color: black !important;"

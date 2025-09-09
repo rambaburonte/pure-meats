@@ -524,7 +524,7 @@
 <div (window:resize)="onResize($event)" [ngClass]="util.deviceType=='desktop'?'web_spacer':'mobile_spacer'">
     <router-outlet (activate)="onNavigate($event)"></router-outlet>
     <div class="container">
-        <a *ngIf="isShow" class="topNavBtn btn btn-success btn-lg" (click)="gotoTop()">
+        <a *ngIf="isShow" class="topNavBtn btn btn-danger btn-lg" (click)="gotoTop()">
             <i class="fas fa-angle-up" style="color: white;"></i>
         </a>
     </div>
