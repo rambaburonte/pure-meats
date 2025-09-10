@@ -137,8 +137,8 @@ input[type="file"] {
         }
         .more_section {
             .btn {
-                background-color: $theme-color;
-                color: if($theme-color == #ffffff, #000000, #ffffff);
+                background-color: #b91c1c;
+                color: white;
                 padding: 8px 16px;
                 border-radius: 4px;
                 font-size: 14px;
@@ -379,8 +379,8 @@ input[type="file"] {
         }
 
         .round_btn {
-            background-color: $theme-color;
-            color: if($theme-color == #ffffff, #000000, #ffffff);
+            background-color: #b91c1c;
+            color: white;
             padding: 8px 16px;
             border-radius: 4px;
             font-size: 14px;
@@ -392,7 +392,7 @@ input[type="file"] {
             transition: all 0.3s ease;
 
             &:hover {
-                background-color: darken($theme-color, 10%);
+                background-color: darken(#b91c1c, 10%);
                 transform: translateY(-2px);
                 box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             }
