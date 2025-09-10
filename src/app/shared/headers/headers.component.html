@@ -199,10 +199,11 @@
 <style>
 /* Logo: make it big but not oversized */
 .navbar-logonew {
-  height: 80px;       /* adjust as needed */
+  height: 260px;       /* adjust as needed */
   width: auto;
   object-fit: contain;
   display: block;
+  margin: 28px 0px 0px 0px;
 }
 
 /* Navbar links container: use flex */
@@ -363,16 +364,16 @@
 
 <ul class="navbar-nav search_div">
   <li>
-    <div style="position: relative; display: flex; align-items: center; width: 100%;">
+    <div style="position: relative; display: flex; align-items: center; width: 150%;">
       <input class="ip" [placeholder]="util.translate('Search for products')" (input)="inputChange()"
-             [(ngModel)]="terms" style="padding-right: 36px;" />
+             [(ngModel)]="terms" style="padding-right: 30px;" />
       <i class="fas fa-search" (click)="inputChange()" 
          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #777; font-size: 14px;"></i>
     </div>
   </li>
 </ul>
 
-        <ul class="navbar-nav icons-cat">
+        <ul class="navbar-nav icons-cat" style="gap: 0px !important">
 
           <li class="nav-item dropdown" dropdown style="padding: 0; padding-left: 0px;padding-right: 0px;"
             *ngIf="util && util.allLanguages && util.allLanguages?.length">
