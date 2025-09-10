@@ -19,12 +19,17 @@ export class FaqComponent implements OnInit {
 
   content: any;
   loaded: boolean;
+  activeFaq: number = -1; // Track which FAQ is open
+
   constructor(
     public api: ApiService,
     public util: UtilService
   ) {
-    this.loaded = false;
-    this.getPageInfo();
+    this.loaded = true; // Set to true since we're using hardcoded content
+  }
+
+  toggleFaq(index: number) {
+    this.activeFaq = this.activeFaq === index ? -1 : index;
   }
 
   getPageInfo() {

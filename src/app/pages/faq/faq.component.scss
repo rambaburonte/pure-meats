@@ -6,3 +6,130 @@
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.faq-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.faq-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #b91c1c;
+    margin-bottom: 10px;
+}
+
+.faq-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0;
+}
+
+.faq-list {
+    margin-bottom: 40px;
+}
+
+.faq-item {
+    border: 1px solid #fee2e2;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+    background: #f8f9fa;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+    background: #e9ecef;
+}
+
+.faq-question-content {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.faq-question-content i {
+    margin-right: 15px;
+    color: #b91c1c;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
+    animation: slideDown 0.3s ease;
+}
+
+.faq-answer p {
+    margin: 0;
+    padding: 20px;
+    color: #555;
+    line-height: 1.6;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 500px;
+    }
+}
+
+.faq-footer {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.contact-link {
+    color: #b91c1c;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .faq-container {
+        padding: 15px;
+    }
+
+    .faq-title {
+        font-size: 2rem;
+    }
+
+    .faq-question-content {
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .faq-answer p {
+        padding: 15px;
+    }
+}

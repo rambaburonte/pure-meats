@@ -105,6 +105,12 @@
             </div>
 
         </div>
+        <div class="col-12" *ngIf="users && users.length === 0 && !dummy.length">
+            <div class="no-chats-message">
+                <h4>{{util.translate('No chats available')}}</h4>
+                <p>{{util.translate('Start a conversation with support or other users.')}}</p>
+            </div>
+        </div>
     </div>
     <div *ngFor="let item of dummy">
         <div class="row" style="overflow: hidden;">

@@ -1,14 +1,225 @@
 <!--
-  Authors : initappz (Rahul Jograna)
+  Authors : initappz (                {
+                    icon: 'fas fa-user-plus',
+                    title: 'Getting Started',
+                    description: 'Learn how to create your account and navigate our website',
+                    content: 'Create your account using email or phone number. Browse our fresh meat selection, add items to cart, and place your first order through our website.'
+                },
+                {
+                    icon: 'fas fa-shopping-cart',
+                    title: 'Placing Orders',
+                    description: 'Step-by-step guide to ordering fresh meat online',
+                    content: 'Browse our meat categories, select quality cuts, choose quantities, add to cart, and complete your order with secure payment options on our website.'
+                },a)
   Website : https://initappz.com/
   App Name : Grocery Delivery App  This App Template Source code is licensed as per the
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
  -->
-<div class="container">
+<div class="container help-container">
     <div *ngIf="!loaded">
         <ngx-skeleton-loader *ngFor="let item of [1,2,3,4,5,6,7,8,9]"
             [theme]="{ 'border-radius': '5px', height: '10px',width:'100%'}"></ngx-skeleton-loader>
     </div>
-    <p [innerHTML]="content" *ngIf="loaded"></p>
+    <div *ngIf="loaded" class="help-content">
+        <br/>
+        <div class="help-header">
+            <h1 class="help-title">Help Center</h1>
+            <p class="help-subtitle">Find answers and get support for your meat delivery experience on perumeats.in</p>
+        </div>
+
+        <div class="help-search">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Search help topics..." class="search-input">
+            </div>
+        </div>
+
+        <div class="help-grid">
+            <div class="help-card" *ngFor="let section of [
+                {
+                    icon: 'fas fa-user-plus',
+                    title: 'Getting Started',
+                    description: 'Learn how to create your account and navigate the app',
+                    content: 'Create your account using email or phone number. Browse our fresh meat selection, add items to cart, and place your first order with ease.'
+                },
+                {
+                    icon: 'fas fa-shopping-cart',
+                    title: 'Placing Orders',
+                    description: 'Step-by-step guide to ordering fresh meat',
+                    content: 'Browse our meat categories, select quality cuts, choose quantities, add to cart, and complete your order with secure payment options.'
+                },
+                {
+                    icon: 'fas fa-truck',
+                    title: 'Delivery & Tracking',
+                    description: 'Everything about delivery times and tracking',
+                    content: 'Track your order in real-time, receive delivery updates, and choose your preferred delivery time slot for maximum freshness.'
+                },
+                {
+                    icon: 'fas fa-credit-card',
+                    title: 'Payment Methods',
+                    description: 'Learn about payment options and security',
+                    content: 'All payments are securely processed through Razorpay. We accept credit cards, debit cards, UPI, net banking, digital wallets, and cash on delivery.'
+                },
+                {
+                    icon: 'fas fa-user-cog',
+                    title: 'Account Management',
+                    description: 'Manage your profile and preferences',
+                    content: 'Update your personal information, manage delivery addresses, view order history, and customize your meat preferences.'
+                },
+                {
+                    icon: 'fas fa-tools',
+                    title: 'Troubleshooting',
+                    description: 'Common issues and their solutions',
+                    content: 'Find solutions for login issues, order problems, delivery delays, and other common questions.'
+                }
+            ]; let i = index" (click)="toggleSection(i)">
+                <div class="card-icon">
+                    <i [class]="section.icon"></i>
+                </div>
+                <div class="expand-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <h3 class="card-title">{{ section.title }}</h3>
+                <p class="card-description">{{ section.description }}</p>
+            </div>
+        </div>
+
+        <div class="help-details" *ngIf="activeSection !== -1">
+            <div class="detail-card">
+                <div class="detail-header">
+                    <div class="detail-icon">
+                        <i [class]="[
+                            'fas fa-user-plus',
+                            'fas fa-shopping-cart',
+                            'fas fa-truck',
+                            'fas fa-credit-card',
+                            'fas fa-user-cog',
+                            'fas fa-tools'
+                        ][activeSection]"></i>
+                    </div>
+                    <h2 class="detail-title">{{
+                        [
+                            'Getting Started',
+                            'Placing Orders',
+                            'Delivery & Tracking',
+                            'Payment Methods',
+                            'Account Management',
+                            'Troubleshooting'
+                        ][activeSection]
+                    }}</h2>
+                    <button class="close-btn" (click)="toggleSection(-1)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="detail-content">
+                    <div [ngSwitch]="activeSection">
+                        <div *ngSwitchCase="0" class="detail-section">
+                            <h4>Welcome to Pure Meat!</h4>
+                            <p>Getting started with our fresh meat delivery service is easy. Follow these simple steps:</p>
+                            <ol>
+                                <li><strong>Visit Our Website:</strong> Go to <a href="https://perumeats.in" target="_blank" style="color: #b91c1c;">perumeats.in</a> to access our services</li>
+                                <li><strong>Create Account:</strong> Sign up with your email or phone number</li>
+                                <li><strong>Verify:</strong> Confirm your account through email or SMS</li>
+                                <li><strong>Set Preferences:</strong> Add your delivery address and meat preferences</li>
+                                <li><strong>Start Shopping:</strong> Browse our fresh meat selection and place your first order</li>
+                            </ol>
+                        </div>
+                        <div *ngSwitchCase="1" class="detail-section">
+                            <h4>How to Place an Order</h4>
+                            <p>Ordering fresh, quality meat has never been easier:</p>
+                            <ol>
+                                <li><strong>Browse Categories:</strong> Explore beef, chicken, pork, lamb, and specialty cuts</li>
+                                <li><strong>Select Products:</strong> Choose from various cuts, weights, and preparation methods</li>
+                                <li><strong>Add to Cart:</strong> Specify quantities and any special instructions</li>
+                                <li><strong>Review Order:</strong> Check your items and apply any promo codes</li>
+                                <li><strong>Checkout:</strong> Select delivery time and complete payment</li>
+                                <li><strong>Track:</strong> Monitor your order status in real-time</li>
+                            </ol>
+                        </div>
+                        <div *ngSwitchCase="2" class="detail-section">
+                            <h4>Delivery Information</h4>
+                            <p>We ensure your meat arrives fresh and on time:</p>
+                            <ul>
+                                <li><strong>Delivery Hours:</strong> 8 AM - 8 PM, Monday to Saturday</li>
+                                <li><strong>Same-Day Delivery:</strong> Orders placed before 2 PM</li>
+                                <li><strong>Real-Time Tracking:</strong> Track your order from preparation to delivery</li>
+                                <li><strong>Temperature Control:</strong> Special packaging maintains freshness</li>
+                                <li><strong>Quality Guarantee:</strong> 100% satisfaction or your money back</li>
+                            </ul>
+                        </div>
+                        <div *ngSwitchCase="3" class="detail-section">
+                            <h4>Payment Options</h4>
+                            <p>All payments are securely processed through Razorpay, India's leading payment gateway:</p>
+                            <ul>
+                                <li><strong>Credit/Debit Cards:</strong> Visa, MasterCard, American Express</li>
+                                <li><strong>UPI:</strong> Instant payments through UPI apps (PhonePe, Google Pay, Paytm, etc.)</li>
+                                <li><strong>Net Banking:</strong> Direct bank account payments</li>
+                                <li><strong>Digital Wallets:</strong> PayPal, Apple Pay, Google Pay</li>
+                                <li><strong>Cash on Delivery:</strong> Pay when you receive your order</li>
+                                <li><strong>Bank Transfer:</strong> Direct bank payments for large orders</li>
+                            </ul>
+                            <p><strong>Security:</strong> Razorpay ensures all transactions are protected with 256-bit SSL encryption and PCI DSS compliance.</p>
+                        </div>
+                        <div *ngSwitchCase="4" class="detail-section">
+                            <h4>Managing Your Account</h4>
+                            <p>Take control of your account and preferences:</p>
+                            <ul>
+                                <li><strong>Profile Settings:</strong> Update personal information and preferences</li>
+                                <li><strong>Address Book:</strong> Save multiple delivery addresses</li>
+                                <li><strong>Order History:</strong> View past orders and reorder favorites</li>
+                                <li><strong>Notifications:</strong> Customize alerts for orders and promotions</li>
+                                <li><strong>Payment Methods:</strong> Save cards for faster checkout</li>
+                            </ul>
+                        </div>
+                        <div *ngSwitchCase="5" class="detail-section">
+                            <h4>Common Issues & Solutions</h4>
+                            <div class="troubleshooting">
+                                <div class="issue">
+                                    <h5>Can't log in?</h5>
+                                    <p>Reset your password or contact support for account recovery.</p>
+                                </div>
+                                <div class="issue">
+                                    <h5>Order not delivered?</h5>
+                                    <p>Check tracking status or contact our delivery team immediately.</p>
+                                </div>
+                                <div class="issue">
+                                    <h5>Wrong items received?</h5>
+                                    <p>Contact support within 24 hours for replacements or refunds.</p>
+                                </div>
+                                <div class="issue">
+                                    <h5>Website issues?</h5>
+                                    <p>Try refreshing the page or clearing your browser cache. Contact support if issues persist.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-contact">
+            <div class="contact-card">
+                <h3>Still Need Help?</h3>
+                <p>Our support team is here to assist you 24/7</p>
+                <div class="contact-options">
+                    <a href="chats" class="contact-btn">
+                        <i class="fas fa-comments"></i>
+                        Live Chat
+                    </a>
+                    <a href="tel:+1234567890" class="contact-btn">
+                        <i class="fas fa-phone"></i>
+                        Call Us
+                    </a>
+                    <a href="mailto:support@perumeats.in" class="contact-btn">
+                        <i class="fas fa-envelope"></i>
+                        Email
+                    </a>
+                </div>
+                <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                    Visit <a href="https://perumeats.in" target="_blank" style="color: #b91c1c; font-weight: bold;">perumeats.in</a> for all your fresh meat delivery needs
+                </p>
+            </div>
+        </div>
+    </div>
 </div>

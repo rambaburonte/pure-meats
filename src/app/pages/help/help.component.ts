@@ -9,6 +9,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { UtilService } from 'src/app/services/util.service';
+
 @Component({
   selector: 'app-help',
   templateUrl: './help.component.html',
@@ -17,12 +18,17 @@ import { UtilService } from 'src/app/services/util.service';
 export class HelpComponent implements OnInit {
   content: any;
   loaded: boolean;
+  activeSection: number = 0;
+
   constructor(
     public api: ApiService,
     public util: UtilService
   ) {
-    this.loaded = false;
-    this.getPageInfo();
+    this.loaded = true; // Set to true since we're using hardcoded content
+  }
+
+  toggleSection(index: number) {
+    this.activeSection = this.activeSection === index ? -1 : index;
   }
 
   getPageInfo() {
@@ -48,6 +54,5 @@ export class HelpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 }
