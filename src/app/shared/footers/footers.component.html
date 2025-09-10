@@ -1,33 +1,33 @@
 <!-- Footer -->
 <footer class="footer">
-
+ 
   <!-- Newsletter Section -->
   <div class="newsletter">
     <h2>Subscribe to our newsletter</h2>
     <p>to stay up to date on all the latest news and offers from us</p>
-
+ 
     <div class="newsletter-form">
       <input type="text" [(ngModel)]="email" placeholder="Enter your email address">
       <button type="button" (click)="doSubscribe()">Subscribe</button>
     </div>
   </div>
-
-  <!-- Footer Content 
+ 
+  <!-- Footer Content
   <div class="footer-main">
-    
+   
     <div class="footer-box">
-      
+     
     </div>-->
-
-    <!-- Address 
+ 
+    <!-- Address
     <div class="footer-box">
-      
+     
     </div>-->
-
+ 
     <!-- Opening Times
-    
+   
   </div> -->
-
+ 
   <!-- Bottom Links -->
   <div class="footer-links">
     <!-- Categories -->
@@ -49,20 +49,20 @@
       </div>-->
        
     </div>
-
+ 
     <!-- Resources -->
     <div class="footer-box">
       <h6>Resources:</h6>
       <p (click)="goToPrivacy()">Privacy Policy</p>
       <p (click)="goToRefund()">Refund Policy</p>
       <p (click)="goToAccount()">Your Account</p>
-    
+   
       <p (click)="goToContact()">Contact</p>
     </div>
-
+ 
     <!-- Social -->
     <div class="footer-box">
-      
+     
       <h6>Warehouse Opening Times:</h6>
       <p>Monday - Sunday</p>
       <p>10am - 10pm</p>
@@ -75,32 +75,32 @@
         <a [href]="util.social.linkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
       </div>
     </div>
-
+ 
     <!-- Payments -->
     <div class="footer-box">
       <h6>Contact us</h6>
       <p>E: <a style="color:#fff;" href="mailto:{{util.general?.email}}">{{util.general?.email}}</a></p>
       <p>P: +{{util.general?.mobile}}</p>
-
-      
-
+ 
+     
+ 
       <h6>Warehouse address:</h6>
       <p>{{util.general?.address}}</p>
-
-
+ 
+ 
       <h6>Accepted payments</h6>
       <div class="payments">
         <img src="assets/imgs/razorpay-logo.webp" style="height: 65px;">
-       </div> 
+       </div>
     </div>
   </div>
-
+ 
   <!-- Copyright -->
-   <div class="row"> 
+   <div class="row">
   <div class="footer-bottom col-md-12">
     © {{year}} All rights reserved by Pure  Meats
    </div>
-   <!-- <div class="footer-bottom col-md-6"> 
+   <!-- <div class="footer-bottom col-md-6">
     <h6>Accepted payments</h6>
       <div class="payments">
         <img src="assets/imgs/razorpay-logo.webp" style="height: 45px;">
@@ -109,3 +109,5 @@
   </div> -->
 </div>
 </footer>
+ 
+ 

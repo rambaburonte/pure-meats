@@ -6,3 +6,35 @@
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
+
+.mobile_header .top {
+  justify-content: space-between;
+  padding-top: 10px; /* Add padding to move options down */
+}
+
+.mobile_header .top .left-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile_header .top .right-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile_header .top i {
+  margin: 0;
+}
+
+.mobile_header .top .left-options,
+.mobile_header .top .right-options {
+  flex: 1;
+}
+
+.mobile_header .top .center-logo {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+}

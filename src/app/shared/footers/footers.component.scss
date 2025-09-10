@@ -5,48 +5,48 @@
   background-color: #b31917;
   /* Background with overlay */
  
-
+ 
   &::before {
     content: "";
     position: absolute;
     inset: 0;
     /*background: rgb(0 0 0 / 62%);*/
-    
+   
     z-index: 0;
   }
-
+ 
   > * {
     position: relative;
     z-index: 1;
   }
-
+ 
   /* Newsletter Section */
   .newsletter {
     text-align: center;
     padding: 60px 20px 130px;
     clip-path: ellipse(100% 100% at 50% 0%);
-     background: 
-    linear-gradient(rgba(0, 0, 0, 0.356), rgba(0, 0, 0, 0.8)), 
+     background:
+    linear-gradient(rgba(0, 0, 0, 0.356), rgba(0, 0, 0, 0.8)),
     url("/assets/imgs/footer-bg.webp") no-repeat center center;
   background-size: cover;
-
+ 
     h2 {
       font-size: 32px;
       font-weight: bold;
       margin-bottom: 10px;
     }
-
+ 
     p {
       color: #bbb;
       margin-bottom: 20px;
     }
-
+ 
     .newsletter-form {
       display: flex;
       justify-content: center;
       max-width: 500px;
       margin: 0 auto;
-
+ 
       input {
         flex: 1;
         padding: 12px 15px;
@@ -54,7 +54,7 @@
         border-radius: 30px 0 0 30px;
         outline: none;
       }
-
+ 
       button {
         background: #e63946;
         color: #fff;
@@ -63,14 +63,14 @@
         border-radius: 0 30px 30px 0;
         cursor: pointer;
         font-weight: 600;
-
+ 
         &:hover {
           background: #c72534;
         }
       }
     }
   }
-
+ 
   /* Middle Section */
   .footer-main {
     display: grid;
@@ -78,60 +78,60 @@
     gap: 20px;
     padding: 40px 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-
+ 
     h6 {
       color: #fff;
       margin-bottom: 10px;
     }
-
+ 
     p {
       font-size: 14px;
       margin: 5px 0;
     }
   }
-
+ 
   /* Links Section */
   .footer-links {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
     padding: 40px 20px;
-    
+   
     h6 {
       color: #fff;
       margin-bottom: 10px;
     }
-
+ 
     p {
       font-size: 14px;
       margin: 5px 0;
       cursor: pointer;
-
+ 
       &:hover {
         text-decoration: underline;
       }
     }
-
+ 
     .social-icons {
       display: flex;
       gap: 15px;
       font-size: 20px;
-
+ 
       a {
         color: #fff;
         transition: color 0.3s;
-
+ 
         &:hover {
           color: #e63946;
         }
       }
     }
-
+ 
     .payments {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-
+ 
       img {
         height: 28px;
         background: #fff;
@@ -140,7 +140,7 @@
       }
     }
   }
-
+ 
   /* Bottom */
   .footer-bottom {
     text-align: center;
@@ -148,7 +148,7 @@
     font-size: 12px;
     color: #fff;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-
+ 
     .credit {
       display: block;
       margin-top: 5px;
