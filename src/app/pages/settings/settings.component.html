@@ -106,8 +106,7 @@
         </div>
     </div>
 </div>
-<div class="container back_image" [style.backgroundImage]="' url(assets/imgs/food8.jpg) '"
-    *ngIf="util.deviceType=='desktop'">
+<div class="container back_image" [style.backgroundImage]="' url(assets/imgs/food8.jpg) '">
     <div class="overlay">
         <div class="profiles">
             <div class="cover" [ngStyle]="{'background-image':'url('+ getProfile()+'),url(assets/icon.png)'}">
@@ -120,9 +119,9 @@
             </div>
         </div>
         <div class="more_section">
-            <div class="btn" mdbWavesEffect (click)="editProfileClick = true">
+            <button class="btn" mdbBtn mdbWavesEffect (click)="editProfileClick = true">
                 {{util.translate('Edit Profile')}}
-            </div>
+            </button>
         </div>
     </div>
 </div>
@@ -132,11 +131,35 @@
         <div class="col-md-3 col-sm-6 col-xs-12" *ngIf="util.deviceType=='desktop'">
             <p class="head">{{util.translate('Activity')}}</p>
             <div [ngClass]="tabId =='profile' ?'active_btn':'normal_btn'" (click)="openLink('profile')">
-                {{util.translate('Profile')}}</div>
+                <mdb-icon fas icon="user" class="menu-icon"></mdb-icon>
+                {{util.translate('Profile')}}
+            </div>
             <div [ngClass]="tabId =='order' ?'active_btn':'normal_btn'" (click)="openLink('order')">
-                {{util.translate('Order History')}}</div>
+                <mdb-icon fas icon="shopping-cart" class="menu-icon"></mdb-icon>
+                {{util.translate('Order History')}}
+            </div>
             <div [ngClass]="tabId =='address' ?'active_btn':'normal_btn'" (click)="openLink('address')">
-                {{util.translate('My addresses')}}</div>
+                <mdb-icon fas icon="map-marker-alt" class="menu-icon"></mdb-icon>
+                {{util.translate('My addresses')}}
+            </div>
+        </div>
+
+        <!-- Mobile Activity Menu -->
+        <div class="col-12 mobile-activity" *ngIf="util.deviceType!='desktop'">
+            <div class="mobile-menu-container">
+                <div [ngClass]="tabId =='profile' ?'mobile_active_btn':'mobile_normal_btn'" (click)="openLink('profile')">
+                    <mdb-icon fas icon="user" class="menu-icon"></mdb-icon>
+                    <span>{{util.translate('Profile')}}</span>
+                </div>
+                <div [ngClass]="tabId =='order' ?'mobile_active_btn':'mobile_normal_btn'" (click)="openLink('order')">
+                    <mdb-icon fas icon="shopping-cart" class="menu-icon"></mdb-icon>
+                    <span>{{util.translate('Orders')}}</span>
+                </div>
+                <div [ngClass]="tabId =='address' ?'mobile_active_btn':'mobile_normal_btn'" (click)="openLink('address')">
+                    <mdb-icon fas icon="map-marker-alt" class="menu-icon"></mdb-icon>
+                    <span>{{util.translate('Addresses')}}</span>
+                </div>
+            </div>
         </div>
         <div class="col-md-9 col-sm-6 col-xs-12">
             <p class="header" *ngIf="tabId =='profile'">{{util.translate('User Informations')}}</p>
@@ -148,7 +171,7 @@
                     <div class="row">
                         <div class="col-lg-2"></div>
                         <div class="col-lg-12">
-                            <div class="row">
+                            <div class="row">   
                                 <div class="col-lg-12" *ngIf="util.userInfo">
 
                                     <div class="round_image"
