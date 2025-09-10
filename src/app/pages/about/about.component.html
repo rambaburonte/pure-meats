@@ -5,10 +5,153 @@
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
  -->
-<div class="container">
+<!-- <div class="container">
     <div *ngIf="!loaded">
         <ngx-skeleton-loader *ngFor="let item of [1,2,3,4,5,6,7,8,9]"
             [theme]="{ 'border-radius': '5px', height: '10px',width:'100%'}"></ngx-skeleton-loader>
     </div>
     <p [innerHTML]="content" *ngIf="loaded"></p>
+</div> -->
+
+
+<style>
+    :root{--green:#1f7a4c;--green-2:#2ecc71;--accent:#f9a825;--muted:#6b7280;--bg:#f8fafb}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;color:#0f172a;background:var(--bg)}
+    header{background:#fff;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 6px rgba(15,23,42,0.06)}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand img{width:70px;height:70px;object-fit:contain;border-radius:8px}
+    .brand h1{margin:0;font-size:18px}
+    .cta{background:var(--green);color:#fff;padding:10px 16px;border-radius:999px;border:none;font-weight:600}
+ 
+    .hero{grid-template-columns:1fr 520px;gap:32px;align-items:center;padding:56px 24px;max-width:1200px;margin:20px auto}
+    .hero .eyebrow{color:var(--accent);font-weight:700}
+    .hero h2{font-size:38px;margin:12px 0 18px;color:var(--green)}
+    .hero p{color:var(--muted);line-height:1.6}
+    .hero .buttons{margin-top:18px}
+    .btn-outline{background:#fff;border:2px solid var(--green);color:var(--green);padding:10px 14px;border-radius:10px;font-weight:700;margin-right:10px}
+ 
+    .card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,0.06)}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:18px 0}
+    .acro{display:flex;flex-direction:column;gap:8px}
+    .acro h3{margin:0;color:var(--green)}
+    .acro p{margin:0;color:var(--muted)}
+ 
+    .mission{max-width:1200px;margin:18px auto;padding:0 24px}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .feature{display:flex;gap:12px;align-items:flex-start}
+    .feature .dot{width:14px;height:14px;border-radius:50%;background:var(--green);margin-top:6px}
+ 
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}
+    .good{border:2px solid #d1fae5}
+    .bad{border:2px solid #fee2e2}
+ 
+    footer{background:#fff;padding:22px 24px;margin-top:30px;text-align:center;color:var(--muted)}
+ 
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr;padding:28px 18px}
+      .grid-3{grid-template-columns:repeat(2,1fr)}
+      .compare{grid-template-columns:1fr}
+      .two-col{grid-template-columns:1fr}
+    }
+</style>
+
+ 
+  <main>
+<section class="hero col-md-12">
+<div>
+<div class="eyebrow">Farm‑to‑Fork • Antibiotic‑Residue Free • ICAR Tested</div>
+<h2>PURE MEAT — Fresh, reliable meat delivered everyday</h2>
+<p>Raised in environment‑controlled sheds on our farms, processed in our own facility maintained at <strong>0–4°C</strong>. We never freeze — only chilled, vacuum sealed cuts delivered to your doorstep. Daily random sample tests are done with ICAR Hyderabad and reports are shared with customers for full transparency.</p>
+ 
+        <div class="buttons">
+<button class="btn-outline" onclick="window.location.href='https://wa.me/919999999999'">Order on WhatsApp</button>
+<button class="btn-outline" style="border-color:var(--accent);color:var(--accent)">View Test Reports</button>
 </div>
+ 
+        <div style="margin-top:22px" class="card">
+<div style="font-weight:700;color:var(--green)">OUR ACRONYM</div>
+<div class="grid-3" style="margin-top:12px">
+<div class="acro">
+<h3>P – Pure</h3>
+<p>Uncompromised cleanliness and hygiene from farm to pack.</p>
+</div>
+<div class="acro">
+<h3>U – Unadulterated</h3>
+<p>Zero additives, no hidden processing — only natural meat.</p>
+</div>
+<div class="acro">
+<h3>R – Reliable</h3>
+<p>Traceable birds and daily lab tests for your peace of mind.</p>
+</div>
+<div class="acro">
+<h3>E – Everyday</h3>
+<p>Fresh batches processed daily and delivered in convenient slots.</p>
+</div>
+<div class="acro">
+<h3>M – Meats</h3>
+<p>Quality cuts prepared by trained professionals.</p>
+</div>
+<div class="acro">
+<h3>E – Ensuring</h3>
+<p>We ensure safety & authentic taste at every step.</p>
+</div>
+<div class="acro">
+<h3>A – Authentic</h3>
+<p>Genuine sourcing from our own farms — no middlemen.</p>
+</div>
+<div class="acro">
+<h3>T – Taste</h3>
+<p>Raised in controlled sheds for superior flavour and texture.</p>
+</div>
+</div>
+</div>
+</div>
+ 
+     
+</section>
+ 
+    <section class="mission" aria-labelledby="mission">
+<div class="card">
+<h3 style="margin-top:0">Our Mission</h3>
+<p style="color:var(--muted)">To deliver fresh, safe and delicious meat daily by controlling every step — from our environment‑controlled farms, to our in‑house processing at 0–4°C, to vacuum sealed packaging and doorstep delivery. We publish daily ICAR test reports so you always know what you’re buying.</p>
+ 
+        <div style="margin-top:14px" class="two-col">
+<div>
+<div class="feature"><div class="dot"></div><div><strong>Source:</strong> Birds from our own farms only</div></div>
+<div class="feature"><div class="dot"></div><div><strong>Residue-free:</strong> Antibiotic testing & strict feed controls</div></div>
+<div class="feature"><div class="dot"></div><div><strong>Processing:</strong> In‑house facility maintained at 0–4°C</div></div>
+</div>
+<div>
+<div class="feature"><div class="dot"></div><div><strong>Packaging:</strong> Vacuum sealed for longer shelf life</div></div>
+<div class="feature"><div class="dot"></div><div><strong>Delivery:</strong> Timed delivery windows to keep product chilled</div></div>
+<div class="feature"><div class="dot"></div><div><strong>Testing:</strong> Daily random samples with ICAR Hyderabad</div></div>
+</div>
+</div>
+</div>
+ 
+      <div style="margin-top:18px" class="compare">
+<div class="card good">
+<h4 style="margin-top:0;color:var(--green)">Chilled, Hygienically Processed Meat</h4>
+<ul style="color:var(--muted);line-height:1.7">
+<li>Maintained at 0–4°C through the cold chain</li>
+<li>Vacuum‑sealed to avoid contamination</li>
+<li>Tender, rested cuts for better taste</li>
+<li>Traceability & daily lab reports</li>
+<li>Delivered to your doorstep in scheduled slots</li>
+</ul>
+</div>
+<div class="card bad">
+<h4 style="margin-top:0;color:#b91c1c">Live Meat at Shops</h4>
+<ul style="color:var(--muted);line-height:1.7">
+<li>Open-air conditions with dust & contamination risk</li>
+<li>No control on antibiotic residues or feed quality</li>
+<li>Meat often exposed to heat — compromising freshness</li>
+<li>No scientific testing or shared reports</li>
+<li>Time-consuming and less convenient</li>
+</ul>
+</div>
+</div>
+</section>
+ 
+  </main>

@@ -1,89 +1,105 @@
-    <!-- Footer -->
-    <footer class="bg-black text-white pt-16 mt-20">
-        <!-- Curved top section -->
-        <div class="footer-curve w-full"></div>
-        
-        <!-- Newsletter Section -->
-        <div class="container mx-auto px-4 pb-12">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Subscribe to our newsletter</h2>
-                <p class="text-gray-400 mb-8">to stay up to date on all the latest news and offers from us</p>
-                <div class="flex flex-col sm:flex-row justify-center gap-2">
-                    <input 
-                        type="email" 
-                        placeholder="Enter your email address"
-                        class="flex-grow px-6 py-3 rounded-full text-gray-900 focus:outline-none"
-                    >
-                    <button class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-full font-medium transition-colors">
-                        Subscribe
-                    </button>
-                </div>
-            </div>
+<!-- Footer -->
+<footer class="footer">
 
-            <!-- Contact Info -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 border-b border-gray-800 pb-12">
-                <div class="text-center md:text-left">
-                    <h3 class="text-red-600 font-bold uppercase mb-4">Contact us</h3>
-                    <p class="mb-2"><span class="font-bold">E:</span> Info@wokculture.com.au</p>
-                    <p><span class="font-bold">P:</span> 02 9756 0388</p>
-                </div>
-                
-                <div class="text-center md:text-left">
-                    <h3 class="text-red-600 font-bold uppercase mb-4">Warehouse address:</h3>
-                    <p>Unit 11/6-8 Allen Place, Wetherill Park NSW 2164</p>
-                </div>
-                
-                <div class="text-center md:text-left">
-                    <h3 class="text-red-600 font-bold uppercase mb-4">Warehouse Opening Times:</h3>
-                    <p class="font-medium">Monday - Friday</p>
-                    <p class="text-gray-400">10am - 4pm</p>
-                </div>
-            </div>
+  <!-- Newsletter Section -->
+  <div class="newsletter">
+    <h2>Subscribe to our newsletter</h2>
+    <p>to stay up to date on all the latest news and offers from us</p>
 
-            <!-- Links Section -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <h3 class="text-red-600 font-bold uppercase mb-4">Product Categories:</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-red-600 transition-colors">High Pressure Burners</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-red-600 transition-colors">Low pressure burners</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-red-600 transition-colors">Accessories</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-red-600 transition-colors">Bench Burner Set</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-red-600 font-bold uppercase mb-4">Resources:</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-red-600 transition-colors">Warranty Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-red-600 transition-colors">Shipping and Returns Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-red-600 transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-red-600 transition-colors">Blogs</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-red-600 transition-colors">Sitemap</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-red-600 font-bold uppercase mb-4">Follow us on</h3>
-                    <div class="flex space-x-4 mb-8">
-                        <a href="#" class="social-icon text-2xl text-gray-400"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="social-icon text-2xl text-gray-400"><i class="fab fa-instagram"></i></a>
-                    </div>
-                    
-                    <h3 class="text-red-600 font-bold uppercase mb-4">Accepted payments</h3>
-                    <div class="flex space-x-2">
-                        <div class="bg-white rounded p-1">
-                            <span class="font-bold text-black">VISA</span>
-                        </div>
-                        <!-- Additional payment methods would go here -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Copyright -->
-            <div class="text-center pt-8 border-t border-gray-800">
-                <p class="text-gray-400 text-sm">© 2023 Wok Culture</p>
-                <p class="text-gray-400 text-sm mt-1">eCommerce Website Design by Online/Designplus</p>
-            </div>
+    <div class="newsletter-form">
+      <input type="text" [(ngModel)]="email" placeholder="Enter your email address">
+      <button type="button" (click)="doSubscribe()">Subscribe</button>
+    </div>
+  </div>
+
+  <!-- Footer Content 
+  <div class="footer-main">
+    
+    <div class="footer-box">
+      
+    </div>-->
+
+    <!-- Address 
+    <div class="footer-box">
+      
+    </div>-->
+
+    <!-- Opening Times
+    
+  </div> -->
+
+  <!-- Bottom Links -->
+  <div class="footer-links">
+    <!-- Categories -->
+    <div class="footer-box">
+      <h6>Useful Links:</h6>
+      <p (click)="goToHome()">Home</p>
+        <p (click)="about()">About</p>
+      <p (click)="goToOrders()">Orders</p>
+       <p (click)="goToCart()">Cart</p>
+        <p (click)="goToFAQ()">FAQs</p>
+        <!-- <div class="link_lbl" (click)="goToHome()">
+          <a class="dark-grey-text">{{util.translate('Home')}} </a>
+         <div class="link_lbl" (click)="goToOrders()">
+          <a class="dark-grey-text">{{util.translate('Orders')}} </a>
         </div>
-    </footer>
+        <div class="link_lbl" (click)="goToCart()">
+          <a class="dark-grey-text">{{util.translate('Cart')}} </a>
+        </div>
+      </div>-->
+       
+    </div>
+
+      <div class="col-md-6 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+        <h6 class="footer_lbl">{{util.translate('Join Our Newsletter Now')}}</h6>
+        <label class="link_lbl">
+          {{util.translate('Get E-mail updates about our latest shop and special offers.')}}</label>
+
+        <div class="form_flex">
+          <input type="text" [(ngModel)]="email" class="form-control"
+            [placeholder]="util.translate('Enter your E-mail')">
+          <button type="button" (click)="doSubscribe()" class="btn">{{util.translate('SUBSCRIBE')}}</button>
+        </div>
+
+        <div class="share_flex">
+          <a class="icn_box" [href]="util.social.fb" target="_blank">
+            <mdb-icon fab icon="facebook-f"></mdb-icon>
+          </a>
+          <a class="icn_box" [href]="util.social.insta" target="_blank">
+            <mdb-icon fab icon="instagram"></mdb-icon>
+          </a>
+          <a class="icn_box" [href]="util.social.twitter" target="_blank">
+            <mdb-icon fab icon="twitter"></mdb-icon>
+          </a>
+          <a class="icn_box" [href]="util.social.linkedIn" target="_blank">
+            <mdb-icon fab icon="linkedin"></mdb-icon>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div>
+    <div class="container copyright_div">
+      <div class="row">
+        <div class="col-lg-6" style="display: flex;align-items: center;">
+          <label style="color: #b01817;font-size: 12px;">
+            {{util.translate('Copyright')}} © {{year}} {{util.translate('All rights reserved by Pure Meats')}}
+            <!-- <i class="fa fa-heart" aria-hidden="true"></i>
+            {{util.translate('by')}} <a href="https://generallogic.org" style="color: blue;">General Logic</a> -->
+          </label>
+        </div>
+        <div class="col-lg-6 payment_div">
+          <img src="assets/imgs/american.png">
+          <img src="assets/imgs/mastercard.png">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->

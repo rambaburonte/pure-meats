@@ -1175,7 +1175,7 @@ export class AppComponent {
   }
 
   onRegister(form: NgForm, registerModal, verification) {
-    console.log(form);
+    console.log('hai' + form);
 
     console.log('form', this.registerForm, this.ccCode);
     console.log(this.util.twillo);
@@ -1291,11 +1291,11 @@ export class AppComponent {
           header_text: this.util.translate('Use this code for verification'),
           thank_you_text: this.util.translate("Don't share this otp to anybody else"),
           mediaURL: this.api.mediaURL,
-          country_code: this.registerForm.country_code,
+          country_code: this.registerForm.country_code,          
           mobile: this.registerForm.mobile
         }
         this.api.post_public('v1/sendVerificationOnMail', param).then((data: any) => {
-          console.log(data);
+          console.log('sendVerificationOnMail API response:', data);
           this.isLogin = false;
           if (data && data.status && data.status === 200 && data.data === true && data.otp_id) {
             // send otp from api
@@ -1304,7 +1304,7 @@ export class AppComponent {
             this.util.errorMessage(data.message);
           }
         }, error => {
-          console.log(error);
+          console.log('sendVerificationOnMail API error:', error);
           this.isLogin = false;
           if (error && error.error && error.error.status === 500 && error.error.message) {
             this.util.errorMessage(error.error.message);
@@ -1351,7 +1351,7 @@ export class AppComponent {
     }
     this.isLogin = true;
     this.api.post_public('v1/auth/verifyEmailForReset', { email: this.reset_email }).then((data: any) => {
-      console.log(data);
+      console.log('verifyEmailForReset API response:', data);
       this.isLogin = false;
       if (data && data.status && data.status === 200 && data.data === true && data.otp_id) {
         // send otp from api
@@ -1362,8 +1362,9 @@ export class AppComponent {
         this.util.errorMessage(data.message);
       }
     }, error => {
-      this.isLogin = false;
-      this.util.apiErrorHandler(error);
+  this.isLogin = false;
+  console.log('verifyEmailForReset API error:', error);
+  this.util.apiErrorHandler(error);
     }).catch((error) => {
       this.isLogin = false;
       console.log(error);
