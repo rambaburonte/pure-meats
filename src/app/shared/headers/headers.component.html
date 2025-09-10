@@ -196,18 +196,90 @@
     </div>
   </div>
 </div>
+<style>
+/* Logo: make it big but not oversized */
+.navbar-logonew {
+  height: 80px;       /* adjust as needed */
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
 
+/* Navbar links container: use flex */
+.upper_div .container > links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Search bar: responsive & flexible */
+.search_div {
+  flex: 1; /* take all available middle space */
+  margin: 0 20px;
+  display: flex;
+  align-items: center;
+}
+.search_div input.ip {
+  width: 100%;
+  height: 44px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+/* Icons area: evenly spaced */
+.icons-cat {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* even spacing between icons */
+}
+.icons-cat li {
+  list-style: none;
+}
+.icons-cat button,
+.icons-cat a,
+.icons-cat .nav-link {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+/* Fix account dropdown (remove line break) */
+.icons-cat .nav-link.dropdown-toggle br {
+  display: none;
+}
+
+/* Cart badge */
+.cart-badge {
+  background: red;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  padding: 2px 6px;
+  margin-left: 4px;
+}
+
+
+
+</style>
 <mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-light bg-white shadow-2" mdbStickyHeader
   *ngIf="util.deviceType ==='desktop'">
 
   <div class="upper_div" style="padding-left: 0px;padding-right: 0px;font-size: 13px;">
     <div class="container">
       <links>
-        <ul class="navbar-nav" (click)="onHome()">
-          <li>
-            <img src="assets/imgs/your-logo.png" style="width: 290px;padding: 42px;margin-top:42px;object-fit: cover;">
-          </li>
-        </ul>
+      <ul class="navbar-nav" (click)="onHome()">
+  <li>
+<img src="assets/imgs/your-logo.png" class="navbar-logonew" alt="Logo">
+
+  </li>
+</ul>
+
  
           <ul class="navbar-nav">
             <li class="nav-item" style="padding: 0; padding-left: 0px;padding-right: 0px;">
@@ -268,7 +340,7 @@
   
    
 
-        <ul class="navbar-nav search_div">
+        <!-- <ul class="navbar-nav search_div">
           <li>
             <div style="position: relative; display: flex; align-items: center;">
               <input class="ip" [placeholder]="util.translate('Search for products')" (input)="inputChange()"
@@ -287,8 +359,18 @@
               [ngStyle]="{'background-image':'url('+api.mediaURL+products[0].cover+'),url(assets/placeholder.png)'}">
             </div>
           </div>
-        </ul>
+        </ul> -->
 
+<ul class="navbar-nav search_div">
+  <li>
+    <div style="position: relative; display: flex; align-items: center; width: 100%;">
+      <input class="ip" [placeholder]="util.translate('Search for products')" (input)="inputChange()"
+             [(ngModel)]="terms" style="padding-right: 36px;" />
+      <i class="fas fa-search" (click)="inputChange()" 
+         style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #777; font-size: 14px;"></i>
+    </div>
+  </li>
+</ul>
 
         <ul class="navbar-nav icons-cat">
 
