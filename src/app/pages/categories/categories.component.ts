@@ -290,17 +290,17 @@ export class CategoriesComponent implements OnInit {
         break;
 
       case 2:
+        console.log('its high to low');
+        this.products = this.products.sort((a, b) =>
+          parseFloat(b.original_price) < parseFloat(a.original_price) ? -1
+            : (parseFloat(b.original_price) > parseFloat(a.original_price) ? 1 : 0));
+        break;
+
+      case 3:
         console.log('its low to high');
         this.products = this.products.sort((a, b) =>
           parseFloat(a.original_price) < parseFloat(b.original_price) ? -1
             : (parseFloat(a.original_price) > parseFloat(b.original_price) ? 1 : 0));
-        break;
-
-      case 3:
-        console.log('its highht to low');
-        this.products = this.products.sort((a, b) =>
-          parseFloat(b.original_price) < parseFloat(a.original_price) ? -1
-            : (parseFloat(b.original_price) > parseFloat(a.original_price) ? 1 : 0));
         break;
 
       case 4:

@@ -52,7 +52,7 @@ label {
                     color: black;
                 }
                 .active_lbl {
-                    color: $theme-color;
+                    color: black;
                     font-family: "semi-bold";
                 }
                 label {
@@ -66,9 +66,10 @@ label {
                 margin-top: 5px;
                 margin-bottom: 5px;
                 padding: 5px;
+                color: black;
             }
             .active_lbl {
-                color: $theme-color;
+                color: black;
                 font-family: "semi-bold";
                 padding: 5px;
             }
@@ -116,8 +117,11 @@ label {
             }
 
             .active {
-                color: $theme-color;
+                color: black;
+                background: $theme-color;
                 border: 1px solid $theme-color;
+                font-weight: bold;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             }
         }
         .right_flex::-webkit-scrollbar {
