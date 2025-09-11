@@ -198,8 +198,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <label class="hint_lbl">{{util.translate('Gender')}}</label>
-                                            <select [(ngModel)]="gender" [disabled]="!editProfileClick" type="text"
-                                                required style="border: 1px solid lightgray;width: 100%;">
+                                            <select class="form-control" [(ngModel)]="gender" [disabled]="!editProfileClick" type="text"
+                                                required style="border: 1px solid #fee2e2 !important;width: 100%;padding: 0px 12px;">
                                                 <option value="1"> {{util.translate('Male')}}</option>
                                                 <option value="0"> {{util.translate('Female')}} </option>
                                                 <option value="2"> {{util.translate('Others')}} </option>

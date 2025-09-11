@@ -52,7 +52,7 @@
 <div class="container" style="padding: 0px;">
 
     <div class="header_div" *ngIf="topProducts?.length">
-        <h2 class="title_lbl">{{util.translate('Top Picked')}}</h2>
+        <h2 class="title_lbl top_picked_cat">{{util.translate('Top Picked')}}</h2>
         <label class="sub-title">{{util.translate('Pick a flower on Earth and you move the farthest star.')}} </label>
         <label class="view_lbl" (click)="homeProducts('top-picked')">{{util.translate('View All')}}</label>
     </div>
@@ -238,7 +238,7 @@
     <!-- Replace owl-carousel with static flex layout to match bottom categories -->
     <div class="category_div">
         <ng-container *ngFor="let item of categories; index as i">
-            <div class="categoryList" (click)="subCate(item)">
+            <div class="categoryList category_div" (click)="subCate(item)">
                 <div class="back_img" [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+')'}">
                 </div>
                 <div class="" style="margin-top: 10px;">

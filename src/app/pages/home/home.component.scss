@@ -779,3 +779,48 @@ label {
         }
     }
 }
+
+/* Small devices (phones, portrait) */
+@media only screen and (max-width: 480px) {
+  .banner_back{
+    display: none !important;
+  }
+  .top_picked_cat{
+    margin-top: 110px !important;
+  }
+  #product .product-top .back_img{
+    position: relative !important;
+    left: 30px !important;
+  }
+  .title_lbl, .sub-title, .view_lbl{
+ 
+      margin-left: 20px !important;
+    }
+    .btm_category .cate_title{
+      margin-left: 35px !important;
+    }
+    .category_div{
+      position: relative !important;
+        left: 17px !important;
+    } 
+    .back_img{
+        display: inline-block !important;
+    }  
+}
+
+/* Medium devices (phones landscape & small tablets) */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+   
+}
+
+/* Tablets (portrait and landscape) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+ 
+}
+
+/* Large devices (desktops, laptops) */
+@media only screen and (min-width: 1025px) {
+   
+}
+
+
