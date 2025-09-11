@@ -24,6 +24,7 @@ export class SettingsComponent implements OnInit {
   @ViewChild('addressFromMap') public addressFromMap: ModalDirective;
   @ViewChild('map', { static: true }) mapElement: ElementRef;
   @ViewChild('changedPlace') public changedPlace: ModalDirective;
+  @ViewChild('editForm', { static: false }) editForm: ElementRef;
   tabId = 'profile';
 
   haveItems: boolean = false;
@@ -615,5 +616,23 @@ export class SettingsComponent implements OnInit {
     } else {
       console.log('no');
     }
+  }
+
+  openEditProfile() {
+    this.editProfileClick = true;
+    this.chmod.detectChanges();
+    // wait a tick for DOM to update then scroll
+    setTimeout(() => {
+      try {
+        const el = this.editForm && this.editForm.nativeElement;
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+      } catch (e) {
+        console.error('scroll error', e);
+      }
+    }, 150);
   }
 }
