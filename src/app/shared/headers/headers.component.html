@@ -557,17 +557,46 @@
     <img src="assets/your-logo.png" mdbWavesEffect (click)="onHome()" style="width: 100px;">
      
     <div class="right mobile_menu" align="center">
-      <i class="fas fa-bars" mdbWavesEffect (click)="sideMenu.show()" style="width: 30%;color: #fff;font-size: 25px;"></i>&nbsp;&nbsp;
-       <i class="fas fa-user" mdbWavesEffect (click)="onProfile('profile')" style="margin-right: 5px;width: 30%;color: #fff;font-size: 25px;"></i>
+      <i class="fas fa-bars" mdbWavesEffect (click)="sideMenu.show()" style="width: 25%;color: #b31917;font-size: 25px;"></i>&nbsp;&nbsp;
+       <i class="fas fa-user" mdbWavesEffect (click)="onProfile('profile')" style="margin-right: 5px;width: 25%;color: #b31917;font-size: 25px;"></i>
       <i class="fas fa-shopping-cart" (click)="goToCart()" mdbWavesEffect
-        style="margin-left: 10px;position: relative;overflow: visible;width: 30%;color: #fff;font-size: 25px;">
+        style="margin-left: 10px;position: relative;overflow: visible;width: 25%;color: #b31917;font-size: 25px;">
         <span *ngIf="cart.cart?.length"
-          style="position: absolute; line-height: 10px;color:#fff;width: 30%;color: #fff;font-size: 25px; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
+          style="position: absolute; line-height: 10px; width:25%;color: #b31917;font-size: 25px; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
           {{cart.cart.length}} </span>
       </i>
       &nbsp;&nbsp;
-    
+     <i class="fas th-large" mdbWavesEffect (click)="$event.stopPropagation(); toggleHeaderDropdown()"
+              style="width: 25%;color: #b31917;font-size: 25px;">
+       </i>
+            <div class="header-dropdown categories-dropdown" *ngIf="showHeaderDropdown">
+              <div *ngIf="headerLoading" style="padding:12px;">Loading...</div>
+              <div *ngIf="!headerLoading" style="display:flex; width:100%;">
+                <!-- left: category list -->
+                <div style="width:45%; border-right:1px solid #f0f0f0; max-height:420px; overflow:auto;">
+                  <div *ngFor="let cat of headerCategories; let i = index" (mouseenter)="selectedHeaderCategoryIndex = i; selectedHeaderCategory = cat"
+                    [ngClass]="{'active-cat': selectedHeaderCategoryIndex === i}"
+                    style="display:flex;align-items:center;padding:10px;cursor:pointer;border-bottom:1px solid #f8f8f8;">
+                    <div style="width:36px;height:36px;background-size:cover;background-position:center;border-radius:50%;margin-right:10px;" [ngStyle]="{'background-image':'url('+api.mediaURL+cat.cover+')'}"></div>
+                    <div style="font-weight:600;">{{cat.name}}</div>
+                  </div>
+                </div>
+                <!-- right: subcategories -->
+                <div style="width:55%; max-height:420px; overflow:auto; padding:12px;">
+                  <div *ngIf="selectedHeaderCategory && selectedHeaderCategory.subCates && selectedHeaderCategory.subCates.length">
+                    <div *ngFor="let sub of selectedHeaderCategory.subCates" style="padding:8px 6px;border-bottom:1px solid #f0f0f0;cursor:pointer;" (click)="subItems(selectedHeaderCategory, sub); showHeaderDropdown = false;">
+                      {{sub.name}}
+                    </div>
+                  </div>
+                  <div *ngIf="!selectedHeaderCategory || !selectedHeaderCategory.subCates?.length" style="color:#666;">No subcategories</div>
+                </div>
+              </div>
+            </div>
   </div>
+
+ 
+           
+          
     </div>
 
 <div class="bottom">
