@@ -559,48 +559,48 @@
 
 <header *ngIf="util.deviceType !='desktop'" class="mobile_header">
   <div class="top">
-   
-    <img src="assets/your-logo.png" mdbWavesEffect (click)="onHome()" style="width: 100px;">
-     
-    <div class="right mobile_menu" align="center">
-      <i class="fas fa-bars" mdbWavesEffect (click)="sideMenu.show()" style="width: 25%;color: #b31917;font-size: 25px;"></i>&nbsp;&nbsp;
-       <i class="fas fa-user" mdbWavesEffect (click)="onProfile('profile')" style="margin-right: 5px;width: 25%;color: #b31917;font-size: 25px;"></i>
-      <i class="fas fa-shopping-cart" (click)="goToCart()" mdbWavesEffect
-        style="margin-left: 10px;position: relative;overflow: visible;width: 25%;color: #b31917;font-size: 25px;">
-        <span *ngIf="cart.cart?.length"
-          style="position: absolute; line-height: 10px; width:25%;color: #b31917;font-size: 25px; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
-          {{cart.cart.length}} </span>
-      </i>
-      &nbsp;&nbsp;
-     <i class="fas th-large" mdbWavesEffect (click)="$event.stopPropagation(); toggleHeaderDropdown()"
-              style="width: 25%;color: #b31917;font-size: 25px;">
-       </i>
-            <div class="header-dropdown categories-dropdown" *ngIf="showHeaderDropdown">
-              <div *ngIf="headerLoading" style="padding:12px;">Loading...</div>
-              <div *ngIf="!headerLoading" style="display:flex; width:100%;">
-                <!-- left: category list -->
-                <div style="width:45%; border-right:1px solid #f0f0f0; max-height:420px; overflow:auto;">
-                  <div *ngFor="let cat of headerCategories; let i = index" (mouseenter)="selectedHeaderCategoryIndex = i; selectedHeaderCategory = cat"
-                    [ngClass]="{'active-cat': selectedHeaderCategoryIndex === i}"
-                    style="display:flex;align-items:center;padding:10px;cursor:pointer;border-bottom:1px solid #f8f8f8;">
-                    <div style="width:36px;height:36px;background-size:cover;background-position:center;border-radius:50%;margin-right:10px;" [ngStyle]="{'background-image':'url('+api.mediaURL+cat.cover+')'}"></div>
-                    <div style="font-weight:600;">{{cat.name}}</div>
-                  </div>
-                </div>
-                <!-- right: subcategories -->
-                <div style="width:55%; max-height:420px; overflow:auto; padding:12px;">
-                  <div *ngIf="selectedHeaderCategory && selectedHeaderCategory.subCates && selectedHeaderCategory.subCates.length">
-                    <div *ngFor="let sub of selectedHeaderCategory.subCates" style="padding:8px 6px;border-bottom:1px solid #f0f0f0;cursor:pointer;" (click)="subItems(selectedHeaderCategory, sub); showHeaderDropdown = false;">
-                      {{sub.name}}
-                    </div>
-                  </div>
-                  <div *ngIf="!selectedHeaderCategory || !selectedHeaderCategory.subCates?.length" style="color:#666;">No subcategories</div>
-                </div>
+    <div class="left">
+      <img src="assets/your-logo.png" mdbWavesEffect (click)="onHome()" style="width: 100px;">
+      
+      <div class="delivery-address" *ngIf="util.findType == 0" (click)="basicModal.show()" style="cursor:pointer;">
+        <div class="city-wrap nav-item">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <!-- small inline map-marker SVG to ensure the icon always renders like the reference image -->
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill="#757575"/>
+            </svg>
+            <div style="display:flex; flex-direction:column;">
+              <div style="display:flex; align-items:center; gap:6px; width:220px; min-width:0;">
+                <strong class="cityName" style="font-size:14px;font-weight:700;">{{ util.selectedCityName ? util.selectedCityName : '' }}</strong>
+                <i class="fas fa-chevron-down" style="font-size:10px; color:#000; margin-left:4px;"></i>
               </div>
+              <span class="cityAddress" style="font-size:12px; color:#6b6b6b; max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                {{ util.deliveredAddress ? ((util.deliveredAddress.length>60)? (util.deliveredAddress | slice:0:60)+'..': util.deliveredAddress) : '' }}
+              </span>
             </div>
-  </div>
+          </div>
+        </div>
+      </div>
 
- 
+      <div class="delivery-address" *ngIf="util.findType == 1" (click)="locationPickerBottom.show()">
+        <i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i>
+        <div style="display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; gap:6px; width:220px; min-width:0;">
+            <strong class="cityName" style="font-size:14px;font-weight:700;">{{ util.selectedCityName ? util.selectedCityName : (util.deliveredAddress ? (util.deliveredAddress.split(',')[0]) : '') }}</strong>
+            <i class="fas fa-chevron-down" style="font-size:10px; color:#757575; margin-left:4px;"></i>
+          </div>
+          <span class="cityName" style="font-size:12px; color:#6b6b6b; max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ util.deliveredAddress ? ((util.deliveredAddress.length>60)? (util.deliveredAddress | slice:0:60)+'..': util.deliveredAddress) : '' }}</span>
+        </div>
+      </div>
+
+      <div class="delivery-address" *ngIf="util.findType == 2" (click)="zipCodePickerBottom.show()">
+        <i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> {{util.translate('Deliver to')}} - <span
+          class="cityName">
+          {{util.deliveryZipCode}}
+        </span>
+        <i class="fas fa-chevron-down" style="font-size:10px; color:#757575; margin-left:4px;"></i>
+      </div>
+    </div> 
            
           
     </div>
@@ -614,43 +614,52 @@
       </div>
     </div>
 </div>
+<div class="icons-section">
+  <div class="right mobile_menu" align="center">
+    <button class="mobile-icon" type="button" mdbWavesEffect (click)="sideMenu.show()" aria-label="menu">
+      <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
 
-  <div class="delivery-address" *ngIf="util.findType == 0" (click)="basicModal.show()" style="cursor:pointer;">
-    <div class="city-wrap nav-item">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <!-- small inline map-marker SVG to ensure the icon always renders like the reference image -->
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill="#000"/>
-        </svg>
-        <div style="display:flex; flex-direction:column;">
-          <div style="display:flex; align-items:center; gap:6px; width:220px; min-width:0;">
-            <strong class="cityName" style="font-size:14px;font-weight:700;">{{ util.selectedCityName ? util.selectedCityName : '' }}</strong>
-            <i class="fas fa-chevron-down" style="font-size:10px; color:#000; margin-left:4px;"></i>
+    <button class="mobile-icon" type="button" mdbWavesEffect (click)="onProfile('profile')" aria-label="profile">
+      <i class="fas fa-user" aria-hidden="true"></i>
+    </button>
+
+    <div class="cart-container">
+      <button class="mobile-icon category-btn" type="button" mdbWavesEffect (click)="$event.stopPropagation(); toggleHeaderDropdown()" aria-label="categories">
+        <i class="fas fa-th-large" aria-hidden="true"></i>
+      </button>
+
+      <button class="mobile-icon" type="button" mdbWavesEffect (click)="goToCart()" aria-label="cart">
+        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+        <span *ngIf="cart.cart?.length" class="cart-badge-mobile">{{cart.cart.length}}</span>
+      </button>
+    </div>
+
+    <div class="header-dropdown categories-dropdown" *ngIf="showHeaderDropdown">
+            <div *ngIf="headerLoading" style="padding:12px;">Loading...</div>
+            <div *ngIf="!headerLoading" style="display:flex; width:100%;">
+              <!-- left: category list -->
+              <div style="width:45%; border-right:1px solid #f0f0f0; max-height:420px; overflow:auto;">
+                <div *ngFor="let cat of headerCategories; let i = index" (mouseenter)="selectedHeaderCategoryIndex = i; selectedHeaderCategory = cat"
+                  [ngClass]="{'active-cat': selectedHeaderCategoryIndex === i}"
+                  style="display:flex;align-items:center;padding:10px;cursor:pointer;border-bottom:1px solid #f8f8f8;">
+                  <div style="width:36px;height:36px;background-size:cover;background-position:center;border-radius:50%;margin-right:10px;" [ngStyle]="{'background-image':'url('+api.mediaURL+cat.cover+')'}"></div>
+                  <div style="font-weight:600;">{{cat.name}}</div>
+                </div>
+              </div>
+              <!-- right: subcategories -->
+              <div style="width:55%; max-height:420px; overflow:auto; padding:12px;">
+                <div *ngIf="selectedHeaderCategory && selectedHeaderCategory.subCates && selectedHeaderCategory.subCates.length">
+                  <div *ngFor="let sub of selectedHeaderCategory.subCates" style="padding:8px 6px;border-bottom:1px solid #f0f0f0;cursor:pointer;" (click)="subItems(selectedHeaderCategory, sub); showHeaderDropdown = false;">
+                    {{sub.name}}
+                  </div>
+                </div>
+                <div *ngIf="!selectedHeaderCategory || !selectedHeaderCategory.subCates?.length" style="color:#666;">No subcategories</div>
+              </div>
+            </div>
           </div>
-          <span class="cityAddress" style="font-size:12px; color:#6b6b6b; max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-            {{ util.deliveredAddress ? ((util.deliveredAddress.length>60)? (util.deliveredAddress | slice:0:60)+'..': util.deliveredAddress) : '' }}
-          </span>
-        </div>
-      </div>
-    </div>
   </div>
+</div>
 
-    <div class="delivery-address" *ngIf="util.findType == 1" (click)="locationPickerBottom.show()">
-      <i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i>
-      <div style="display:flex; flex-direction:column;">
-        <div style="display:flex; align-items:center; gap:6px; width:220px; min-width:0;">
-          <strong class="cityName" style="font-size:14px;font-weight:700;">{{ util.selectedCityName ? util.selectedCityName : (util.deliveredAddress ? (util.deliveredAddress.split(',')[0]) : '') }}</strong>
-          <i class="fas fa-chevron-down" style="font-size:10px; color:#000; margin-left:4px;"></i>
-        </div>
-        <span class="cityName" style="font-size:12px; color:#6b6b6b; max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ util.deliveredAddress ? ((util.deliveredAddress.length>60)? (util.deliveredAddress | slice:0:60)+'..': util.deliveredAddress) : '' }}</span>
-      </div>
-    </div>
 
-  <div class="delivery-address" *ngIf="util.findType == 2" (click)="zipCodePickerBottom.show()">
-    <i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> {{util.translate('Deliver to')}} - <span
-      class="cityName">
-      {{util.deliveryZipCode}}
-    </span>
-    <i class="fas fa-chevron-down" style="font-size:10px; color:#000; margin-left:4px;"></i>
-  </div>
 </header>

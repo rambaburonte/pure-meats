@@ -20,6 +20,28 @@ import { UtilService } from 'src/app/services/util.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  // Remove item from cart (for top picked products)
+  remove(item: any, i: number) {
+    // Find the product in topProducts
+    const idx = this.topProducts.findIndex(x => x.id === item.id);
+    if (idx !== -1) {
+      this.topProducts[idx].quantiy = this.getQuanity(item.id);
+      if (this.topProducts[idx].quantiy === 1) {
+        this.topProducts[idx].quantiy = 0;
+        this.cart.removeItem(item.id);
+      } else {
+        this.topProducts[idx].quantiy = this.topProducts[idx].quantiy - 1;
+        this.cart.addQuantity(this.topProducts[idx].quantiy, item.id);
+      }
+    }
+  }
+
+  // Navigate to home products filtered by type (e.g., 'top-picked', 'best-deals')
+  homeProducts(type: string) {
+    // Example: this.router.navigate(['products'], { queryParams: { type } });
+    // For now, just log or implement as needed
+    console.log('Navigate to home products of type:', type);
+  }
   @ViewChild('basicModal') public basicModal: ModalDirective;
 
   // undefined = loading/not fetched yet, true = stores found, false = no stores
@@ -78,6 +100,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  bannerCarouselOptions = {
+    loop: true,
+    margin: 0,
+    nav: true,
+    dots: true,
+    autoplay: true,
+    autoplayTimeout: 4000,
+    responsive: {
+
+      0: { items: 1 },
+      600: { items: 2 },
+      1000: { items: 3 }
+    }
+  };
 
   myCategoryOptions = {
   loop: false,
@@ -595,18 +632,16 @@ export class HomeComponent implements OnInit, OnDestroy {
       console.log('open link');
       window.open(item.link, '_blank');
     }
+
   }
 
-  homeProducts(from) {
-    console.log(from);
-    this.router.navigate(['home-products', from]);
-  }
-
-  goToSingleProduct(product) {
-    console.log(product);
-    console.log('-->', product);
-    const name = product.name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();;
-    this.router.navigate(['product', name, product.id]);
+  add(product, index) {
+    console.log(product, index);
+    this.topProducts[index].quantiy = this.getQuanity(product.id);
+    if (this.topProducts[index].quantiy > 0) {
+      this.topProducts[index].quantiy = this.topProducts[index].quantiy + 1;
+      this.cart.addQuantity(this.topProducts[index].quantiy, product.id);
+    }
   }
 
   addToCart(item, index) {
@@ -640,29 +675,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  getQuanity(id) {
-    const data = this.cart.cart.filter(x => x.id === id);
-    return data[0].quantiy;
-  }
-
-  remove(product, index) {
-    console.log(product, index);
-    this.topProducts[index].quantiy = this.getQuanity(product.id);
-    if (this.topProducts[index].quantiy === 1) {
-      this.topProducts[index].quantiy = 0;
-      this.cart.removeItem(product.id);
-    } else {
-      this.topProducts[index].quantiy = this.topProducts[index].quantiy - 1;
-      this.cart.addQuantity(this.topProducts[index].quantiy, product.id);
-    }
-  }
-
-  add(product, index) {
-    console.log(product, index);
-    this.topProducts[index].quantiy = this.getQuanity(product.id);
-    if (this.topProducts[index].quantiy > 0) {
-      this.topProducts[index].quantiy = this.topProducts[index].quantiy + 1;
-      this.cart.addQuantity(this.topProducts[index].quantiy, product.id);
+  getQuanity(productId: any) {
+    try {
+      if (!this.cart || !this.cart.cart) return 0;
+      const found = this.cart.cart.filter((x: any) => x.id == productId);
+      if (found && found.length) {
+        return found[0].quantiy || 0;
+      }
+      return 0;
+    } catch (e) {
+      return 0;
     }
   }
 
@@ -751,5 +773,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
     
     return uniqueItems;
+  }
+
+  goToSingleProduct(item: any) {
+    console.log('go to single product', item);
+    const name = item.name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+    this.router.navigate(['product', name, item.id]);
   }
 }
