@@ -369,6 +369,12 @@
              [(ngModel)]="terms" style="padding-right: 30px;" />
       <i class="fas fa-search" (click)="inputChange()" 
          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #777; font-size: 14px;"></i>
+      <div class="search-result" *ngIf="products?.length && terms !=''">
+        <div class="search-item" *ngFor="let item of products" mdbWavesEffect (click)="openProduct(item)">
+          <img [src]="api.mediaURL+item.cover" class="search-cover" alt="" onError="this.src='assets/your-logo.png'">
+          <p class="search-name"> {{item.name}} </p>
+        </div>
+      </div>
     </div>
   </li>
 </ul>
@@ -576,9 +582,6 @@
       <div class="search-item" *ngFor="let item of products" mdbWavesEffect (click)="openProduct(item)">
         <img [src]="api.mediaURL+item.cover" class="search-cover" alt="" onError="this.src='assets/your-logo.png'">
         <p class="search-name"> {{item.name}} </p>
-      </div>
-      <div class="sideImage" *ngIf="products.length > 3"
-        [ngStyle]="{'background-image':'url('+api.mediaURL+products[0].cover+'),url(assets/placeholder.png)'}">
       </div>
     </div>
 </div>
