@@ -216,7 +216,9 @@
 
 //.mobile_header, .navbar-nav, .icons-cat{
 .mobile_header{
-  background: #fff;
+  background-color: #fff;
+    margin-bottom: 0px;
+    padding: 4px;
   position: fixed;
   top: 0px;
   width: 100%;
@@ -250,6 +252,8 @@
       border-radius: 5px;
       padding-left: 10px;
       padding-right: 10px;
+      border: 1px solid #b31917;
+    margin:0px;
     }
     .search-result {
       z-index: 9999;

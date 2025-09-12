@@ -556,17 +556,22 @@
    
     <img src="assets/your-logo.png" mdbWavesEffect (click)="onHome()" style="width: 100px;">
      
-    <div class="right mobile_menu">
-      <i class="fas fa-bars" mdbWavesEffect (click)="sideMenu.show()" style="color:#fff;"></i>&nbsp;&nbsp;
-       <i class="fas fa-user" mdbWavesEffect (click)="onProfile('profile')" style="margin-right: 5px;color:#fff;"></i>
+    <div class="right mobile_menu" align="center">
+      <i class="fas fa-bars" mdbWavesEffect (click)="sideMenu.show()" style="width: 30%;color: #fff;font-size: 34px;"></i>&nbsp;&nbsp;
+       <i class="fas fa-user" mdbWavesEffect (click)="onProfile('profile')" style="margin-right: 5px;width: 30%;color: #fff;font-size: 30px;"></i>
       <i class="fas fa-shopping-cart" (click)="goToCart()" mdbWavesEffect
-        style="margin-left: 10px;position: relative;overflow: visible;color:#fff;">
+        style="margin-left: 10px;position: relative;overflow: visible;width: 30%;color: #fff;font-size: 30px;">
         <span *ngIf="cart.cart?.length"
-          style="position: absolute; line-height: 10px;color:#fff; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
+          style="position: absolute; line-height: 10px;color:#fff;width: 30%;color: #fff;font-size: 30px; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
           {{cart.cart.length}} </span>
       </i>
       &nbsp;&nbsp;
-    <input class="input_bar" placeholder="Search for products" (input)="inputChange()" [(ngModel)]="terms" style="width:75%;" />
+    
+  </div>
+    </div>
+
+<div class="bottom">
+  <input class="input_bar" placeholder="Search for products" (input)="inputChange()" [(ngModel)]="terms"/>
     <div class="search-result" *ngIf="products?.length && terms !=''">
       <div class="search-item" *ngFor="let item of products" mdbWavesEffect (click)="openProduct(item)">
         <img [src]="api.mediaURL+item.cover" class="search-cover" alt="" onError="this.src='assets/your-logo.png'">
@@ -576,11 +581,7 @@
         [ngStyle]="{'background-image':'url('+api.mediaURL+products[0].cover+'),url(assets/placeholder.png)'}">
       </div>
     </div>
-  </div>
-    </div>
- 
-
-  
+</div>
 
   <div class="delivery-address" *ngIf="util.findType == 0" (click)="basicModal.show()" style="cursor:pointer;">
     <div class="city-wrap nav-item">
