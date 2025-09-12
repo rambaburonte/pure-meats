@@ -553,21 +553,20 @@
 
 <header *ngIf="util.deviceType !='desktop'" class="mobile_header">
   <div class="top">
-    <i class="fas fa-bars" mdbWavesEffect (click)="sideMenu.show()"></i>
+   
     <img src="assets/your-logo.png" mdbWavesEffect (click)="onHome()" style="width: 100px;">
-    <div class="right">
-      <i class="fas fa-user" mdbWavesEffect (click)="onProfile('profile')" style="margin-right: 5px;"></i>
+     
+    <div class="right mobile_menu">
+      <i class="fas fa-bars" mdbWavesEffect (click)="sideMenu.show()" style="color:#fff;"></i>&nbsp;&nbsp;
+       <i class="fas fa-user" mdbWavesEffect (click)="onProfile('profile')" style="margin-right: 5px;color:#fff;"></i>
       <i class="fas fa-shopping-cart" (click)="goToCart()" mdbWavesEffect
-        style="margin-left: 10px;position: relative;overflow: visible;">
+        style="margin-left: 10px;position: relative;overflow: visible;color:#fff;">
         <span *ngIf="cart.cart?.length"
-          style="position: absolute; line-height: 10px; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
+          style="position: absolute; line-height: 10px;color:#fff; background: red; border-radius: 50%; padding: 5px; top: -5px; left: 5px; font-size: 10px; height: 20px;  text-align: center;">
           {{cart.cart.length}} </span>
       </i>
-    </div>
-  </div>
-
-  <div class="bottom">
-    <input class="input_bar" placeholder="Search for products" (input)="inputChange()" [(ngModel)]="terms" />
+      &nbsp;&nbsp;
+    <input class="input_bar" placeholder="Search for products" (input)="inputChange()" [(ngModel)]="terms" style="width:75%;" />
     <div class="search-result" *ngIf="products?.length && terms !=''">
       <div class="search-item" *ngFor="let item of products" mdbWavesEffect (click)="openProduct(item)">
         <img [src]="api.mediaURL+item.cover" class="search-cover" alt="" onError="this.src='assets/your-logo.png'">
@@ -578,6 +577,10 @@
       </div>
     </div>
   </div>
+    </div>
+ 
+
+  
 
   <div class="delivery-address" *ngIf="util.findType == 0" (click)="basicModal.show()" style="cursor:pointer;">
     <div class="city-wrap nav-item">
