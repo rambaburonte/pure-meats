@@ -203,7 +203,7 @@
   width: auto;
   object-fit: contain;
   display: block;
-  margin: 28px 0px 0px 0px;
+  margin: -12px 0px 0px 0px;
 }
 
 /* Navbar links container: use flex */
@@ -425,7 +425,7 @@
           <li>
             <button type="button" mdbWavesEffect (click)="$event.stopPropagation(); toggleHeaderDropdown()"
               style="padding: 0px;margin: 0px;color:#0d0d0e;position: relative;overflow: visible;">
-              <mdb-icon fas icon="th-large"></mdb-icon> &nbsp;{{util.translate('Categories')}}
+               <i class="fa-solid fa-layer-group"></i>  &nbsp;{{util.translate('Categories')}}
             </button>
             <div class="header-dropdown categories-dropdown" *ngIf="showHeaderDropdown">
               <div *ngIf="headerLoading" style="padding:12px;">Loading...</div>
