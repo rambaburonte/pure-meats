@@ -512,7 +512,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     try {
       // only target the native fallback horizontal row (when owl-carousel isn't available)
-      const stages = Array.from(document.querySelectorAll('.btm_category .sub-row')) as HTMLElement[];
+      const stages = Array.from(document.querySelectorAll('.btm_category_grid')) as HTMLElement[];
       stages.forEach((el, idx) => {
         if (!el) return;
         // only enable if there is overflow (more content than container width)

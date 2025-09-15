@@ -37,7 +37,7 @@
             <mdb-carousel class="carousel slide carousel-fade" [animation]="'fade'">
                 <mdb-carousel-item *ngFor="let item of banners " (click)="openLink(item)">
                     <div class="view w-100 banner_back" mdbWavesEffect
-                        [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+'),url(assets/placeholder.png)'}">
+                        [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+')'}">
                     </div>
                     <div class="carousel-caption">
                         <p>{{item.message}}</p>
@@ -78,7 +78,7 @@
                 <div class="product-top">
                     <a>
                         <div class="back_img" (click)="goToSingleProduct(item)"
-                            [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+'),url(assets/placeholder.png)'}">
+                            [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+')'}">
                             <div *ngIf="item.in_stoke == 0" class="notInStoke">
                                 <p class="text"> {{util.translate('Out of Stock')}} </p>
                             </div>
@@ -314,14 +314,14 @@
         <label class="view_lbl" (click)="allStores()">{{util.translate('View All')}}</label>
     </div>
 
-    <owl-carousel [options]="mystoreOptions" [items]="stores" [carouselClasses]="['owl-theme', 'row', 'sliding']">
-        <ng-container *ngFor="let item of stores; index as i">
+    <div class="store_div">
+        <div *ngFor="let item of stores; index as i" class="store_item">
             <div id='product' class="card border-0 text-center">
                 <div class="product-top">
 
                     <a>
                         <div class="back_img" (click)="openStore(item)"
-                            [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+'),url(assets/placeholder.png)'}">
+                            [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+')'}">
                             <img src="assets/imgs/open.png" class="kind" alt="Open"
                                 *ngIf="item.isOpen && item.isClosed ==1">
                             <img src="assets/imgs/close.png" class="kind" alt="Closed"
@@ -341,8 +341,8 @@
                     </div>
                 </div>
             </div>
-        </ng-container>
-    </owl-carousel>
+        </div>
+    </div>
 
 
     <div class="header_div" *ngIf="offers?.length">
@@ -359,7 +359,7 @@
 
                     <a>
                         <div class="back_img" (click)="goToSingleProduct(item)"
-                            [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+'),url(assets/placeholder.png)'}">
+                            [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+')'}">
                             <div *ngIf="item.in_stoke == 0" class="notInStoke">
                                 <p class="text"> {{util.translate('Out of Stock')}} </p>
                             </div>
@@ -516,13 +516,13 @@
 
     <div class="btm_category" *ngFor="let item of categories">
         <h3 class="cate_title" *ngIf="item.subCates.length">{{item.name}} </h3>
-        <owl-carousel [options]="myCarouselOptions" [items]="getUniqueSubCates(item.subCates)" [carouselClasses]="['owl-theme', 'row', 'sliding']" style="display: none;">
+        <owl-carousel [options]="myCarouselOptions" [items]="getUniqueSubCates(item.subCates)" [carouselClasses]="['owl-theme', 'row', 'sliding']">
             <ng-container *ngFor="let sub of getUniqueSubCates(item.subCates); index as i">
                 <div id='product' class="card border-0 text-center">
                     <div class="product-top">
                         <a>
                             <div class="back_img" (click)="subItems(item,sub)"
-                                [ngStyle]="{'background-image':'url('+api.mediaURL+sub.cover+'),url(assets/placeholder.png)'}">
+                                [ngStyle]="{'background-image':'url('+api.mediaURL+sub.cover+')'}">
                             </div>
                         </a>
                     </div>
@@ -534,13 +534,13 @@
         </owl-carousel>
         
         <!-- Static grid layout matching Best Offers alignment from left -->
-        <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: flex-start; margin: 0; padding: 0;">
+        <!-- <div class="btm_category_grid" style="display: none;">
             <div *ngFor="let sub of getUniqueSubCates(item.subCates)">
                 <div id='product' class="card border-0 text-center">
                     <div class="product-top">
                         <a>
                             <div class="back_img" (click)="subItems(item,sub)"
-                                [ngStyle]="{'background-image':'url('+api.mediaURL+sub.cover+'),url(assets/placeholder.png)'}">
+                                [ngStyle]="{'background-image':'url('+api.mediaURL+sub.cover+')'}">
                             </div>
                         </a>
                     </div>
@@ -549,7 +549,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="row offers_div">
