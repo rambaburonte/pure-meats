@@ -840,10 +840,6 @@ label {
 
 /* Extra small devices (very small phones) */
 @media only screen and (max-width: 390px) {
-  .categoryList {
-    width: 390px !important;
-    max-width: 390px !important;
-  }
   .categoryList .back_img {
     height: 120px !important; /* Decreased image height for smaller screens */
   }
@@ -1021,8 +1017,8 @@ label {
   }
 }
 
-/* Mobile horizontal scroll for shop by categories (below 440px) */
-@media only screen and (max-width: 430px) {
+/* Mobile horizontal scroll for shop by categories (below 450px) */
+@media only screen and (max-width: 450px) {
   .category_div {
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -1030,16 +1026,18 @@ label {
     overflow-y: hidden !important;
     gap: 15px !important;
     padding: 0 !important;
-    margin: 0 !important;
+    margin: 0  !important;
     -webkit-overflow-scrolling: touch !important;
   }
   .categoryList {
     flex: 0 0 auto !important;
-    width: 180px !important;
-    max-width: 180px !important;
-    min-width: 180px !important;
+    width: 405px !important;
+    max-width: 405px !important;
+    min-width: 400px !important;
+    margin-left: 20px !important;
+   
     .back_img {
-      height: 120px !important;
+      height: 220px !important;
     }
   }
 }
