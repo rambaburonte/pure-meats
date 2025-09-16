@@ -131,11 +131,11 @@
         <div class="col-md-3 col-sm-6 col-xs-12" *ngIf="util.deviceType=='desktop'">
             <p class="head">{{util.translate('Activity')}}</p>
             <div [ngClass]="tabId =='profile' ?'active_btn':'normal_btn'" (click)="openLink('profile')">
-                <mdb-icon fas icon="user" class="menu-icon"></mdb-icon>
+                 <img src="assets/header-icons/profile-grey.svg">
                 {{util.translate('Profile')}}
             </div>
             <div [ngClass]="tabId =='order' ?'active_btn':'normal_btn'" (click)="openLink('order')">
-                <mdb-icon fas icon="shopping-cart" class="menu-icon"></mdb-icon>
+                 <img src="assets/header-icons/cart.svg">
                 {{util.translate('Order History')}}
             </div>
             <div [ngClass]="tabId =='address' ?'active_btn':'normal_btn'" (click)="openLink('address')">
@@ -148,11 +148,11 @@
         <div class="col-12 mobile-activity" *ngIf="util.deviceType!='desktop'">
             <div class="mobile-menu-container">
                 <div [ngClass]="tabId =='profile' ?'mobile_active_btn':'mobile_normal_btn'" (click)="openLink('profile')">
-                    <mdb-icon fas icon="user" class="menu-icon"></mdb-icon>
+                    <img src="assets/header-icons/profile-gray.svg">
                     <span>{{util.translate('Profile')}}</span>
                 </div>
                 <div [ngClass]="tabId =='order' ?'mobile_active_btn':'mobile_normal_btn'" (click)="openLink('order')">
-                    <mdb-icon fas icon="shopping-cart" class="menu-icon"></mdb-icon>
+                    <img src="assets/header-icons/cart.svg">
                     <span>{{util.translate('Orders')}}</span>
                 </div>
                 <div [ngClass]="tabId =='address' ?'mobile_active_btn':'mobile_normal_btn'" (click)="openLink('address')">

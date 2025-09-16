@@ -5,6 +5,9 @@
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
  -->
+
+
+ 
 <div mdbModal #sideMenu="mdbModal" class="modal fade left" tabindex="-1" role="dialog"
   aria-labelledby="myBasicModalLabel" aria-hidden="true" style="z-index: 999999;">
   <div class="modal-dialog modal-full-height modal-left" role="document" style="margin: 0px;padding: 0px;height: 100%;">
@@ -394,7 +397,7 @@
 
           <li *ngIf="haveSigned()===false" (click)="onLogin()">
             <button type="button" mdbWavesEffect style="padding: 0px;margin: 0px;color:#0d0d0e;">
-              <mdb-icon fas icon="user"></mdb-icon> &nbsp;{{util.translate('Login')}} 
+              <img sec="assets/header-icons/profile-grey.svg"> &nbsp;{{util.translate('Login')}} 
             </button>
           </li>
 
@@ -402,7 +405,7 @@
           <li *ngIf="haveSigned()===true" class="nav-item dropdown" dropdown
             style="padding: 0; padding-left: 0px;padding-right: 0px;">
             <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle" mdbWavesEffect>
-              <mdb-icon fas icon="user-alt"></mdb-icon>&nbsp;<br>{{util.translate('Account')}}
+               <img src="assets/header-icons/profile-grey.svg">&nbsp;<br>{{util.translate('Account')}}
             </a>
             <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
               <a class="dropdown-item waves-light" mdbWavesEffect style="color: black !important;"
@@ -425,7 +428,7 @@
           <li>
             <button type="button" mdbWavesEffect (click)="$event.stopPropagation(); toggleHeaderDropdown()"
               style="padding: 0px;margin: 0px;color:#0d0d0e;position: relative;overflow: visible;">
-               <i class="fa-solid fa-layer-group"></i>  &nbsp;{{util.translate('Categories')}}
+                <img src="assets/header-icons/categories-grey.svg">  &nbsp;{{util.translate('Categories')}}
             </button>
             <div class="header-dropdown categories-dropdown" *ngIf="showHeaderDropdown">
               <div *ngIf="headerLoading" style="padding:12px;">Loading...</div>
@@ -455,7 +458,7 @@
           <li>
             <button type="button" mdbWavesEffect (click)="$event.stopPropagation(); toggleStoresDropdown()"
               style="padding: 0px;margin: 0px;color:#0d0d0e;position: relative;overflow: visible;">
-              <mdb-icon fas icon="store"></mdb-icon> &nbsp;{{util.translate('Stores')}}
+              <img src="assets/header-icons/store-locator-unselected.svg"> &nbsp;{{util.translate('Stores')}}
             </button>
             <div class="header-dropdown stores-dropdown" *ngIf="showStoresDropdown">
               <div *ngIf="headerLoading">Loading...</div>
@@ -476,7 +479,7 @@
 
           <li>
             <button type="button" class="header-action-btn" mdbWavesEffect (click)="goToCart()">
-              <mdb-icon fas icon="shopping-cart"></mdb-icon> &nbsp;{{util.translate('Cart')}} <span
+              <img src="assets/header-icons/cart.svg"> &nbsp;{{util.translate('Cart')}} <span
                 *ngIf="cart.cart?.length"
                 class="cart-badge">
                 {{cart.cart.length}} </span>
@@ -621,16 +624,16 @@
     </button>
 
     <button class="mobile-icon" type="button" mdbWavesEffect (click)="onProfile('profile')" aria-label="profile">
-      <i class="fas fa-user" aria-hidden="true"></i>
+       <img src="assets/header-icons/profile-grey.svg">
     </button>
 
     <div class="cart-container">
       <button class="mobile-icon category-btn" type="button" mdbWavesEffect (click)="$event.stopPropagation(); toggleHeaderDropdown()" aria-label="categories">
-        <i class="fas fa-th-large" aria-hidden="true"></i>
+         <img src="assets/header-icons/categories-grey.svg">
       </button>
 
       <button class="mobile-icon" type="button" mdbWavesEffect (click)="goToCart()" aria-label="cart">
-        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+         <img src="assets/header-icons/cart.svg">
         <span *ngIf="cart.cart?.length" class="cart-badge-mobile">{{cart.cart.length}}</span>
       </button>
     </div>

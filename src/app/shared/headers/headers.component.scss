@@ -17,13 +17,13 @@
 
   li {
     cursor: pointer;
-    color: #000;
+    color: #666;
     padding-right: 15px;
     padding-left: 15px;
     font-size: 14px;
 
     a {
-      color: #000 !important;
+      color: #666 !important;
     }
 
     button {
@@ -411,6 +411,8 @@ button { box-shadow:none; border:none; background:none; }
   top: 0px;
   width: 100%;
   z-index: 99999;
+  color:#666;
+  margin-top: -20px;
   border-bottom: 1px solid lightgray;
   // box-shadow: 0px 2px 10px 3px lightgrey;
   .top {
@@ -420,6 +422,7 @@ button { box-shadow:none; border:none; background:none; }
     padding: 10px;
     align-items: center;
     color: #000;
+    margin-top: -20px;
     .left {
       display: flex;
       align-items: center;
