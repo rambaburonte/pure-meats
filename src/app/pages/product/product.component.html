@@ -36,7 +36,7 @@
         <div class="col-lg-6">
             <div class="product_detail">
                 <label class="pro_name">{{name}}</label>
-                <mdb-icon fas icon="heart" class="fav_icon" (click)="onFav()"
+                <mdb-icon style="border:none;" fas icon="heart" class="fav_icon" (click)="onFav()"
                     [ngClass]="util.favIds.includes(id)?'active_fav': 'deactive_fav'"></mdb-icon>
                 <p class="kinds-of-product" *ngIf="size ==0">
                     <span *ngIf="have_gram == 1"> {{gram}} {{util.translate('grams')}} </span>
