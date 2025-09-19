@@ -45,7 +45,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('basicModal') public basicModal: ModalDirective;
 
   // undefined = loading/not fetched yet, true = stores found, false = no stores
-  haveData: boolean = undefined;
+  // haveData: boolean = undefined;
+   
+  // haveData: boolean | undefined = undefined; 
+haveData: boolean = undefined; // undefined = loading, true = data exists, false = no data
+storesFiltered: boolean = false; // Track if stores have been filtered by proximity
+
+   // User's coordinates
+  userLatitude!: number;
+  userLongitude!: number;
+
+   // Radius to check (km)
+  maxDistance = 5;
+
+
+  
+
   dummyCates = Array(30);
   categories: any[] = [];
 
@@ -250,184 +265,191 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dummyOffers = [];
     this.dummyBottomCates = [];
   }
-  getHomeDataWithCity() {
-    this.resetData();
-    // mark as loading
-    this.haveData = undefined;
-    this.api.post_public('v1/home/searchWithCity', { id: localStorage.getItem('city') }).then((data: any) => {
-      console.log(data);
-      if (data && data.status && data.status == 200 && data.data && data.data.stores && data.data.stores.length) {
-        this.haveData = true;
-        this.parseResponse(data.data);
-      } else {
-        this.clearDummy();
-        this.haveData = false;
-      }
-    }, error => {
+getHomeDataWithCity() {
+  this.resetData();
+  // mark as loading
+  this.haveData = undefined;
+  this.storesFiltered = false;
+  this.api.post_public('v1/home/searchWithCity', { id: localStorage.getItem('city') }).then((data: any) => {
+    console.log(data);
+    if (data && data.status && data.status == 200 && data.data) {
+      this.parseResponse(data.data);
+    } else {
       this.clearDummy();
-      console.log(error);
       this.haveData = false;
-    }).catch(error => {
-      this.clearDummy();
-      console.log(error);
-      this.haveData = false;
-    });
-  }
-
-  getHomeDataWithGeoLocation() {
-    this.resetData();
-    this.haveData = undefined;
-    const param = {
-      lat: localStorage.getItem('userLat'),
-      lng: localStorage.getItem('userLng')
+      this.storesFiltered = false;
     }
-    this.api.post_public('v1/home/searchWithGeoLocation', param).then((data: any) => {
-      console.log(data);
-      if (data && data.status && data.status == 200 && data.data && data.data.stores && data.data.stores.length) {
-        this.haveData = true;
-        this.parseResponse(data.data);
-      } else {
-        // fallback to city-based search when geo lookup returns no stores
-        this.clearDummy();
-        this.getHomeDataWithCity();
-      }
-    }, error => {
-      console.log('geo lookup error, falling back to city', error);
-      this.clearDummy();
-      this.getHomeDataWithCity();
-    }).catch(error => {
-      console.log('geo lookup catch, falling back to city', error);
-      this.clearDummy();
-      this.getHomeDataWithCity();
-    });
-  }
-
-  getHomeDataWithZipCode() {
-    this.resetData();
-    this.haveData = undefined;
-    this.api.post_public('v1/home/searchWithZipCode', { zipcode: localStorage.getItem('zipcodes') }).then((data: any) => {
-      console.log(data);
-      if (data && data.status && data.status == 200 && data.data && data.data.stores && data.data.stores.length) {
-        this.haveData = true;
-        this.parseResponse(data.data);
-      } else {
-        // fallback to city search when zipcode doesn't return stores
-        this.clearDummy();
-        this.getHomeDataWithCity();
-      }
-    }, error => {
-      console.log('zipcode lookup error, falling back to city', error);
-      this.clearDummy();
-      this.getHomeDataWithCity();
-    }).catch(error => {
-      console.log('zipcode lookup catch, falling back to city', error);
-      this.clearDummy();
-      this.getHomeDataWithCity();
-    });
-  }
-
-  parseResponse(data) {
-  console.log('parseResponse data:', data);
+  }, error => {
     this.clearDummy();
-    this.allcates = data.category;
-    this.categories = data.category;
+    console.log(error);
+    this.haveData = false;
+    this.storesFiltered = false;
+  }).catch(error => {
+    this.clearDummy();
+    console.log(error);
+    this.haveData = false;
+    this.storesFiltered = false;
+  });
+}
 
-    // Use backend store list as-is so display order and duplicates are preserved.
-    // Then compute isOpen in-place to avoid modifying order or creating a new array.
-    this.stores = data.stores || [];
-    try {
-      this.stores.forEach(element => {
-        try {
-          element['isOpen'] = this.isOpen(element.open_time, element.close_time);
-        } catch (e) {
-          element['isOpen'] = false;
-        }
-      });
-    } catch (e) {
-      // fallback: ensure stores is at least set
-      this.stores = data.stores || [];
+ getHomeDataWithGeoLocation() {
+  this.resetData();
+  this.haveData = undefined;
+  this.storesFiltered = false;
+  const param = {
+    lat: localStorage.getItem('userLat'),
+    lng: localStorage.getItem('userLng')
+  }
+  this.api.post_public('v1/home/searchWithGeoLocation', param).then((data: any) => {
+    console.log(data);
+    if (data && data.status && data.status == 200 && data.data) {
+      this.parseResponse(data.data);
+    } else {
+      // fallback to city-based search when geo lookup returns no stores
+      this.clearDummy();
+      this.getHomeDataWithCity();
     }
+  }, error => {
+    console.log('geo lookup error, falling back to city', error);
+    this.clearDummy();
+    this.getHomeDataWithCity();
+  }).catch(error => {
+    console.log('geo lookup catch, falling back to city', error);
+    this.clearDummy();
+    this.getHomeDataWithCity();
+  });
+}
 
-    // build new banner arrays then assign in one shot to avoid intermediate empty states
-    const newBanners = [];
-    const newBottom = [];
-    const newBetween = [];
-    (data.banners || []).forEach(element => {
-      if (element.position == 0) {
-        newBanners.push(element);
-      } else if (element.position == 1) {
-        newBottom.push(element);
-      } else {
-        newBetween.push(element);
+
+ getHomeDataWithZipCode() {
+  this.resetData();
+  this.haveData = undefined;
+  this.storesFiltered = false;
+  this.api.post_public('v1/home/searchWithZipCode', { zipcode: localStorage.getItem('zipcodes') }).then((data: any) => {
+    console.log(data);
+    if (data && data.status && data.status == 200 && data.data) {
+      this.parseResponse(data.data);
+    } else {
+      // fallback to city search when zipcode doesn't return stores
+      this.clearDummy();
+      this.getHomeDataWithCity();
+    }
+  }, error => {
+    console.log('zipcode lookup error, falling back to city', error);
+    this.clearDummy();
+    this.getHomeDataWithCity();
+  }).catch(error => {
+    console.log('zipcode lookup catch, falling back to city', error);
+    this.clearDummy();
+    this.getHomeDataWithCity();
+  });
+}
+
+
+parseResponse(data) {
+  console.log('parseResponse data:', data);
+  this.clearDummy();
+  this.storesFiltered = false; // Reset filter flag
+  this.allcates = data.category;
+  this.categories = data.category;
+
+  // Use backend store list as-is so display order and duplicates are preserved.
+  // Then compute isOpen in-place to avoid modifying order or creating a new array.
+  this.stores = data.stores || [];
+  try {
+    this.stores.forEach(element => {
+      try {
+        element['isOpen'] = this.isOpen(element.open_time, element.close_time);
+      } catch (e) {
+        element['isOpen'] = false;
       }
     });
+  } catch (e) {
+    // fallback: ensure stores is at least set
+    this.stores = data.stores || [];
+  }
 
-    // build products
-    const finalProducts = [...(data.homeProducts || []), ...(data.topProducts || [])];
-    finalProducts.forEach(element => {
-      if (element.variations && element.size == 1 && element.variations != '') {
-        if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.variations)) {
-          element.variations = JSON.parse(element.variations);
-          element['variant'] = 0;
-        } else {
-          element.variations = [];
-          element['variant'] = 1;
-        }
+  // build new banner arrays then assign in one shot to avoid intermediate empty states
+  const newBanners = [];
+  const newBottom = [];
+  const newBetween = [];
+  (data.banners || []).forEach(element => {
+    if (element.position == 0) {
+      newBanners.push(element);
+    } else if (element.position == 1) {
+      newBottom.push(element);
+    } else {
+      newBetween.push(element);
+    }
+  });
+
+  // build products
+  const finalProducts = [...(data.homeProducts || []), ...(data.topProducts || [])];
+  finalProducts.forEach(element => {
+    if (element.variations && element.size == 1 && element.variations != '') {
+      if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.variations)) {
+        element.variations = JSON.parse(element.variations);
+        element['variant'] = 0;
       } else {
         element.variations = [];
         element['variant'] = 1;
       }
-      if (this.cart.itemId.includes(element.id)) {
-        const index = this.cart.cart.filter(x => x.id == element.id);
-        element['quantiy'] = index[0].quantiy;
-      } else {
-        element['quantiy'] = 0;
-      }
-    });
+    } else {
+      element.variations = [];
+      element['variant'] = 1;
+    }
+    if (this.cart.itemId.includes(element.id)) {
+      const index = this.cart.cart.filter(x => x.id == element.id);
+      element['quantiy'] = index[0].quantiy;
+    } else {
+      element['quantiy'] = 0;
+    }
+  });
 
-    // build offers
-    const newOffers = (data.inOffers || []).map(element => {
-      if (element.variations && element.size == 1 && element.variations != '') {
-        if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.variations)) {
-          element.variations = JSON.parse(element.variations);
-          element['variant'] = 0;
-        } else {
-          element.variations = [];
-          element['variant'] = 1;
-        }
+  // build offers
+  const newOffers = (data.inOffers || []).map(element => {
+    if (element.variations && element.size == 1 && element.variations != '') {
+      if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.variations)) {
+        element.variations = JSON.parse(element.variations);
+        element['variant'] = 0;
       } else {
         element.variations = [];
         element['variant'] = 1;
       }
-      if (this.cart.itemId.includes(element.id)) {
-        const index = this.cart.cart.filter(x => x.id == element.id);
-        element['quantiy'] = index[0].quantiy;
-      } else {
-        element['quantiy'] = 0;
-      }
-      return element;
-    });
+    } else {
+      element.variations = [];
+      element['variant'] = 1;
+    }
+    if (this.cart.itemId.includes(element.id)) {
+      const index = this.cart.cart.filter(x => x.id == element.id);
+      element['quantiy'] = index[0].quantiy;
+    } else {
+      element['quantiy'] = 0;
+    }
+    return element;
+  });
 
   // stores already assigned above
-    this.banners = newBanners;
-    this.bottomBanners = newBottom;
-    this.betweenBanners = newBetween;
-    this.util.active_store = [...new Set(this.stores.map(item => item.uid))];
-    this.topProducts = finalProducts;
-    this.offers = newOffers;
+  this.banners = newBanners;
+  this.bottomBanners = newBottom;
+  this.betweenBanners = newBetween;
+  this.util.active_store = [...new Set(this.stores.map(item => item.uid))];
+  this.topProducts = finalProducts;
+  this.offers = newOffers;
 
-    this.chMod.detectChanges();
-    // initialize native auto-scroll for bottom category stages after view update
-    setTimeout(() => {
-      this.initBottomAutoScroll();
-    }, 250);
+  this.chMod.detectChanges();
+  // initialize native auto-scroll for bottom category stages after view update
+  setTimeout(() => {
+    this.initBottomAutoScroll();
+  }, 250);
 
-    // If user location exists, ensure we don't show 'No Stores' when any store is within 5km.
-    setTimeout(() => {
-      this.filterStoresByProximityKm(5);
-    }, 300);
+  // If user location exists, filter stores by proximity
+  setTimeout(() => {
+    this.filterStoresByProximityKm(5);
+  }, 300);
+
   console.log('stores loaded:', this.stores ? this.stores.length : 0, 'topProducts:', this.topProducts ? this.topProducts.length : 0);
-  }
+}
 
   private getStoreCoordinates(store: any): { lat: number, lng: number } | null {
     if (!store || typeof store !== 'object') return null;
@@ -464,43 +486,71 @@ export class HomeComponent implements OnInit, OnDestroy {
    * If user location exists and stores include coordinates, filter stores to those within radiusKm.
    * If any store is found within the radius, ensure haveData=true and show those stores.
    */
-  private filterStoresByProximityKm(radiusKm: number) {
-    try {
-      const latStr = localStorage.getItem('userLat');
-      const lngStr = localStorage.getItem('userLng');
-      if (!latStr || !lngStr) return; // no user location available
-      const userLat = parseFloat(latStr);
-      const userLng = parseFloat(lngStr);
-      if (isNaN(userLat) || isNaN(userLng)) return;
-
-      if (!this.stores || !this.stores.length) return;
-
-      const storesWithCoords: Array<{ store: any, lat: number, lng: number }> = [];
-      for (const s of this.stores) {
-        const coords = this.getStoreCoordinates(s);
-        if (coords) {
-          storesWithCoords.push({ store: s, lat: coords.lat, lng: coords.lng });
-        }
-      }
-      if (!storesWithCoords.length) return; // no coordinate data to act on
-
-      const within: any[] = [];
-      for (const s of storesWithCoords) {
-        const d = this.haversineKm(userLat, userLng, s.lat, s.lng);
-        if (d <= radiusKm) within.push(s.store);
-      }
-
-      if (within.length) {
-        // show only nearby stores to the user
-        this.stores = within;
-        this.haveData = true;
-        this.chMod.detectChanges();
-      }
-    } catch (e) {
-      console.log('filterStoresByProximityKm error', e);
+private filterStoresByProximityKm(radiusKm: number) {
+  try {
+    const latStr = localStorage.getItem('userLat');
+    const lngStr = localStorage.getItem('userLng');
+    
+    // If no user location is available, don't filter by proximity
+    if (!latStr || !lngStr) {
+      this.storesFiltered = false;
+      this.haveData = this.stores && this.stores.length > 0;
+      return;
     }
-  }
+    
+    const userLat = parseFloat(latStr);
+    const userLng = parseFloat(lngStr);
+    if (isNaN(userLat) || isNaN(userLng)) {
+      this.storesFiltered = false;
+      this.haveData = this.stores && this.stores.length > 0;
+      return;
+    }
 
+    if (!this.stores || this.stores.length === 0) {
+      this.storesFiltered = true;
+      this.haveData = false;
+      return;
+    }
+
+    const storesWithCoords: Array<{ store: any, lat: number, lng: number }> = [];
+    for (const s of this.stores) {
+      const coords = this.getStoreCoordinates(s);
+      if (coords) {
+        storesWithCoords.push({ store: s, lat: coords.lat, lng: coords.lng });
+      }
+    }
+    
+    // If no stores have coordinates, don't filter by proximity
+    if (!storesWithCoords.length) {
+      this.storesFiltered = false;
+      this.haveData = this.stores && this.stores.length > 0;
+      return;
+    }
+
+    const within: any[] = [];
+    for (const s of storesWithCoords) {
+      const d = this.haversineKm(userLat, userLng, s.lat, s.lng);
+      if (d <= radiusKm) within.push(s.store);
+    }
+
+    this.storesFiltered = true; // Mark that we've filtered stores by proximity
+    
+    if (within.length > 0) {
+      // show only nearby stores to the user
+      this.stores = within;
+      this.haveData = true;
+    } else {
+      this.haveData = false;
+      this.stores = []; // Clear stores since none are within 5km
+    }
+    
+    this.chMod.detectChanges();
+  } catch (e) {
+    console.log('filterStoresByProximityKm error', e);
+    this.storesFiltered = false;
+    this.haveData = this.stores && this.stores.length > 0;
+  }
+}
   /**
    * Initialize auto-scroll for each bottom category owl stage (native overflow stage fallback).
    * This performs a smooth pixel-by-pixel scroll and loops back to start when reaching the end.

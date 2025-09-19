@@ -27,30 +27,37 @@
 </div>
 
 <div class="container-fluid" style="padding: 0px !important;">
-    <!-- show banner only when we've completed the fetch and there are explicitly no stores -->
-    <div *ngIf="haveData === false && (!stores || stores.length === 0)" style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 100px;">
-        <img src="assets/imgs/3298067.jpg" alt="" srcset="" style="width: 100px;height: 100px;">
-        <p>{{util.translate('No Stores Found Near You!')}}</p>
-    </div>
-    <div class="row" *ngIf="banners?.length || haveData === undefined">
-        <div class="col-lg-12" style="padding: 0px;margin: 0px;">
-            <mdb-carousel class="carousel slide carousel-fade" [animation]="'fade'">
-                <mdb-carousel-item *ngFor="let item of banners " (click)="openLink(item)">
-                    <div class="view w-100 banner_back" mdbWavesEffect
-                        [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+')'}">
-                    </div>
-                    <div class="carousel-caption">
-                        <p>{{item.message}}</p>
-                    </div>
-                </mdb-carousel-item>
-            </mdb-carousel>
-        </div>
-    </div>
-    <div *ngIf="dummyBanners?.length">
-        <ngx-skeleton-loader [theme]="{ 'border-radius': '5px', height: '350px',width:'100%'}">
-        </ngx-skeleton-loader>
-    </div>
+
+  <!-- No stores found within 5 km -->
+  <div *ngIf="haveData === false && storesFiltered"
+       style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 100px;">
+      <img src="assets/imgs/3298067.jpg" alt="" style="width: 100px;height: 100px;">
+      <p>{{util.translate('No Stores Found Near You!')}}</p>
+  </div>
+
+  <!-- Show banners if exist AND stores are found OR still loading -->
+   <div class="row" *ngIf="banners?.length">
+      <div class="col-lg-12" style="padding: 0px;margin: 0px;">
+          <mdb-carousel class="carousel slide carousel-fade" [animation]="'fade'">
+              <mdb-carousel-item *ngFor="let item of banners" (click)="openLink(item)">
+                  <div class="view w-100 banner_back" mdbWavesEffect
+                       [ngStyle]="{'background-image':'url('+api.mediaURL+item.cover+')'}">
+                  </div>
+                  <div class="carousel-caption">
+                      <p>{{item.message}}</p>
+                  </div>
+              </mdb-carousel-item>
+          </mdb-carousel>
+      </div>
+  </div>
+
+  <!-- Skeleton loader while loading -->
+  <div *ngIf="haveData === undefined">
+      <ngx-skeleton-loader [theme]="{ 'border-radius': '5px', height: '350px',width:'100%'}">
+      </ngx-skeleton-loader>
+  </div>
 </div>
+
 
 <div class="container" style="padding: 0px;">
 
